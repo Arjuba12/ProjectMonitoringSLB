@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "594612237701",
+    "project_id": "monitoringslb",
+    "storage_bucket": "monitoringslb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594612237701:android:19b4257e3aa4b16cee40ec",
+        "android_client_info": {
+          "package_name": "com.example.monitoringappslb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYXfcAErZgXLEExOqedUYMLakUexGCpn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
