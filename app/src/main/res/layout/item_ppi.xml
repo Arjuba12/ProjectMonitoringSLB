@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#FFFFFF">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_nama_anak_ppi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Andi Rizky"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"/>
+
+            <TextView
+                android:id="@+id/tv_status_ppi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aktif"
+                android:textSize="10sp"
+                android:textColor="#2E7D32"
+                android:textStyle="bold"
+                android:layout_alignParentEnd="true"
+                android:background="#E8F5E9"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_target_ppi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Target: Membaca KV-KV &amp; menulis nama."
+            android:textSize="12sp"
+            android:textColor="#7F8C8D"
+            android:layout_marginTop="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical">
+
+            <ProgressBar
+                android:id="@+id/pb_ppi"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_weight="1"
+                android:progress="65"
+                android:progressTint="#2980B9"
+                android:progressBackgroundTint="#F2F4F7"/>
+
+            <TextView
+                android:id="@+id/tv_progress_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="65%"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#2980B9"
+                android:layout_marginStart="12dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

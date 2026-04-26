@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Header -->
+    <include layout="@layout/toolbar_portal" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Laporan Kelas"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#2C3E50"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rekapitulasi Bulanan"
+                        android:textSize="12sp"
+                        android:textColor="#7F8C8D"/>
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:text="Ekspor PDF"
+                    android:textSize="10sp"
+                    android:backgroundTint="#2C3E50"
+                    android:textColor="#FFFFFF"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:textAllCaps="false"
+                    app:cornerRadius="18dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+                <Spinner
+                    android:layout_width="140dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_rounded_white_border"
+                    android:layout_marginEnd="8dp"/>
+                <Spinner
+                    android:layout_width="100dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_rounded_white_border"/>
+            </LinearLayout>
+
+            <!-- Tabs/Categories -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="4dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kognitif" android:textSize="12sp" android:paddingTop="8dp" android:paddingBottom="8dp" android:paddingStart="16dp" android:paddingEnd="16dp" android:background="@drawable/bg_pill_primary" android:textColor="#FFFFFF" android:layout_marginEnd="8dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sosial" android:textSize="12sp" android:paddingTop="8dp" android:paddingBottom="8dp" android:paddingStart="16dp" android:paddingEnd="16dp" android:background="@drawable/bg_pill_white" android:textColor="#2C3E50" android:layout_marginEnd="8dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Motorik" android:textSize="12sp" android:paddingTop="8dp" android:paddingBottom="8dp" android:paddingStart="16dp" android:paddingEnd="16dp" android:background="@drawable/bg_pill_white" android:textColor="#2C3E50" android:layout_marginEnd="8dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Komunikasi" android:textSize="12sp" android:paddingTop="8dp" android:paddingBottom="8dp" android:paddingStart="16dp" android:paddingEnd="16dp" android:background="@drawable/bg_pill_white" android:textColor="#2C3E50" android:layout_marginEnd="8dp"/>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rekap Kehadiran Kelas"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="0">
+                    <TableRow android:background="#2C3E50" android:padding="2dp">
+                        <TextView android:text="Nama Anak" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                        <TextView android:text="H" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:gravity="center" android:textColor="#FFFFFF"/>
+                        <TextView android:text="S" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:gravity="center" android:textColor="#FFFFFF"/>
+                        <TextView android:text="I" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:gravity="center" android:textColor="#FFFFFF"/>
+                        <TextView android:text="A" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:gravity="center" android:textColor="#FFFFFF"/>
+                    </TableRow>
+
+                    <TableRow android:padding="2dp" android:background="#FFFFFF">
+                        <TextView android:text="Andi Rizky" android:padding="14dp" android:textSize="11sp" android:textColor="#333333"/>
+                        <TextView android:text="20" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#2E7D32" android:textStyle="bold"/>
+                        <TextView android:text="1" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                        <TextView android:text="1" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                        <TextView android:text="0" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                    </TableRow>
+                    <View android:layout_height="1dp" android:background="#F2F4F7" />
+
+                    <TableRow android:padding="2dp" android:background="#FFFFFF">
+                        <TextView android:text="Budi S." android:padding="14dp" android:textSize="11sp" android:textColor="#333333"/>
+                        <TextView android:text="18" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#2E7D32" android:textStyle="bold"/>
+                        <TextView android:text="3" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                        <TextView android:text="1" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                        <TextView android:text="0" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                    </TableRow>
+                    <View android:layout_height="1dp" android:background="#F2F4F7" />
+
+                    <TableRow android:padding="2dp" android:background="#FFFFFF">
+                        <TextView android:text="Citra M." android:padding="14dp" android:textSize="11sp" android:textColor="#333333"/>
+                        <TextView android:text="22" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#2E7D32" android:textStyle="bold"/>
+                        <TextView android:text="0" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                        <TextView android:text="0" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                        <TextView android:text="0" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
+                    </TableRow>
+                </TableLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Catatan Narasi Kelas"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:layout_marginTop="28dp"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="#FFFFFF">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ringkasan perkembangan bulan ini:" android:textSize="11sp" android:textColor="#7F8C8D" android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kelas VII-A menunjukkan peningkatan di aspek kognitif dan komunikasi. Perlu perhatian lebih pada aspek motorik halus untuk 3 siswa."
+                        android:textSize="12sp"
+                        android:textColor="#333333"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="24dp">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Simpan Narasi"
+                            android:backgroundTint="#2C3E50"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginEnd="8dp"
+                            android:textAllCaps="false"
+                            app:cornerRadius="8dp"/>
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Preview"
+                            android:backgroundTint="#FFFFFF"
+                            android:textColor="#2C3E50"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:textAllCaps="false"
+                            app:cornerRadius="8dp"
+                            android:strokeWidth="1dp"
+                            android:strokeColor="#BDC3C7"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View android:layout_width="match_parent" android:layout_height="32dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

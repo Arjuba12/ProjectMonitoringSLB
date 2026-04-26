@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">Monitoring App SLB</string>
+
+    <!-- General -->
+    <string name="back">Kembali</string>
+    <string name="save">Simpan</string>
+    <string name="cancel">Batal</string>
+    <string name="send">Kirim</string>
+    <string name="preview">Preview</string>
+
+    <!-- Dashboard -->
+    <string name="welcome_guru">Selamat Datang, Guru!</string>
+    <string name="dashboard_subtitle">Portal Monitoring Siswa SLB</string>
+    <string name="menu_siswa">Daftar Siswa</string>
+    <string name="menu_absensi">Absensi</string>
+    <string name="menu_ppi">Program PPI</string>
+    <string name="menu_laporan">Laporan Kelas</string>
+    <string name="menu_chat">Pesan Wali</string>
+    <string name="menu_pengumuman">Pengumuman</string>
+
+    <!-- PPI -->
+    <string name="ppi_title">Program Pembelajaran Individual</string>
+    <string name="ppi_subtitle">Detail Program &amp; Progres</string>
+    <string name="create_ppi">Buat PPI Baru</string>
+    <string name="aspect_kognitif">Kognitif</string>
+    <string name="aspect_motorik">Motorik</string>
+    <string name="aspect_komunikasi">Komunikasi</string>
+    <string name="aspect_bina_diri">Bina Diri</string>
+
+    <!-- Input Harian -->
+    <string name="daily_input_title">Input Harian</string>
+    <string name="monitoring_progress">Monitoring Perkembangan</string>
+    <string name="add_daily_input">Input Perkembangan Baru</string>
+
+    <!-- Laporan -->
+    <string name="class_report">Laporan Kelas</string>
+    <string name="monthly_recap">Rekapitulasi Bulanan</string>
+    <string name="export_pdf">Ekspor PDF</string>
+
+    <!-- Pengumuman -->
+    <string name="announcement_title">Buat Pengumuman</string>
+    <string name="announcement_subtitle">Kirim pesan massal ke wali murid</string>
+    <string name="send_announcement">Kirim Pengumuman Sekarang</string>
 </resources>

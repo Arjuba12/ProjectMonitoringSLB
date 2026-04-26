@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Header -->
+    <include layout="@layout/toolbar_portal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_centerVertical="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Input Harian"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#2C3E50"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monitoring Perkembangan"
+                    android:textSize="12sp"
+                    android:textColor="#7F8C8D"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="14 Nov 2024"
+                android:textSize="12sp"
+                android:textColor="#2C3E50"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_rounded_white_border"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <!-- Summary Cards -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_marginBottom="24dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total" android:textSize="10sp" android:textColor="#7F8C8D"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="14" android:textStyle="bold" android:textSize="18sp" android:textColor="#2C3E50"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Selesai" android:textSize="10sp" android:textColor="#7F8C8D"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="9" android:textStyle="bold" android:textSize="18sp" android:textColor="#2E7D32"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:gravity="center"
+                    android:background="#FFFFFF">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Belum" android:textSize="10sp" android:textColor="#7F8C8D"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5" android:textStyle="bold" android:textSize="18sp" android:textColor="#E74C3C"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <!-- List/Table -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="0">
+                <TableRow android:background="#2C3E50" android:padding="2dp">
+                    <TextView android:text="Nama Siswa" android:padding="14dp" android:textSize="12sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
+                    <TextView android:text="Aspek" android:padding="14dp" android:textSize="12sp" android:textStyle="bold" android:textColor="#FFFFFF" android:gravity="center"/>
+                    <TextView android:text="Status" android:padding="14dp" android:textSize="12sp" android:textStyle="bold" android:textColor="#FFFFFF" android:gravity="center"/>
+                </TableRow>
+
+                <!-- Row 1 -->
+                <TableRow android:padding="2dp" android:background="#FFFFFF">
+                    <TextView android:text="Andi Rizky" android:padding="14dp" android:textSize="12sp" android:textColor="#333333"/>
+                    <TextView android:text="Kognitif" android:padding="14dp" android:textSize="12sp" android:textColor="#7F8C8D" android:gravity="center"/>
+                    <TextView android:text="Selesai" android:padding="14dp" android:textSize="11sp" android:textColor="#2E7D32" android:gravity="center" android:textStyle="bold"/>
+                </TableRow>
+                <View android:layout_height="1dp" android:background="#F2F4F7" />
+
+                <!-- Row 2 -->
+                <TableRow android:padding="2dp" android:background="#FFFFFF">
+                    <TextView android:text="Budi S." android:padding="14dp" android:textSize="12sp" android:textColor="#333333"/>
+                    <TextView android:text="Sosial" android:padding="14dp" android:textSize="12sp" android:textColor="#7F8C8D" android:gravity="center"/>
+                    <TextView android:text="Selesai" android:padding="14dp" android:textSize="11sp" android:textColor="#2E7D32" android:gravity="center" android:textStyle="bold"/>
+                </TableRow>
+                <View android:layout_height="1dp" android:background="#F2F4F7" />
+
+                <!-- Row 3 -->
+                <TableRow android:padding="2dp" android:background="#FFFFFF">
+                    <TextView android:text="Citra M." android:padding="14dp" android:textSize="12sp" android:textColor="#333333"/>
+                    <TextView android:text="-" android:padding="14dp" android:textSize="12sp" android:textColor="#7F8C8D" android:gravity="center"/>
+                    <TextView android:text="Belum" android:padding="14dp" android:textSize="11sp" android:textColor="#E74C3C" android:gravity="center" android:textStyle="bold"/>
+                </TableRow>
+            </TableLayout>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="+ Input Perkembangan Baru"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#2C3E50"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            app:cornerRadius="12dp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</LinearLayout>

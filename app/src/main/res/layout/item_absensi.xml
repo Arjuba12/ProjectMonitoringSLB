@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_nama_absensi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Andi Rizky"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"/>
+
+            <TextView
+                android:id="@+id/tv_nisn_absensi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NISN: 009283741"
+                android:textSize="11sp"
+                android:textColor="#7F8C8D"/>
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rg_status_absensi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_hadir"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="H"
+                android:textSize="10sp"
+                android:button="@null"
+                android:background="@drawable/bg_absensi_selector"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginEnd="4dp"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/rb_sakit"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="S"
+                android:textSize="10sp"
+                android:button="@null"
+                android:background="@drawable/bg_absensi_selector"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginEnd="4dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_izin"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="I"
+                android:textSize="10sp"
+                android:button="@null"
+                android:background="@drawable/bg_absensi_selector"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginEnd="4dp"/>
+
+            <RadioButton
+                android:id="@+id/rb_alpa"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="A"
+                android:textSize="10sp"
+                android:button="@null"
+                android:background="@drawable/bg_absensi_selector"
+                android:gravity="center"
+                android:textColor="@color/white"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

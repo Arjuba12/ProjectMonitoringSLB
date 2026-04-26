@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Header -->
+    <include layout="@layout/toolbar_portal" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buat Pengumuman"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kirim pesan massal ke wali murid"
+                android:textSize="14sp"
+                android:textColor="#7F8C8D"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="#FFFFFF">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Penerima"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#2C3E50"
+                        android:layout_marginBottom="8dp"/>
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_rounded_white_border"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Subjek"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#2C3E50"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_rounded_white_border"
+                        android:hint="Contoh: Jadwal Ujian Semester"
+                        android:padding="12dp"
+                        android:textSize="14sp"
+                        android:inputType="text"
+                        android:textColor="#333333"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Isi Pesan"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#2C3E50"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:background="@drawable/bg_rounded_white_border"
+                        android:hint="Tulis pesan Anda di sini..."
+                        android:padding="12dp"
+                        android:textSize="14sp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:textColor="#333333"
+                        android:lineSpacingExtra="4dp"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Kirim Pengumuman Sekarang"
+                        android:layout_marginTop="24dp"
+                        android:backgroundTint="#2C3E50"
+                        android:textColor="#FFFFFF"
+                        android:textAllCaps="false"
+                        app:cornerRadius="12dp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View android:layout_width="match_parent" android:layout_height="32dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -12,17 +12,68 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MonitoringAppSLB">
         <activity
-            android:name=".LoginActivity"
+            android:name=".guru.KirimPengumumanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.AbsensiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.LaporanKelasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.DetailPpiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.PpiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.InputHarianListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.InputPerkembanganActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.DetailSiswaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.DaftarSiswaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.DashboardGuruActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PercakapanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfilActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LaporanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PerkembanganActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Kalender"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

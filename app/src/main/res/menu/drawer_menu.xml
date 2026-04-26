@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_siswa"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="Daftar Siswa" />
+        <item
+            android:id="@+id/nav_absensi"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Input Absensi" />
+        <item
+            android:id="@+id/nav_laporan"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="Laporan Kelas" />
+    </group>
+
+    <item android:title="Lainnya">
+        <menu>
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@android:drawable/ic_menu_help"
+                android:title="Bantuan" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_lock_power_off"
+                android:title="Keluar" />
+        </menu>
+    </item>
+</menu>

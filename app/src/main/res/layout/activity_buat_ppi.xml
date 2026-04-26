@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Header -->
+    <include layout="@layout/toolbar_portal" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buat Program Baru (PPI)"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Form PPI -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:background="#FFFFFF">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Data Siswa" android:textSize="12sp" android:textStyle="bold" android:textColor="#2C3E50" android:layout_marginBottom="12dp"/>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pilih Siswa" android:textSize="11sp" android:textColor="#7F8C8D"/>
+                    <Spinner
+                        android:id="@+id/spinnerSiswa"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:backgroundTint="#F2F4F7"
+                        android:layout_marginTop="4dp"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginTop="20dp" android:layout_marginBottom="20dp"/>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Analisis Awal" android:textSize="12sp" android:textStyle="bold" android:textColor="#2C3E50" android:layout_marginBottom="12dp"/>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kekuatan / Potensi" android:textSize="11sp" android:textColor="#7F8C8D"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:backgroundTint="#F2F4F7"
+                        android:hint="Apa yang sudah dikuasai anak..."
+                        android:padding="12dp"
+                        android:textSize="12sp"
+                        android:gravity="top"/>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hambatan / Kendala" android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="12dp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:backgroundTint="#F2F4F7"
+                        android:hint="Masalah utama yang dihadapi..."
+                        android:padding="12dp"
+                        android:textSize="12sp"
+                        android:gravity="top"/>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginTop="20dp" android:layout_marginBottom="20dp"/>
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target Pengembangan" android:textSize="12sp" android:textStyle="bold" android:textColor="#2C3E50" android:layout_marginBottom="12dp"/>
+
+                    <!-- Kognitif -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kognitif" android:textSize="11sp" android:textColor="#7F8C8D"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:backgroundTint="#F2F4F7"
+                        android:hint="Target membaca/menulis..."
+                        android:paddingStart="12dp"
+                        android:textSize="12sp"/>
+
+                    <!-- Motorik -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Motorik" android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="12dp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:backgroundTint="#F2F4F7"
+                        android:hint="Target fisik/gerak..."
+                        android:paddingStart="12dp"
+                        android:textSize="12sp"/>
+
+                    <!-- Komunikasi -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Komunikasi" android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="12dp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:backgroundTint="#F2F4F7"
+                        android:hint="Target interaksi sosial..."
+                        android:paddingStart="12dp"
+                        android:textSize="12sp"/>
+
+                    <!-- Bina Diri -->
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bina Diri" android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="12dp"/>
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_rounded_gray"
+                        android:backgroundTint="#F2F4F7"
+                        android:hint="Target kemandirian harian..."
+                        android:paddingStart="12dp"
+                        android:textSize="12sp"/>
+
+                    <!-- Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="32dp">
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="52dp"
+                            android:layout_weight="1.5"
+                            android:text="Simpan PPI"
+                            android:backgroundTint="#2C3E50"
+                            android:textColor="#FFFFFF"
+                            android:layout_marginEnd="8dp"
+                            android:textAllCaps="false"
+                            app:cornerRadius="12dp"
+                            android:textStyle="bold"/>
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="52dp"
+                            android:layout_weight="1"
+                            android:text="Batal"
+                            android:backgroundTint="#F2F4F7"
+                            android:textColor="#7F8C8D"
+                            android:textAllCaps="false"
+                            app:cornerRadius="12dp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

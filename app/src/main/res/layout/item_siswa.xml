@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#F8F9FA">
+            <ImageView
+                android:id="@+id/img_siswa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:padding="12dp"
+                app:tint="#BDC3C7"/>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/tv_nama_siswa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Andi Rizky"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2C3E50"/>
+
+            <TextView
+                android:id="@+id/tv_nisn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NISN: 009283741"
+                android:textSize="12sp"
+                android:textColor="#7F8C8D"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_detail_siswa"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="Detail"
+            android:textSize="11sp"
+            android:textColor="#2C3E50"
+            android:backgroundTint="#F2F4F7"
+            android:textAllCaps="false"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="12dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="16dp"
+            style="?android:attr/borderlessButtonStyle"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
