@@ -12,10 +12,45 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MonitoringAppSLB">
         <activity
+            android:name=".wali.KalenderWaliActivity"
+            android:exported="false" />
+        <activity
+            android:name=".wali.ChatWaliActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".wali.ChatDetailWaliActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".wali.ProfileWaliActivity"
+            android:exported="false" />
+        <activity
+            android:name=".wali.LaporanWaliActivity"
+            android:exported="false" />
+        <activity
+            android:name=".wali.DashboardWaliActivity"
+            android:exported="false" />
+        <activity
+            android:name=".wali.PerkembanganWaliActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.BuatPpiActivity"
+            android:exported="false" />
+        <activity
             android:name=".guru.KirimPengumumanActivity"
             android:exported="false" />
         <activity
             android:name=".guru.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".guru.ChatDetailActivity"
             android:exported="false" />
         <activity
             android:name=".guru.AbsensiActivity"
@@ -45,14 +80,17 @@
             android:name=".guru.DashboardGuruActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false">
+            android:name=".LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".DashboardActivity"
             android:exported="false" />
@@ -70,9 +108,6 @@
             android:exported="false" />
         <activity
             android:name=".Kalender"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
             android:exported="false" />
     </application>
 

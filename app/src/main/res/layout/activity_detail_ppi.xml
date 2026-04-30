@@ -1,33 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F8F9FA">
+    android:fitsSystemWindows="true">
 
-    <include layout="@layout/toolbar_portal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F8F9FA">
 
+    <!-- Toolbar tetap di paling atas dengan sedikit bayangan -->
+    <include
+        android:id="@+id/toolbar_include"
+        layout="@layout/toolbar_portal" />
+
+    <!-- Bottom Navigation dengan ruang ekstra agar teks benar-benar aman dan tidak terpotong -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:elevation="16dp"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:itemIconSize="22dp"
+        app:itemPaddingTop="12dp"
+        app:itemPaddingBottom="12dp"
+        app:itemIconTint="@color/bnv_selector"
+        app:itemTextColor="@color/bnv_selector" />
+
+    <!-- Konten ScrollView dengan padding yang lebih pas -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_include"
+        android:layout_above="@id/bottom_navigation"
+        android:paddingTop="20dp"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="32dp">
 
             <TextView
+                android:id="@+id/tv_detail_ppi_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Detail PPI: Andi Rizky"
+                android:text="Detail PPI: -"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#2C3E50"
                 android:layout_marginBottom="4dp"/>
 
             <TextView
+                android:id="@+id/tv_detail_ppi_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Program Pembelajaran Individual"
@@ -46,9 +78,27 @@
                     android:layout_width="0dp" android:layout_height="wrap_content"
                     android:layout_columnWeight="1" android:layout_margin="4dp"
                     app:cardCornerRadius="12dp" app:cardElevation="2dp">
-                    <LinearLayout android:padding="16dp" android:orientation="vertical" android:background="#FFFFFF">
-                        <TextView android:text="Kognitif" android:textStyle="bold" android:textSize="12sp" android:textColor="#2C3E50"/>
-                        <TextView android:text="Membaca KV-KV &amp; menulis nama." android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="6dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        android:background="#FFFFFF">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Akademik"
+                            android:textStyle="bold"
+                            android:textSize="12sp"
+                            android:textColor="#2C3E50"/>
+                        <TextView
+                            android:id="@+id/tv_target_akademik"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="11sp"
+                            android:textColor="#7F8C8D"
+                            android:layout_marginTop="6dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -56,9 +106,83 @@
                     android:layout_width="0dp" android:layout_height="wrap_content"
                     android:layout_columnWeight="1" android:layout_margin="4dp"
                     app:cardCornerRadius="12dp" app:cardElevation="2dp">
-                    <LinearLayout android:padding="16dp" android:orientation="vertical" android:background="#FFFFFF">
-                        <TextView android:text="Motorik" android:textStyle="bold" android:textSize="12sp" android:textColor="#2C3E50"/>
-                        <TextView android:text="Memegang kuas &amp; pola gunting." android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="6dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        android:background="#FFFFFF">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Perilaku"
+                            android:textStyle="bold"
+                            android:textSize="12sp"
+                            android:textColor="#2C3E50"/>
+                        <TextView
+                            android:id="@+id/tv_target_perilaku"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="11sp"
+                            android:textColor="#7F8C8D"
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:layout_margin="4dp"
+                    app:cardCornerRadius="12dp" app:cardElevation="2dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        android:background="#FFFFFF">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sosial"
+                            android:textStyle="bold"
+                            android:textSize="12sp"
+                            android:textColor="#2C3E50"/>
+                        <TextView
+                            android:id="@+id/tv_target_sosial"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="11sp"
+                            android:textColor="#7F8C8D"
+                            android:layout_marginTop="6dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:layout_margin="4dp"
+                    app:cardCornerRadius="12dp" app:cardElevation="2dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:orientation="vertical"
+                        android:background="#FFFFFF">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Motorik"
+                            android:textStyle="bold"
+                            android:textSize="12sp"
+                            android:textColor="#2C3E50"/>
+                        <TextView
+                            android:id="@+id/tv_target_motorik"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="11sp"
+                            android:textColor="#7F8C8D"
+                            android:layout_marginTop="6dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </GridLayout>
@@ -82,22 +206,90 @@
                     android:layout_height="wrap_content"
                     android:stretchColumns="0">
                     <TableRow android:background="#2C3E50" android:padding="2dp">
-                        <TextView android:text="Bulan / Minggu" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:textColor="#FFFFFF"/>
-                        <TextView android:text="Aspek" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:textColor="#FFFFFF" android:gravity="center"/>
-                        <TextView android:text="Nilai" android:padding="14dp" android:textSize="11sp" android:textStyle="bold" android:textColor="#FFFFFF" android:gravity="center"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Bulan / Minggu"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Aspek"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"
+                            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nilai"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"
+                            android:gravity="center"/>
                     </TableRow>
 
                     <TableRow android:padding="2dp" android:background="#FFFFFF">
-                        <TextView android:text="Nov - Mng 1" android:padding="14dp" android:textSize="11sp" android:textColor="#333333"/>
-                        <TextView android:text="Kognitif" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
-                        <TextView android:text="45%" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#E67E22" android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Nov - Mng 1"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:textColor="#333333"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kognitif"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:gravity="center"
+                            android:textColor="#7F8C8D"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="45%"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:gravity="center"
+                            android:textColor="#E67E22"
+                            android:textStyle="bold"/>
                     </TableRow>
                     <View android:layout_height="1dp" android:background="#F2F4F7" />
 
                     <TableRow android:padding="2dp" android:background="#FFFFFF">
-                        <TextView android:text="Nov - Mng 2" android:padding="14dp" android:textSize="11sp" android:textColor="#333333"/>
-                        <TextView android:text="Motorik" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#7F8C8D"/>
-                        <TextView android:text="75%" android:padding="14dp" android:textSize="11sp" android:gravity="center" android:textColor="#2E7D32" android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Nov - Mng 2"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:textColor="#333333"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Motorik"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:gravity="center"
+                            android:textColor="#7F8C8D"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="75%"
+                            android:padding="14dp"
+                            android:textSize="11sp"
+                            android:gravity="center"
+                            android:textColor="#2E7D32"
+                            android:textStyle="bold"/>
                     </TableRow>
                 </TableLayout>
             </androidx.cardview.widget.CardView>
@@ -115,4 +307,15 @@
 
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/nav_header_main" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Border Luar -->
+    <item>
+        <shape android:shape="rectangle">
+            <stroke android:width="1dp" android:color="#F2F2F2" />
+        </shape>
+    </item>
+
+    <!-- Garis Grid Horizontal -->
+    <item android:top="40dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+    <item android:top="80dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+    <item android:top="120dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+    <item android:top="160dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+
+    <!-- Garis Grid Vertikal (Menggunakan dp agar kompatibel) -->
+    <item android:left="72dp">
+        <shape android:shape="rectangle">
+            <size android:width="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+    <item android:left="144dp">
+        <shape android:shape="rectangle">
+            <size android:width="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+    <item android:left="216dp">
+        <shape android:shape="rectangle">
+            <size android:width="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+    <item android:left="288dp">
+        <shape android:shape="rectangle">
+            <size android:width="1dp" />
+            <solid android:color="#F8F9FA" />
+        </shape>
+    </item>
+
+    <!-- Garis Tren (Data Simulasi) -->
+    <item android:bottom="40dp" android:left="20dp" android:right="20dp" android:top="140dp">
+        <shape android:shape="line">
+            <stroke android:width="2dp" android:color="#3498DB" />
+        </shape>
+    </item>
+</layer-list>

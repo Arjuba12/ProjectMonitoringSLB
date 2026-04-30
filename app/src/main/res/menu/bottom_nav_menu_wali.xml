@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_wali_home"
+        android:icon="@drawable/ic_home"
+        android:title="Beranda" />
+    <item
+        android:id="@+id/nav_wali_perkembangan"
+        android:icon="@drawable/ic_laporan"
+        android:title="Perkembangan" />
+    <item
+        android:id="@+id/nav_wali_kalender"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Kalender" />
+    <item
+        android:id="@+id/nav_wali_chat"
+        android:icon="@drawable/ic_ppi"
+        android:title="Chat" />
+    <item
+        android:id="@+id/nav_wali_profile"
+        android:icon="@drawable/ic_siswa"
+        android:title="Profil" />
+</menu>

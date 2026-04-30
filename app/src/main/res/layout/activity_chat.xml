@@ -1,139 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F8F9FA">
+    android:layout_height="match_parent">
 
-    <!-- Header -->
-    <include layout="@layout/toolbar_portal" />
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F8FAFC">
 
-        <LinearLayout
+        <!-- Header -->
+        <include
+            android:id="@+id/toolbar_include"
+            layout="@layout/toolbar_portal" />
+
+        <!-- Bottom Navigation -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_alignParentBottom="true"
+            android:background="#FFFFFF"
+            app:elevation="8dp"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled"
+            app:itemIconSize="22dp"
+            app:itemIconTint="@color/bnv_selector"
+            app:itemTextColor="@color/bnv_selector" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pesan dari wali murid"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#2C3E50"/>
+        <!-- Content -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar_include"
+            android:layout_above="@id/bottom_navigation"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp">
 
-            <!-- Chat List -->
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp">
-                <LinearLayout
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pesan Masuk"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#1E293B"
+                    android:letterSpacing="-0.02"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Komunikasi dengan wali murid"
+                    android:textSize="13sp"
+                    android:textColor="#64748B"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="24dp"/>
+
+                <!-- Chat Item 1 (New Message) -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_chat_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="#FFFFFF">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ibu Sari (Wali Andi)" android:textStyle="bold" android:textColor="#2C3E50" android:textSize="14sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Baru" android:textSize="10sp" android:textColor="#FFFFFF" android:background="@drawable/bg_badge" android:paddingHorizontal="8dp" android:paddingVertical="2dp" android:layout_alignParentEnd="true"/>
-                    </RelativeLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Andi hari ini tampak lebih ceria dan aktif..." android:textSize="12sp" android:layout_marginTop="6dp" android:textColor="#7F8C8D"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                    android:layout_marginBottom="12dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp">
-                <LinearLayout
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <!-- Avatar -->
+                        <View
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_avatar_placeholder" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ibu Sari"
+                                android:textStyle="bold"
+                                android:textColor="#1E293B"
+                                android:textSize="15sp"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Andi hari ini tampak lebih ceria..."
+                                android:textSize="13sp"
+                                android:layout_marginTop="2dp"
+                                android:textColor="#64748B"
+                                android:maxLines="1"
+                                android:ellipsize="end"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="end">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10:30"
+                                android:textSize="11sp"
+                                android:textColor="#94A3B8"/>
+
+                            <TextView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:text="1"
+                                android:textSize="10sp"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:layout_marginTop="6dp"
+                                android:background="@drawable/bg_badge_new"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Chat Item 2 -->
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="#FFFFFF">
-                    <RelativeLayout
+                    android:layout_marginBottom="12dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pak Budi (Wali Citra)" android:textStyle="bold" android:textColor="#2C3E50" android:textSize="14sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="2 jam" android:textSize="10sp" android:textColor="#95A5A6" android:layout_alignParentEnd="true"/>
-                    </RelativeLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mohon maaf besok Citra izin karena ada kegiatan keluarga..." android:textSize="12sp" android:layout_marginTop="6dp" android:textColor="#7F8C8D"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="#FFFFFF">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ibu Wahyu (Wali Dika)" android:textStyle="bold" android:textColor="#2C3E50" android:textSize="14sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kemarin" android:textSize="10sp" android:textColor="#95A5A6" android:layout_alignParentEnd="true"/>
-                    </RelativeLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Terima kasih bantuannya ya Bu atas kegiatannya kemarin..." android:textSize="12sp" android:layout_marginTop="6dp" android:textColor="#7F8C8D"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        <!-- Avatar -->
+                        <View
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_avatar_placeholder" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="1dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp"
-                    android:background="#FFFFFF">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ADMIN SEKOLAH" android:textStyle="bold" android:textColor="#2C3E50" android:textSize="14sp"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kemarin" android:textSize="10sp" android:textColor="#95A5A6" android:layout_alignParentEnd="true"/>
-                    </RelativeLayout>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pengumuman: Jadwal Libur semester genap 2024..." android:textSize="12sp" android:layout_marginTop="6dp" android:textColor="#7F8C8D"/>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp">
 
-        </LinearLayout>
-    </ScrollView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pak Budi"
+                                android:textStyle="bold"
+                                android:textColor="#1E293B"
+                                android:textSize="15sp"/>
 
-    <!-- Floating Action Button Style -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="24dp"
-        app:cardCornerRadius="28dp"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="#2C3E50">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_edit"
-            app:tint="#FFFFFF"/>
-    </androidx.cardview.widget.CardView>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Mohon maaf besok Citra izin..."
+                                android:textSize="13sp"
+                                android:layout_marginTop="2dp"
+                                android:textColor="#64748B"
+                                android:maxLines="1"
+                                android:ellipsize="end"/>
+                        </LinearLayout>
 
-</LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="08:15"
+                            android:textSize="11sp"
+                            android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Floating Action Button -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="24dp"
+            android:layout_above="@id/bottom_navigation"
+            android:layout_alignParentEnd="true"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="#1E293B">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="#FFFFFF"/>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/nav_header_main" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

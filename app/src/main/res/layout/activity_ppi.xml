@@ -1,207 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F8F9FA">
+    android:fitsSystemWindows="true">
 
-    <!-- Header -->
-    <include layout="@layout/toolbar_portal" />
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F8F9FA">
 
-        <LinearLayout
+        <include
+            android:id="@+id/toolbar_include"
+            layout="@layout/toolbar_portal" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:background="#FFFFFF"
+            app:elevation="16dp"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled"
+            app:itemIconSize="22dp"
+            app:itemPaddingTop="12dp"
+            app:itemPaddingBottom="12dp"
+            app:itemIconTint="@color/bnv_selector"
+            app:itemTextColor="@color/bnv_selector" />
 
-            <RelativeLayout
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar_include"
+            android:layout_above="@id/bottom_navigation"
+            android:clipToPadding="false">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Program Pembelajaran"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:textColor="#2C3E50"/>
-                    <TextView
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Program"
+                            android:textSize="12sp"
+                            android:textColor="#2C3E50"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pembelajaran Individual (PPI)"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="#2C3E50"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btn_tambah_ppi"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Individual (PPI)"
-                        android:textSize="14sp"
-                        android:textColor="#7F8C8D"/>
-                </LinearLayout>
+                        android:layout_height="36dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="+ Buat PPI Baru"
+                        android:textSize="10sp"
+                        android:backgroundTint="#2C3E50"
+                        android:textColor="#FFFFFF"
+                        android:textAllCaps="false"
+                        app:cornerRadius="8dp"
+                        android:paddingHorizontal="12dp"
+                        android:minHeight="0dp"/>
+                </RelativeLayout>
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="+ Buat PPI baru"
-                    android:textSize="11sp"
-                    android:layout_alignParentEnd="true"
-                    android:backgroundTint="#2C3E50"
-                    android:textColor="#FFFFFF"
-                    android:textAllCaps="false"
-                    app:cornerRadius="20dp"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"/>
-            </RelativeLayout>
-
-            <!-- Table Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
-
-                <HorizontalScrollView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scrollbars="none">
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
 
-                    <TableLayout
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:stretchColumns="*">
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
                         <TableRow
-                            android:background="#2C3E50"
-                            android:padding="2dp">
-                            <TextView android:minWidth="120dp" android:padding="14dp" android:text="Anak" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold"/>
-                            <TextView android:minWidth="100dp" android:padding="14dp" android:text="Kekuatan" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold"/>
-                            <TextView android:minWidth="150dp" android:padding="14dp" android:text="Target Utama" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="Progres" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="Status" android:textColor="#FFFFFF" android:textSize="12sp" android:textStyle="bold"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.2"
+                                android:text="Nama"
+                                android:textColor="#95A5A6"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:gravity="center"
+                                android:text="Smt"
+                                android:textColor="#95A5A6"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1.5"
+                                android:text="Target Utama"
+                                android:textColor="#95A5A6"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Progress"
+                                android:textColor="#95A5A6"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Status"
+                                android:textColor="#95A5A6"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
                         </TableRow>
 
-                        <TableRow android:background="#FFFFFF">
-                            <TextView android:padding="14dp" android:text="Andi Rizky" android:textColor="#333333" android:textSize="12sp"/>
-                            <TextView android:padding="14dp" android:text="Visual" android:textColor="#7F8C8D" android:textSize="12sp"/>
-                            <TextView android:padding="14dp" android:text="Membaca 2 suku kata" android:textColor="#333333" android:textSize="12sp"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="65%" android:textColor="#2980B9" android:textStyle="bold" android:textSize="12sp"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="Aktif" android:textColor="#2E7D32" android:textStyle="bold" android:textSize="12sp"/>
-                        </TableRow>
-                        <View android:layout_height="1dp" android:background="#F2F4F7" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#F2F4F7" />
 
-                        <TableRow android:background="#FFFFFF">
-                            <TextView android:padding="14dp" android:text="Citra M." android:textColor="#333333" android:textSize="12sp"/>
-                            <TextView android:padding="14dp" android:text="Vokal" android:textColor="#7F8C8D" android:textSize="12sp"/>
-                            <TextView android:padding="14dp" android:text="Interaksi Sosial" android:textColor="#333333" android:textSize="12sp"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="40%" android:textColor="#E67E22" android:textStyle="bold" android:textSize="12sp"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="Review" android:textColor="#E74C3C" android:textStyle="bold" android:textSize="12sp"/>
-                        </TableRow>
-                        <View android:layout_height="1dp" android:background="#F2F4F7" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_ppi_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            tools:listitem="@layout/item_ppi" />
 
-                        <TableRow android:background="#FFFFFF">
-                            <TextView android:padding="14dp" android:text="Deni W." android:textColor="#333333" android:textSize="12sp"/>
-                            <TextView android:padding="14dp" android:text="Fisik" android:textColor="#7F8C8D" android:textSize="12sp"/>
-                            <TextView android:padding="14dp" android:text="Makan Mandiri" android:textColor="#333333" android:textSize="12sp"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="90%" android:textColor="#27AE60" android:textStyle="bold" android:textSize="12sp"/>
-                            <TextView android:gravity="center" android:padding="14dp" android:text="Selesai" android:textColor="#95A5A6" android:textStyle="bold" android:textSize="12sp"/>
-                        </TableRow>
-
-                    </TableLayout>
-                </HorizontalScrollView>
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ringkasan Program Terpilih"
-                android:textStyle="bold"
-                android:textColor="#2C3E50"
-                android:layout_marginTop="28dp"
-                android:layout_marginBottom="12dp"/>
-
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:alignmentMode="alignMargins">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target Saat Ini" android:textSize="11sp" android:textStyle="bold" android:textColor="#2C3E50"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Membaca KV-KV &amp; menulis nama." android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="6dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tv_detail_ppi_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target Berikutnya" android:textSize="11sp" android:textStyle="bold" android:textColor="#2C3E50"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Menyalin kalimat sederhana." android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="6dp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    android:text="Detail PPI"
+                    android:textStyle="bold"
+                    android:textColor="#2C3E50"
+                    android:layout_marginTop="24dp"/>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+                <GridLayout
+                    android:id="@+id/grid_detail_ppi"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    android:columnCount="2"
+                    android:rowCount="2"
+                    android:layout_marginTop="8dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hambatan" android:textSize="11sp" android:textStyle="bold" android:textColor="#E74C3C"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Konsentrasi rendah pada tugas tulis." android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="6dp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp" android:background="#ECF0F1">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target Akademik" android:textSize="10sp" android:textStyle="bold" android:textColor="#2C3E50"/>
+                            <TextView android:id="@+id/tv_target_akademik" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="9sp" android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="4dp"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Metode" android:textSize="11sp" android:textStyle="bold" android:textColor="#2C3E50"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Kartu bergambar &amp; permainan kata." android:textSize="11sp" android:textColor="#7F8C8D" android:layout_marginTop="6dp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp" android:background="#ECF0F1">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target Perilaku" android:textSize="10sp" android:textStyle="bold" android:textColor="#2C3E50"/>
+                            <TextView android:id="@+id/tv_target_perilaku" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="9sp" android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-            </GridLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp" android:background="#ECF0F1">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target Sosial" android:textSize="10sp" android:textStyle="bold" android:textColor="#2C3E50"/>
+                            <TextView android:id="@+id/tv_target_sosial" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="9sp" android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="1dp">
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp" android:background="#ECF0F1">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Target Motorik" android:textSize="10sp" android:textStyle="bold" android:textColor="#2C3E50"/>
+                            <TextView android:id="@+id/tv_target_motorik" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-" android:textSize="9sp" android:layout_marginTop="4dp"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </GridLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/nav_header_main" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

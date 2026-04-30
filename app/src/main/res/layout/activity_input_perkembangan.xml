@@ -76,6 +76,7 @@
                             android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tanggal" android:textSize="11sp" android:textColor="#7F8C8D"/>
                             <TextView
+                                android:id="@+id/tvTanggal"
                                 android:layout_width="match_parent"
                                 android:layout_height="44dp"
                                 android:background="@drawable/bg_rounded_gray"
@@ -119,6 +120,7 @@
                             android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Capaian (%)" android:textSize="11sp" android:textColor="#7F8C8D"/>
                             <EditText
+                                android:id="@+id/etCapaian"
                                 android:layout_width="match_parent"
                                 android:layout_height="44dp"
                                 android:background="@drawable/bg_rounded_gray"
@@ -146,6 +148,7 @@
                         android:hint="Deskripsikan perkembangan anak..."/>
 
                     <Button
+                        android:id="@+id/btnSimpan"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:text="Simpan Data"

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_wali_dashboard"
+            android:icon="@drawable/ic_home"
+            android:title="Dashboard" />
+        <item
+            android:id="@+id/nav_wali_biodata"
+            android:icon="@drawable/ic_siswa"
+            android:title="Biodata Siswa" />
+        <item
+            android:id="@+id/nav_wali_ppi"
+            android:icon="@drawable/ic_ppi"
+            android:title="Program PPI" />
+        <item
+            android:id="@+id/nav_wali_perkembangan"
+            android:icon="@drawable/ic_laporan"
+            android:title="Riwayat Perkembangan" />
+        <item
+            android:id="@+id/nav_wali_laporan"
+            android:icon="@drawable/ic_laporan"
+            android:title="Laporan Hasil" />
+        <item
+            android:id="@+id/nav_wali_kalender"
+            android:icon="@android:drawable/ic_menu_today"
+            android:title="Kalender" />
+        <item
+            android:id="@+id/nav_wali_chat"
+            android:icon="@drawable/ic_ppi"
+            android:title="Chat" />
+        <item
+            android:id="@+id/nav_wali_profile"
+            android:icon="@drawable/ic_siswa"
+            android:title="Profil" />
+    </group>
+
+    <item android:title="Akun">
+        <menu>
+            <item
+                android:id="@+id/nav_wali_settings"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:title="Pengaturan" />
+            <item
+                android:id="@+id/nav_wali_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Keluar" />
+        </menu>
+    </item>
+</menu>

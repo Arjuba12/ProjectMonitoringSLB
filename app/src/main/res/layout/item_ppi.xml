@@ -1,82 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginVertical="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="#FFFFFF">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tv_nama_anak_ppi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Andi Rizky"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#2C3E50"/>
-
-            <TextView
-                android:id="@+id/tv_status_ppi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Aktif"
-                android:textSize="10sp"
-                android:textColor="#2E7D32"
-                android:textStyle="bold"
-                android:layout_alignParentEnd="true"
-                android:background="#E8F5E9"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"/>
-        </RelativeLayout>
+        android:paddingVertical="10dp"
+        android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/tv_target_ppi"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_ppi_nama"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
             android:layout_height="wrap_content"
-            android:text="Target: Membaca KV-KV &amp; menulis nama."
-            android:textSize="12sp"
-            android:textColor="#7F8C8D"
-            android:layout_marginTop="8dp"/>
+            android:text="Andi Rizky"
+            android:textColor="#2C3E50"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tv_ppi_smt"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical">
+            android:text="VII/1"
+            android:gravity="center"
+            android:textSize="10sp" />
 
-            <ProgressBar
-                android:id="@+id/pb_ppi"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="8dp"
-                android:layout_weight="1"
-                android:progress="65"
-                android:progressTint="#2980B9"
-                android:progressBackgroundTint="#F2F4F7"/>
+        <TextView
+            android:id="@+id/tv_ppi_target"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content"
+            android:text="Mandiri di toilet"
+            android:textSize="10sp" />
 
-            <TextView
-                android:id="@+id/tv_progress_percent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="65%"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="#2980B9"
-                android:layout_marginStart="12dp"/>
-        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/pb_ppi_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:progress="75"
+            android:layout_marginHorizontal="4dp" />
 
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_ppi_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aktif"
+            android:textSize="9sp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:background="@drawable/bg_badge"
+            android:backgroundTint="#E8F5E9"
+            android:textColor="#2E7D32"
+            android:gravity="center" />
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F2F4F7" />
+
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- Horizontal Grid Lines -->
+    <item android:top="40dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F2F4F7" />
+        </shape>
+    </item>
+    <item android:top="80dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F2F4F7" />
+        </shape>
+    </item>
+    <item android:top="120dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F2F4F7" />
+        </shape>
+    </item>
+    <item android:top="160dp">
+        <shape android:shape="rectangle">
+            <size android:height="1dp" />
+            <solid android:color="#F2F4F7" />
+        </shape>
+    </item>
+</layer-list>

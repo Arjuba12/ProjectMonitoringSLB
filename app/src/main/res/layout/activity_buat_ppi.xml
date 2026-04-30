@@ -139,6 +139,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="32dp">
                         <Button
+                            android:id="@+id/btn_simpan_ppi"
                             android:layout_width="0dp"
                             android:layout_height="52dp"
                             android:layout_weight="1.5"
@@ -150,6 +151,7 @@
                             app:cornerRadius="12dp"
                             android:textStyle="bold"/>
                         <Button
+                            android:id="@+id/btn_batal_ppi"
                             android:layout_width="0dp"
                             android:layout_height="52dp"
                             android:layout_weight="1"
