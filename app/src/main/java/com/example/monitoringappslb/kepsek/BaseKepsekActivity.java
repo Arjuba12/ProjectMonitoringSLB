@@ -3,12 +3,14 @@ package com.example.monitoringappslb.kepsek;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.monitoringappslb.LoginActivity;
 import com.example.monitoringappslb.R;
 import com.example.monitoringappslb.network.SessionManager;
+import com.example.monitoringappslb.util.AvatarUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -27,6 +29,8 @@ public abstract class BaseKepsekActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
+        bindToolbarUser();
+
         View btnMenu = findViewById(R.id.btnMenu);
         if (btnMenu != null) {
             btnMenu.setOnClickListener(v -> {
@@ -42,9 +46,22 @@ public abstract class BaseKepsekActivity extends AppCompatActivity {
         }
     }
 
+    private void bindToolbarUser() {
+        SessionManager session = new SessionManager(this);
+        TextView tvName = findViewById(R.id.tv_toolbar_kepsek_name);
+        TextView tvInitials = findViewById(R.id.tv_toolbar_kepsek_initials);
+
+        if (tvName != null) {
+            String name = session.getUserNama();
+            tvName.setText(name == null || name.trim().isEmpty() ? "Kepsek" : name);
+        }
+        AvatarUtils.applyInitialAvatar(tvInitials, session.getUserNama(), session.getUserEmail());
+    }
+
     private void setupDrawer() {
         NavigationView navigationView = getNavigationView();
         if (navigationView != null) {
+            bindDrawerHeader(navigationView);
             int selfId = getSelfNavDrawerItemId();
             if (selfId != -1) {
                 navigationView.setCheckedItem(selfId);
@@ -68,6 +85,25 @@ public abstract class BaseKepsekActivity extends AppCompatActivity {
                 return navigated;
             });
         }
+    }
+
+    private void bindDrawerHeader(NavigationView navigationView) {
+        if (navigationView.getHeaderCount() == 0) return;
+
+        SessionManager session = new SessionManager(this);
+        View header = navigationView.getHeaderView(0);
+        TextView tvName = header.findViewById(R.id.tv_kepsek_name);
+        TextView tvRole = header.findViewById(R.id.tv_kepsek_role);
+        TextView tvInitials = header.findViewById(R.id.tv_kepsek_initials);
+
+        if (tvName != null) {
+            String name = session.getUserNama();
+            tvName.setText(name == null || name.trim().isEmpty() ? "Kepala Sekolah" : name);
+        }
+        if (tvRole != null) {
+            tvRole.setText("Kepala Sekolah SLB");
+        }
+        AvatarUtils.applyInitialAvatar(tvInitials, session.getUserNama(), session.getUserEmail());
     }
 
     private void setupBottomNav() {

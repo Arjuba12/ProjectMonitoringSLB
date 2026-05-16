@@ -23,6 +23,7 @@ import com.example.monitoringappslb.R;
 import com.example.monitoringappslb.model.response.ApiModels.*;
 import com.example.monitoringappslb.network.ApiClient;
 import com.example.monitoringappslb.network.ApiService;
+import com.example.monitoringappslb.util.DateTimeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -261,9 +262,7 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
 
     private String formatTanggal(String tanggal) {
         if (tanggal == null || tanggal.trim().isEmpty()) return "-";
-        String clean = tanggal.trim();
-        if (clean.length() >= 10) return clean.substring(0, 10);
-        return clean;
+        return DateTimeUtils.formatDate(tanggal);
     }
 
     private String safeText(String value) {
@@ -277,7 +276,7 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
         if (data == null) return;
 
         for (PerkembanganItem item : data) {
-            if (!today.equals(formatTanggal(item.getTanggal()))) continue;
+            if (!today.equals(DateTimeUtils.dateKey(item.getTanggal()))) continue;
 
             EditText input = capaianInputs.get(item.getAspekId());
             if (input != null) {

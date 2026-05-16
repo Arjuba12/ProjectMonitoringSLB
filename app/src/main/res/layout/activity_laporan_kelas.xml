@@ -82,6 +82,24 @@
                             </LinearLayout>
 
                             <Button
+                                android:id="@+id/btnUploadReport"
+                                android:layout_width="wrap_content"
+                                android:layout_height="36dp"
+                                android:layout_toStartOf="@id/btnExportPdf"
+                                android:layout_marginEnd="8dp"
+                                android:text="Upload"
+                                android:textSize="12sp"
+                                android:backgroundTint="#3498DB"
+                                android:textColor="#FFFFFF"
+                                android:textAllCaps="false"
+                                app:cornerRadius="8dp"
+                                android:minHeight="0dp"
+                                android:paddingHorizontal="14dp"
+                                app:icon="@android:drawable/ic_menu_upload"
+                                app:iconSize="14dp"
+                                app:iconGravity="textStart"/>
+
+                            <Button
                                 android:id="@+id/btnExportPdf"
                                 android:layout_width="wrap_content"
                                 android:layout_height="36dp"

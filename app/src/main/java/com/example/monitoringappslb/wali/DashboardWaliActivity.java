@@ -20,6 +20,7 @@ import com.example.monitoringappslb.network.ApiClient;
 import com.example.monitoringappslb.network.ApiService;
 import com.example.monitoringappslb.network.SessionManager;
 import com.example.monitoringappslb.util.AvatarUtils;
+import com.example.monitoringappslb.util.DateTimeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -173,7 +174,7 @@ public class DashboardWaliActivity extends BaseWaliActivity {
 
         tvJudul.setText(item.getAspekNama());
         tvIsi.setText(item.getCatatan());
-        tvMeta.setText(item.getTanggal() + " • Oleh: " + item.getNamaGuru());
+        tvMeta.setText(DateTimeUtils.formatDate(item.getTanggal()) + " | Oleh: " + item.getNamaGuru());
         
         // Warna stripe berdasarkan aspek atau random/static
         // if (item.getAspekKode().equals("KOG")) ... 
@@ -201,7 +202,7 @@ public class DashboardWaliActivity extends BaseWaliActivity {
 
         tvJudul.setText(item.getAspek() != null ? item.getAspek() : "Catatan");
         tvIsi.setText(item.getCatatan() != null ? item.getCatatan() : "-");
-        tvMeta.setText(item.getTanggal() + " - Oleh: " + item.getNamaGuru());
+        tvMeta.setText(DateTimeUtils.formatDate(item.getTanggal()) + " | Oleh: " + item.getNamaGuru());
 
         view.setOnClickListener(v -> startActivity(new Intent(this, LaporanWaliActivity.class)));
         containerCatatan.addView(view);
@@ -344,7 +345,7 @@ public class DashboardWaliActivity extends BaseWaliActivity {
 
         tvJudul.setText(item.getJudul() != null ? item.getJudul() : "Notifikasi");
         tvDeskripsi.setText(item.getDeskripsi() != null ? item.getDeskripsi() : "-");
-        tvTanggal.setText(item.getTanggal() != null ? item.getTanggal() : "-");
+        tvTanggal.setText(DateTimeUtils.formatDateTime(item.getTanggal()));
         view.setOnClickListener(v -> openNotifikasi(item));
 
         containerNotifikasi.addView(view);

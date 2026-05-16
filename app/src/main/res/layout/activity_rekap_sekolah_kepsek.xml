@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:elevation="0dp">
+
             <include layout="@layout/toolbar_portal_kepsek" />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -22,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="80dp"
+            android:paddingBottom="88dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -40,22 +41,22 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
                         android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
+                        android:padding="16dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp"
                             android:gravity="center_vertical"
-                            android:layout_marginBottom="24dp">
+                            android:orientation="horizontal">
 
                             <View
                                 android:layout_width="4dp"
                                 android:layout_height="36dp"
-                                android:background="#2563EB"
-                                android:layout_marginEnd="12dp" />
+                                android:layout_marginEnd="12dp"
+                                android:background="#2563EB" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -66,37 +67,49 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:includeFontPadding="false"
                                     android:text="@string/rekap_keseluruhan"
                                     android:textColor="#1E293B"
                                     android:textSize="18sp"
-                                    android:textStyle="bold"
-                                    android:includeFontPadding="false"/>
+                                    android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_rekap_periode"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/statistik_performa"
-                                    android:textColor="#64748B"
-                                    android:textSize="12sp"
+                                    android:layout_marginTop="2dp"
                                     android:includeFontPadding="false"
-                                    android:layout_marginTop="2dp"/>
+                                    android:text="Memuat rekap bulan ini..."
+                                    android:textColor="#64748B"
+                                    android:textSize="12sp" />
                             </LinearLayout>
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_ekspor_excel"
                                 android:layout_width="wrap_content"
-                                android:layout_height="38dp"
-                                android:text="@string/btn_ekspor"
-                                android:textSize="12sp"
-                                android:textAllCaps="false"
-                                android:backgroundTint="#166534"
-                                app:icon="@drawable/ic_laporan"
-                                app:iconSize="16dp"
-                                app:iconPadding="8dp"
-                                app:cornerRadius="8dp"
+                                android:layout_height="44dp"
+                                android:backgroundTint="#1E293B"
                                 android:insetTop="0dp"
-                                android:insetBottom="0dp" />
+                                android:insetBottom="0dp"
+                                android:text="@string/btn_ekspor"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                app:cornerRadius="8dp"
+                                app:icon="@drawable/ic_laporan"
+                                app:iconPadding="8dp"
+                                app:iconSize="16dp"
+                                app:iconTint="#FFFFFF" />
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_rekap_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:text="Memuat data rekap..."
+                            android:textColor="#64748B"
+                            android:textSize="13sp" />
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"
@@ -104,56 +117,9 @@
                             android:scrollbars="none">
 
                             <TableLayout
+                                android:id="@+id/table_rekap_sekolah"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
-                                <TableRow android:paddingVertical="8dp">
-                                    <TextView android:text="Kelas" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Jml Siswa" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Hadir Rata" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Kognitif" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Sosial" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Motorik" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Komunikasi" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Status" android:textColor="#94A3B8" android:textSize="11sp" android:textStyle="bold" />
-                                </TableRow>
-
-                                <View android:layout_height="1dp" android:background="#F1F5F9" />
-
-                                <TableRow android:paddingVertical="10dp">
-                                    <TextView android:text="VI-A" android:textColor="#1E293B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="8" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="91%" android:textColor="#166534" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="72%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="68%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="65%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="70%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Baik" android:textColor="#166534" android:textSize="11sp" />
-                                </TableRow>
-
-                                <TableRow android:paddingVertical="10dp">
-                                    <TextView android:text="VI-B" android:textColor="#1E293B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="8" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="91%" android:textColor="#166534" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="72%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="68%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="65%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="70%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Cukup" android:textColor="#E67E22" android:textSize="11sp" />
-                                </TableRow>
-
-                                <TableRow android:paddingVertical="10dp">
-                                    <TextView android:text="VII-A" android:textColor="#1E293B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="8" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="91%" android:textColor="#166534" android:textSize="11sp" android:textStyle="bold" android:paddingEnd="16dp"/>
-                                    <TextView android:text="72%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="68%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="65%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="70%" android:textColor="#64748B" android:textSize="11sp" android:paddingEnd="16dp"/>
-                                    <TextView android:text="Baik" android:textColor="#166534" android:textSize="11sp" />
-                                </TableRow>
-
-                            </TableLayout>
+                                android:layout_height="wrap_content" />
                         </HorizontalScrollView>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

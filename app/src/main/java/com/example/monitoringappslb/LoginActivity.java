@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.monitoringappslb.admin.DashboardAdminActivity;
 import com.example.monitoringappslb.guru.DashboardGuruActivity;
 import com.example.monitoringappslb.kepsek.DashboardKepsekActivity;
 import com.example.monitoringappslb.model.response.ApiModels.*;
@@ -143,8 +144,10 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent;
         switch (role) {
             case "kepsek":
-            case "admin":
                 intent = new Intent(this, DashboardKepsekActivity.class);
+                break;
+            case "admin":
+                intent = new Intent(this, DashboardAdminActivity.class);
                 break;
             case "wali":
                 intent = new Intent(this, DashboardWaliActivity.class);

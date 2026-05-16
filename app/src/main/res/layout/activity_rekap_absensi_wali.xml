@@ -21,7 +21,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="112dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <TextView
@@ -108,6 +111,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:background="#FFFFFF"
+            app:elevation="8dp"
+            app:itemIconTint="@color/bnv_selector"
+            app:itemTextColor="@color/bnv_selector"
             app:menu="@menu/bottom_nav_menu_wali" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

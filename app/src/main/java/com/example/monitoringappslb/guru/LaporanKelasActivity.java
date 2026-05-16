@@ -52,6 +52,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -133,6 +136,11 @@ public class LaporanKelasActivity extends BaseGuruActivity {
         View btnPreview = findViewById(R.id.btn_preview);
         if (btnPreview != null) {
             btnPreview.setOnClickListener(v -> generateLaporan());
+        }
+
+        View btnUploadReport = findViewById(R.id.btnUploadReport);
+        if (btnUploadReport != null) {
+            btnUploadReport.setOnClickListener(v -> uploadCurrentReport());
         }
     }
 
@@ -413,6 +421,62 @@ public class LaporanKelasActivity extends BaseGuruActivity {
                 ).show());
             }
         });
+    }
+
+    private void uploadCurrentReport() {
+        if (selectedKelasId == -1 || selectedMonth == null) {
+            Toast.makeText(this, "Pilih kelas terlebih dahulu", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (currentReportData == null) {
+            Toast.makeText(this, "Data laporan belum dimuat", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(this, "Menyiapkan laporan untuk upload...", Toast.LENGTH_SHORT).show();
+        printExecutor.execute(() -> {
+            try {
+                File pdf = createReportPdf();
+                runOnUiThread(() -> uploadPdfFile(pdf));
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(
+                        LaporanKelasActivity.this,
+                        "Gagal menyiapkan PDF: " + e.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show());
+            }
+        });
+    }
+
+    private void uploadPdfFile(File file) {
+        RequestBody fileBody = RequestBody.create(MediaType.parse("application/pdf"), file);
+        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", file.getName(), fileBody);
+
+        apiService.uploadLaporan(
+                filePart,
+                textPart("Kelas"),
+                textPart(selectedMonth.label),
+                textPart(String.valueOf(selectedKelasId)),
+                textPart(getSelectedTahunAjaran())
+        ).enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    Toast.makeText(LaporanKelasActivity.this, "Laporan berhasil diupload", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LaporanKelasActivity.this, "Gagal upload laporan", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                Toast.makeText(LaporanKelasActivity.this, "Tidak bisa upload laporan", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private RequestBody textPart(String value) {
+        return RequestBody.create(MediaType.parse("text/plain"), value == null ? "" : value);
     }
 
     private File createReportPdf() throws IOException {

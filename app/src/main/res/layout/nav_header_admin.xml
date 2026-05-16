@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-    android:background="#2C3E50"
+    android:background="#1E293B"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <TextView
-        android:id="@+id/tv_kepsek_initials"
+        android:id="@+id/tv_admin_initials"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:gravity="center"
@@ -19,22 +19,20 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_kepsek_name"
+        android:id="@+id/tv_admin_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Kepala Sekolah"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:text="Administrator"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tv_kepsek_role"
+        android:id="@+id/tv_admin_role"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kepala Sekolah SLB"
-        android:textColor="#BDC3C7"
+        android:text="Monitoring dan Master Data"
+        android:textColor="#CBD5E1"
         android:textSize="12sp" />
-
 </LinearLayout>

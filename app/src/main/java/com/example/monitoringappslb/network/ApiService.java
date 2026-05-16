@@ -2,6 +2,7 @@ package com.example.monitoringappslb.network;
 
 import com.example.monitoringappslb.model.response.ApiModels.AbsensiListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.AbsensiSiswaRekapResponse;
+import com.example.monitoringappslb.model.response.ApiModels.AdminUserListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.AspekListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.DashboardGuruResponse;
 import com.example.monitoringappslb.model.response.ApiModels.DashboardKepsekResponse;
@@ -9,6 +10,7 @@ import com.example.monitoringappslb.model.response.ApiModels.DashboardWaliRespon
 import com.example.monitoringappslb.model.response.ApiModels.KelasListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.KegiatanListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.LaporanKelasResponse;
+import com.example.monitoringappslb.model.response.ApiModels.LaporanListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.LoginResponse;
 import com.example.monitoringappslb.model.response.ApiModels.MessageResponse;
 import com.example.monitoringappslb.model.response.ApiModels.PerkembanganListResponse;
@@ -19,13 +21,18 @@ import com.example.monitoringappslb.model.response.ApiModels.PpiListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.SiswaDetailResponse;
 import com.example.monitoringappslb.model.response.ApiModels.SiswaListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.SiswaRekapResponse;
+import com.example.monitoringappslb.model.response.ApiModels.TingkatListResponse;
 import com.example.monitoringappslb.model.response.MeResponse;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Multipart;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Part;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -47,6 +54,22 @@ public interface ApiService {
 
     @PUT("api/auth/change-password")
     Call<MessageResponse> changePassword(@Body Map<String, String> body);
+
+    @GET("api/users")
+    Call<AdminUserListResponse> getUsers(
+            @Query("role") String role,
+            @Query("is_aktif") Integer isAktif,
+            @Query("search") String search
+    );
+
+    @POST("api/users")
+    Call<MessageResponse> createUser(@Body Map<String, Object> body);
+
+    @PUT("api/users/{id}")
+    Call<MessageResponse> updateUser(@Path("id") int id, @Body Map<String, Object> body);
+
+    @PUT("api/users/{id}/reset-password")
+    Call<MessageResponse> resetUserPassword(@Path("id") int id, @Body Map<String, String> body);
 
     // ─── DASHBOARD ────────────────────────────────────────────
 
@@ -89,6 +112,12 @@ public interface ApiService {
     // GET /api/kelas → { success, data: [ {...} ] }
     @GET("api/kelas")
     Call<KelasListResponse> getKelas(@Query("tahun_ajaran") String tahunAjaran);
+
+    @POST("api/kelas")
+    Call<MessageResponse> createKelas(@Body Map<String, Object> body);
+
+    @PUT("api/kelas/{id}")
+    Call<MessageResponse> updateKelas(@Path("id") int id, @Body Map<String, Object> body);
 
     // GET /api/kelas/guru/saya → { success, data: [ {...} ] }
     @GET("api/kelas/guru/saya")
@@ -204,10 +233,20 @@ public interface ApiService {
     // ─── LAPORAN ──────────────────────────────────────────────
 
     @GET("api/laporan")
-    Call<PerkembanganListResponse> getLaporan(@Query("tipe") String tipe);
+    Call<LaporanListResponse> getLaporan(@Query("tipe") String tipe);
 
     @POST("api/laporan/generate")
     Call<MessageResponse> generateLaporan(@Body Map<String, Object> body);
+
+    @Multipart
+    @POST("api/laporan/upload")
+    Call<MessageResponse> uploadLaporan(
+            @Part MultipartBody.Part file,
+            @Part("tipe") RequestBody tipe,
+            @Part("periode") RequestBody periode,
+            @Part("kelas_id") RequestBody kelasId,
+            @Part("tahun_ajaran") RequestBody tahunAjaran
+    );
 
     @GET("api/laporan/kelas/{kelasId}")
     Call<LaporanKelasResponse> getLaporanKelas(
@@ -221,6 +260,9 @@ public interface ApiService {
     // GET /api/aspek → { success, data: [...] }
     @GET("api/aspek")
     Call<AspekListResponse> getAspek();
+
+    @GET("api/tingkat")
+    Call<TingkatListResponse> getTingkat();
 
     // ─── KEGIATAN ─────────────────────────────────────────────
 

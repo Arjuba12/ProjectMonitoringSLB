@@ -17,6 +17,7 @@ import com.example.monitoringappslb.model.response.ApiModels.PesanItem;
 import com.example.monitoringappslb.model.response.ApiModels.PesanListResponse;
 import com.example.monitoringappslb.network.ApiClient;
 import com.example.monitoringappslb.network.SessionManager;
+import com.example.monitoringappslb.util.DateTimeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
@@ -161,9 +162,7 @@ public class ChatDetailWaliActivity extends BaseWaliActivity {
 
     private static String formatTime(String value) {
         if (value == null || value.trim().isEmpty()) return "";
-        String clean = value.replace("T", " ");
-        if (clean.length() >= 16) return clean.substring(11, 16);
-        return clean;
+        return DateTimeUtils.formatTime(value);
     }
 
     private static class ChatMessageAdapter extends RecyclerView.Adapter<ChatMessageAdapter.ViewHolder> {

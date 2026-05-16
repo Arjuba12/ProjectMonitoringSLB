@@ -18,6 +18,11 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MonitoringAppSLB">
 
+        <activity android:name=".admin.DashboardAdminActivity" android:exported="false" />
+        <activity android:name=".admin.MasterDataAdminActivity" android:exported="false" />
+        <activity android:name=".admin.KegiatanAdminActivity" android:exported="false" />
+        <activity android:name=".admin.PengumumanAdminActivity" android:exported="false" />
+        <activity android:name=".admin.ProfileAdminActivity" android:exported="false" />
         <activity android:name=".wali.BiodataSiswaWaliActivity" android:exported="false" />
         <activity android:name=".wali.DetailPpiWaliActivity" android:exported="false" />
         <activity android:name=".wali.KalenderWaliActivity" android:exported="false" />

@@ -19,13 +19,11 @@ import com.example.monitoringappslb.model.response.ApiModels.PpiItem;
 import com.example.monitoringappslb.model.response.ApiModels.PpiListResponse;
 import com.example.monitoringappslb.network.ApiClient;
 import com.example.monitoringappslb.network.ApiService;
+import com.example.monitoringappslb.util.DateTimeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -280,20 +278,6 @@ public class DetailPpiActivity extends BaseGuruActivity {
     }
 
     private String formatDate(String value) {
-        if (value == null || value.trim().isEmpty()) return "-";
-        String clean = value.replace("T", " ");
-        if (value.contains("T") && value.endsWith("Z")) {
-            try {
-                SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                input.setTimeZone(TimeZone.getTimeZone("UTC"));
-                SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                output.setTimeZone(TimeZone.getDefault());
-                return output.format(input.parse(value));
-            } catch (Exception ignored) {
-                // Fallback to substring below.
-            }
-        }
-        if (clean.length() >= 10) return clean.substring(0, 10);
-        return clean;
+        return DateTimeUtils.formatDate(value);
     }
 }

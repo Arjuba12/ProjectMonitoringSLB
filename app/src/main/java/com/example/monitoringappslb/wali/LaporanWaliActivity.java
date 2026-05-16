@@ -1,26 +1,29 @@
 package com.example.monitoringappslb.wali;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.monitoringappslb.R;
+import com.example.monitoringappslb.model.response.ApiModels.LaporanItem;
+import com.example.monitoringappslb.model.response.ApiModels.LaporanListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.PerkembanganItem;
 import com.example.monitoringappslb.model.response.ApiModels.PerkembanganListResponse;
 import com.example.monitoringappslb.network.ApiClient;
 import com.example.monitoringappslb.network.ApiService;
 import com.example.monitoringappslb.network.SessionManager;
+import com.example.monitoringappslb.util.DateTimeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +32,7 @@ public class LaporanWaliActivity extends BaseWaliActivity {
     private ApiService apiService;
     private SessionManager session;
     private TableLayout tableLaporan;
+    private LinearLayout containerLaporanPeriodik;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +42,115 @@ public class LaporanWaliActivity extends BaseWaliActivity {
         apiService = ApiClient.getService();
         session = new SessionManager(this);
         tableLaporan = findViewById(R.id.table_laporan_guru);
+        containerLaporanPeriodik = findViewById(R.id.container_laporan_periodik);
 
         setupNavigation();
         setupActions();
         loadCatatanGuru();
+        loadLaporanPeriodik();
     }
 
     private void setupActions() {
         View btnRefresh = findViewById(R.id.btn_refresh_laporan_wali);
         if (btnRefresh != null) {
-            btnRefresh.setOnClickListener(v -> loadCatatanGuru());
+            btnRefresh.setOnClickListener(v -> {
+                loadCatatanGuru();
+                loadLaporanPeriodik();
+            });
         }
+    }
+
+    private void loadLaporanPeriodik() {
+        showPeriodikMessage("Memuat laporan periodik...");
+        apiService.getLaporan("Kelas").enqueue(new Callback<LaporanListResponse>() {
+            @Override
+            public void onResponse(Call<LaporanListResponse> call, Response<LaporanListResponse> response) {
+                if (!response.isSuccessful() || response.body() == null || !response.body().isSuccess()) {
+                    showPeriodikMessage("Gagal memuat laporan periodik");
+                    return;
+                }
+
+                List<LaporanItem> data = response.body().getData();
+                if (data == null || data.isEmpty()) {
+                    showPeriodikMessage("Belum ada laporan periodik tersimpan");
+                    return;
+                }
+
+                renderLaporanPeriodik(data);
+            }
+
+            @Override
+            public void onFailure(Call<LaporanListResponse> call, Throwable t) {
+                showPeriodikMessage("Tidak bisa memuat laporan periodik");
+            }
+        });
+    }
+
+    private void renderLaporanPeriodik(List<LaporanItem> data) {
+        if (containerLaporanPeriodik == null) return;
+        containerLaporanPeriodik.removeAllViews();
+        for (LaporanItem item : data) {
+            if (item.getFilePath() == null || item.getFilePath().trim().isEmpty()) continue;
+            containerLaporanPeriodik.addView(createLaporanCard(item));
+        }
+        if (containerLaporanPeriodik.getChildCount() == 0) {
+            showPeriodikMessage("Belum ada laporan periodik tersimpan");
+        }
+    }
+
+    private View createLaporanCard(LaporanItem item) {
+        LinearLayout card = new LinearLayout(this);
+        card.setOrientation(LinearLayout.VERTICAL);
+        card.setPadding(dpToPx(14), dpToPx(12), dpToPx(14), dpToPx(12));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.setMargins(0, 0, 0, dpToPx(10));
+        card.setLayoutParams(params);
+        card.setBackgroundResource(R.drawable.bg_rounded_white_border);
+
+        TextView title = createPlainText(valueOrDash(item.getJudul()), "#1E293B", 14, true);
+        TextView meta = createPlainText(
+                valueOrDash(item.getPeriode()) + " | " + valueOrDash(item.getNamaKelas()) +
+                        " | Oleh: " + valueOrDash(item.getNamaPembuat()),
+                "#64748B",
+                12,
+                false
+        );
+        meta.setPadding(0, dpToPx(4), 0, dpToPx(10));
+
+        TextView action = createPlainText("Unduh / Lihat PDF", "#2563EB", 13, true);
+        action.setGravity(Gravity.CENTER);
+        action.setPadding(0, dpToPx(8), 0, dpToPx(8));
+        action.setBackgroundResource(R.drawable.bg_rounded_white_border);
+
+        View.OnClickListener openListener = v -> openPdf(item.getFilePath());
+        card.setOnClickListener(openListener);
+        action.setOnClickListener(openListener);
+
+        card.addView(title);
+        card.addView(meta);
+        card.addView(action);
+        return card;
+    }
+
+    private void showPeriodikMessage(String message) {
+        if (containerLaporanPeriodik == null) return;
+        containerLaporanPeriodik.removeAllViews();
+        TextView tv = createPlainText(message, "#94A3B8", 13, false);
+        tv.setGravity(Gravity.CENTER);
+        tv.setPadding(0, dpToPx(8), 0, dpToPx(8));
+        containerLaporanPeriodik.addView(tv);
+    }
+
+    private void openPdf(String url) {
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(this, "File laporan tidak tersedia", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.trim()));
+        startActivity(intent);
     }
 
     private void loadCatatanGuru() {
@@ -157,6 +259,15 @@ public class LaporanWaliActivity extends BaseWaliActivity {
         return tv;
     }
 
+    private TextView createPlainText(String text, String color, int sizeSp, boolean bold) {
+        TextView tv = new TextView(this);
+        tv.setText(text);
+        tv.setTextSize(sizeSp);
+        tv.setTextColor(Color.parseColor(color));
+        if (bold) tv.setTypeface(null, android.graphics.Typeface.BOLD);
+        return tv;
+    }
+
     private int dpToPx(int dp) {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
@@ -166,20 +277,7 @@ public class LaporanWaliActivity extends BaseWaliActivity {
     }
 
     private String formatDate(String value) {
-        if (value == null || value.trim().isEmpty()) return "-";
-        String clean = value.replace("T", " ");
-        if (value.contains("T") && value.endsWith("Z")) {
-            try {
-                SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                input.setTimeZone(TimeZone.getTimeZone("UTC"));
-                SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                output.setTimeZone(TimeZone.getDefault());
-                return output.format(input.parse(value));
-            } catch (Exception ignored) {
-            }
-        }
-        if (clean.length() >= 10) return clean.substring(0, 10);
-        return clean;
+        return DateTimeUtils.formatDate(value);
     }
 
     @Override

@@ -144,6 +144,7 @@ public class ApiModels {
     public static class KelasItem {
         @SerializedName("id")              private int id;
         @SerializedName("nama_kelas")      private String namaKelas;
+        @SerializedName("tingkat_id")      private int tingkatId;
         @SerializedName("tingkat_nama")    private String tingkatNama;
         @SerializedName("tahun_ajaran")    private String tahunAjaran;
         @SerializedName("kapasitas")       private int kapasitas;
@@ -155,6 +156,7 @@ public class ApiModels {
 
         public int getId() { return id; }
         public String getNamaKelas() { return namaKelas; }
+        public int getTingkatId() { return tingkatId; }
         public String getTingkatNama() { return tingkatNama; }
         public String getTahunAjaran() { return tahunAjaran; }
         public int getKapasitas() { return kapasitas; }
@@ -168,6 +170,21 @@ public class ApiModels {
     public static class KelasListResponse extends BaseResponse {
         @SerializedName("data") private List<KelasItem> data;
         public List<KelasItem> getData() { return data; }
+    }
+
+    public static class TingkatItem {
+        @SerializedName("id") private int id;
+        @SerializedName("nama") private String nama;
+        @SerializedName("keterangan") private String keterangan;
+
+        public int getId() { return id; }
+        public String getNama() { return nama; }
+        public String getKeterangan() { return keterangan; }
+    }
+
+    public static class TingkatListResponse extends BaseResponse {
+        @SerializedName("data") private List<TingkatItem> data;
+        public List<TingkatItem> getData() { return data; }
     }
 
     // ─── Aspek Perkembangan ───────────────────────────────────
@@ -188,6 +205,33 @@ public class ApiModels {
     }
 
     // ─── Perkembangan ─────────────────────────────────────────
+    public static class AdminUserItem {
+        @SerializedName("id") private int id;
+        @SerializedName("nama") private String nama;
+        @SerializedName("email") private String email;
+        @SerializedName("role") private String role;
+        @SerializedName("no_hp") private String noHp;
+        @SerializedName("is_aktif") private Integer isAktif;
+        @SerializedName("nip") private String nip;
+        @SerializedName("spesialisasi") private String spesialisasi;
+        @SerializedName("kelas_mengajar") private String kelasMengajar;
+
+        public int getId() { return id; }
+        public String getNama() { return nama; }
+        public String getEmail() { return email; }
+        public String getRole() { return role; }
+        public String getNoHp() { return noHp; }
+        public Integer isAktif() { return isAktif; }
+        public String getNip() { return nip; }
+        public String getSpesialisasi() { return spesialisasi; }
+        public String getKelasMengajar() { return kelasMengajar; }
+    }
+
+    public static class AdminUserListResponse extends BaseResponse {
+        @SerializedName("data") private List<AdminUserItem> data;
+        public List<AdminUserItem> getData() { return data; }
+    }
+
     public static class PerkembanganItem {
         @SerializedName("id")         private int id;
         @SerializedName("siswa_id")   private int siswaId;
@@ -422,6 +466,30 @@ public class ApiModels {
     public static class LaporanKelasResponse extends BaseResponse {
         @SerializedName("data") private LaporanKelasData data;
         public LaporanKelasData getData() { return data; }
+    }
+
+    public static class LaporanItem {
+        @SerializedName("id") private int id;
+        @SerializedName("judul") private String judul;
+        @SerializedName("tipe") private String tipe;
+        @SerializedName("periode") private String periode;
+        @SerializedName("nama_kelas") private String namaKelas;
+        @SerializedName("nama_pembuat") private String namaPembuat;
+        @SerializedName("file_path") private String filePath;
+        @SerializedName("created_at") private String createdAt;
+        public int getId() { return id; }
+        public String getJudul() { return judul; }
+        public String getTipe() { return tipe; }
+        public String getPeriode() { return periode; }
+        public String getNamaKelas() { return namaKelas; }
+        public String getNamaPembuat() { return namaPembuat; }
+        public String getFilePath() { return filePath; }
+        public String getCreatedAt() { return createdAt; }
+    }
+
+    public static class LaporanListResponse extends BaseResponse {
+        @SerializedName("data") private List<LaporanItem> data;
+        public List<LaporanItem> getData() { return data; }
     }
 
     // ─── Dashboard Guru ───────────────────────────────────────

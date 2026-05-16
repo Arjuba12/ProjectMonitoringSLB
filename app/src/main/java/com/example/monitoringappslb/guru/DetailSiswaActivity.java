@@ -15,6 +15,7 @@ import com.example.monitoringappslb.model.response.ApiModels.SiswaDetail;
 import com.example.monitoringappslb.model.response.ApiModels.SiswaDetailResponse;
 import com.example.monitoringappslb.network.ApiClient;
 import com.example.monitoringappslb.network.ApiService;
+import com.example.monitoringappslb.util.DateTimeUtils;
 import com.example.monitoringappslb.util.AvatarUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -220,9 +221,6 @@ public class DetailSiswaActivity extends BaseGuruActivity {
     }
 
     private String formatDate(String value) {
-        if (value == null || value.trim().isEmpty()) return "-";
-        String clean = value.replace("T", " ");
-        if (clean.length() >= 10) return clean.substring(0, 10);
-        return clean;
+        return DateTimeUtils.formatDate(value);
     }
 }
