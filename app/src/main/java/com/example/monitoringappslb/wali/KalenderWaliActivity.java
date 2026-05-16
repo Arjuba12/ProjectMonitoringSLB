@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -113,8 +114,8 @@ public class KalenderWaliActivity extends BaseWaliActivity {
         }
 
         if (filtered.isEmpty()) {
-            setTitleText("Jadwal " + monthTitle(loadedMonth, loadedYear));
-            renderList(kegiatanBulanIni, "Belum ada kegiatan pada tanggal yang dipilih");
+            setTitleText("Jadwal " + readableDate(selectedDate));
+            renderList(filtered, "Belum ada kegiatan pada tanggal yang dipilih");
         } else {
             setTitleText("Jadwal " + readableDate(selectedDate));
             renderList(filtered, "Belum ada kegiatan");
@@ -231,6 +232,8 @@ public class KalenderWaliActivity extends BaseWaliActivity {
         try {
             SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             SimpleDateFormat output = new SimpleDateFormat("dd MMM yyyy", new Locale("id", "ID"));
+            input.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
+            output.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
             return output.format(input.parse(dateKey));
         } catch (Exception ignored) {
             return valueOrDash(dateKey);
@@ -242,6 +245,7 @@ public class KalenderWaliActivity extends BaseWaliActivity {
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month - 1);
         SimpleDateFormat output = new SimpleDateFormat("MMMM yyyy", new Locale("id", "ID"));
+        output.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
         return output.format(cal.getTime());
     }
 

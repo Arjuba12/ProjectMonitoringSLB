@@ -25,7 +25,10 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -264,14 +267,40 @@ public class DashboardWaliActivity extends BaseWaliActivity {
 
     private String buildKegiatanMeta(KegiatanItem kegiatan) {
         StringBuilder meta = new StringBuilder();
-        meta.append(valueOrDash(kegiatan.getTanggal()));
+        meta.append(readableDate(normalizeDate(kegiatan.getTanggal())));
         if (kegiatan.getWaktuMulai() != null && !kegiatan.getWaktuMulai().trim().isEmpty()) {
-            meta.append(" | ").append(kegiatan.getWaktuMulai());
+            meta.append(" | ").append(trimTime(kegiatan.getWaktuMulai()));
+            if (kegiatan.getWaktuSelesai() != null && !kegiatan.getWaktuSelesai().trim().isEmpty()) {
+                meta.append("-").append(trimTime(kegiatan.getWaktuSelesai()));
+            }
+            meta.append(" WIB");
         }
         if (kegiatan.getLokasi() != null && !kegiatan.getLokasi().trim().isEmpty()) {
             meta.append(" | ").append(kegiatan.getLokasi());
         }
         return meta.toString();
+    }
+
+    private String normalizeDate(String value) {
+        if (value == null || value.trim().isEmpty()) return "";
+        String clean = value.replace("T", " ");
+        return clean.length() >= 10 ? clean.substring(0, 10) : clean;
+    }
+
+    private String readableDate(String dateKey) {
+        try {
+            SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            SimpleDateFormat output = new SimpleDateFormat("dd MMM yyyy", new Locale("id", "ID"));
+            input.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
+            output.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
+            return output.format(input.parse(dateKey));
+        } catch (Exception ignored) {
+            return valueOrDash(dateKey);
+        }
+    }
+
+    private String trimTime(String value) {
+        return value != null && value.length() >= 5 ? value.substring(0, 5) : valueOrDash(value);
     }
 
     private String valueOrDash(String value) {
@@ -283,7 +312,7 @@ public class DashboardWaliActivity extends BaseWaliActivity {
 
         imageExecutor.execute(() -> {
             try {
-                InputStream input = new URL(url.trim()).openStream();
+                InputStream input = new URL(resolveAssetUrl(url)).openStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(input);
                 runOnUiThread(() -> {
                     target.setImageBitmap(bitmap);
@@ -293,6 +322,17 @@ public class DashboardWaliActivity extends BaseWaliActivity {
                 runOnUiThread(() -> target.setVisibility(View.GONE));
             }
         });
+    }
+
+    private String resolveAssetUrl(String url) {
+        String cleanUrl = url.trim();
+        if (cleanUrl.startsWith("http://") || cleanUrl.startsWith("https://")) {
+            return cleanUrl;
+        }
+        String baseUrl = ApiClient.BASE_URL.endsWith("/")
+                ? ApiClient.BASE_URL.substring(0, ApiClient.BASE_URL.length() - 1)
+                : ApiClient.BASE_URL;
+        return cleanUrl.startsWith("/") ? baseUrl + cleanUrl : baseUrl + "/" + cleanUrl;
     }
 
     private void addNotifikasiItem(DashboardNotificationItem item) {
