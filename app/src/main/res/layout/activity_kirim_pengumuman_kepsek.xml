@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingBottom="80dp"
+            android:fillViewport="true"
+            android:paddingBottom="92dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -34,106 +35,122 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
+                    android:layout_marginBottom="14dp"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
                         android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
                             android:text="Buat pengumuman"
                             android:textColor="#1E293B"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_marginBottom="16dp" />
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="14dp"
+                            android:text="Kirim pesan singkat ke wali murid dari halaman kepsek."
+                            android:textColor="#64748B"
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
                             android:text="Penerima"
                             android:textColor="#64748B"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="4dp"/>
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:background="#94A3B8"
-                            android:text="Semua (Guru + Wali Murid)"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_rounded_gray"
                             android:gravity="center_vertical"
                             android:paddingHorizontal="12dp"
-                            android:layout_marginBottom="12dp" />
+                            android:text="Semua (Guru + Wali Murid)"
+                            android:textColor="#334155"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
                             android:text="Judul"
                             android:textColor="#64748B"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="4dp"/>
+                            android:textSize="12sp" />
 
                         <EditText
                             android:id="@+id/et_judul"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:background="#94A3B8"
+                            android:layout_height="44dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@drawable/bg_rounded_gray"
+                            android:hint="Judul pengumuman"
                             android:paddingHorizontal="12dp"
+                            android:textColor="#0F172A"
                             android:textSize="14sp"
-                            android:layout_marginBottom="12dp" />
+                            android:inputType="text" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
                             android:text="Isi pengumuman"
                             android:textColor="#64748B"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="4dp"/>
+                            android:textSize="12sp" />
 
                         <EditText
                             android:id="@+id/et_isi"
                             android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            android:background="#94A3B8"
+                            android:layout_height="180dp"
+                            android:layout_marginBottom="18dp"
+                            android:background="@drawable/bg_rounded_gray"
                             android:gravity="top"
+                            android:hint="Tulis pesan untuk wali..."
                             android:padding="12dp"
+                            android:textColor="#0F172A"
                             android:textSize="14sp"
-                            android:layout_marginBottom="20dp" />
+                            android:inputType="textMultiLine" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_kirim"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="44dp"
+                                android:layout_marginEnd="6dp"
+                                android:layout_weight="1"
                                 android:text="Kirim sekarang"
-                                android:textSize="12sp"
                                 android:textAllCaps="false"
-                                android:backgroundTint="#94A3B8"
-                                app:cornerRadius="4dp"
-                                android:layout_marginEnd="6dp"/>
+                                android:textSize="12sp"
+                                app:backgroundTint="#2C3E50"
+                                app:cornerRadius="10dp" />
+
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_draft"
                                 android:layout_width="0dp"
-                                android:layout_weight="1"
                                 android:layout_height="44dp"
+                                android:layout_marginStart="6dp"
+                                android:layout_weight="1"
                                 android:text="Simpan Draft"
-                                android:textSize="12sp"
                                 android:textAllCaps="false"
-                                android:backgroundTint="#94A3B8"
-                                app:cornerRadius="4dp"
-                                android:layout_marginStart="6dp"/>
+                                android:textSize="12sp"
+                                app:backgroundTint="#64748B"
+                                app:cornerRadius="10dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -147,78 +164,42 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="#FFFFFF"
                         android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
+                        android:padding="16dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginBottom="14dp"
                             android:text="Pengumuman sebelumnya"
                             android:textColor="#1E293B"
                             android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_marginBottom="16dp" />
-
-                        <!-- List Items (Dummy) -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginBottom="12dp">
-                            <View android:layout_width="8dp" android:layout_height="8dp" android:background="#1E293B" android:layout_marginTop="6dp" android:layout_marginEnd="12dp"/>
-                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Libur hari guru nasional"
-                                    android:textColor="#1E293B"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Dikirim ke semua - Dibaca 98%"
-                                    android:textColor="#64748B"
-                                    android:textSize="11sp"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="10 Nov 2024"
-                                    android:textColor="#94A3B8"
-                                    android:textSize="11sp"/>
-                            </LinearLayout>
-                        </LinearLayout>
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginBottom="12dp">
-                            <View android:layout_width="8dp" android:layout_height="8dp" android:background="#1E293B" android:layout_marginTop="6dp" android:layout_marginEnd="12dp"/>
-                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Libur hari guru nasional"
-                                    android:textColor="#1E293B"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Dikirim ke semua - Dibaca 98%"
-                                    android:textColor="#64748B"
-                                    android:textSize="11sp"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="10 Nov 2024"
-                                    android:textColor="#94A3B8"
-                                    android:textSize="11sp"/>
-                            </LinearLayout>
-                        </LinearLayout>
+                            android:background="@drawable/bg_rounded_gray"
+                            android:orientation="vertical"
+                            android:padding="12dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Belum ada data riwayat"
+                                android:textColor="#1E293B"
+                                android:textSize="13sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="Setelah pengumuman dikirim, riwayat akan muncul di bagian ini."
+                                android:textColor="#64748B"
+                                android:textSize="12sp" />
+                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>

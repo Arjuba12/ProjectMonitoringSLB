@@ -271,4 +271,7 @@ public interface ApiService {
             @Query("bulan") Integer bulan,
             @Query("tahun") Integer tahun
     );
+
+    @POST("api/kegiatan")
+    Call<MessageResponse> createKegiatan(@Body Map<String, Object> body);
 }

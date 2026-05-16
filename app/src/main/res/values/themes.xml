@@ -20,6 +20,12 @@
         <item name="navigationViewStyle">@style/Widget.NavigationView.MonitoringAppSLB</item>
     </style>
 
+    <style name="Theme.MonitoringAppSLB.Splash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/splash_background</item>
+        <item name="android:statusBarColor">@color/splash_background</item>
+        <item name="android:navigationBarColor">@color/splash_background</item>
+    </style>
+
     <style name="CircleImage">
         <item name="cornerSize">50%</item>
     </style>

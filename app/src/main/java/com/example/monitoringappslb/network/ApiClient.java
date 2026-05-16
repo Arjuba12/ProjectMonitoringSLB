@@ -17,7 +17,7 @@ public class ApiClient {
     // HP fisik (USB)    → "http://192.168.1.10:3000/" (IP komputer kamu di jaringan lokal)
     // Cek IP: buka CMD → ketik "ipconfig" → lihat IPv4 Address
 
-    public static final String BASE_URL = "http://10.222.27.75:3000/";
+    public static final String BASE_URL = "http://10.0.2.2:3000/";
     private static Retrofit retrofit = null;
     private static ApiService apiService = null;
     private static Context appContext;

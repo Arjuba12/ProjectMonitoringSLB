@@ -48,17 +48,60 @@
                     android:textColor="#64748B"
                     android:textSize="13sp" />
 
-                <GridLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:columnCount="2">
+                    android:layout_marginBottom="4dp"
+                    android:orientation="vertical">
 
-                    <include layout="@layout/item_admin_stat_card" android:id="@+id/stat_siswa" />
-                    <include layout="@layout/item_admin_stat_card" android:id="@+id/stat_guru" />
-                    <include layout="@layout/item_admin_stat_card" android:id="@+id/stat_kelas" />
-                    <include layout="@layout/item_admin_stat_card" android:id="@+id/stat_aspek" />
-                </GridLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/stat_siswa"
+                            layout="@layout/item_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            android:id="@+id/stat_guru"
+                            layout="@layout/item_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <include
+                            android:id="@+id/stat_kelas"
+                            layout="@layout/item_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="6dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            android:id="@+id/stat_aspek"
+                            layout="@layout/item_admin_stat_card"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
