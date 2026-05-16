@@ -4,11 +4,12 @@
     android:id="@+id/drawer_layout_wali"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#F8F9FA">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -41,9 +42,13 @@
                     android:textStyle="bold" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_anak_saya"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="1dp">
 
@@ -60,11 +65,16 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <com.google.android.material.imageview.ShapeableImageView
+                            <TextView
+                                android:id="@+id/tv_anak_initials"
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
-                                android:src="#BDC3C7"
-                                app:shapeAppearanceOverlay="@style/CircleImage" />
+                                android:background="@drawable/bg_avatar_placeholder"
+                                android:gravity="center"
+                                android:text="--"
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -73,14 +83,16 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_anak_nama"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Andi Rizky"
+                                    android:text="Memuat..."
                                     android:textColor="#2C3E50"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_nama_kelas"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Kelas VII-A • Tunagrahita Ringan"
@@ -88,6 +100,12 @@
                                     android:textSize="11sp" />
                             </LinearLayout>
                         </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_pesan_masuk"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:visibility="gone" />
 
                         <View
                             android:layout_width="match_parent"
@@ -102,9 +120,13 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:id="@+id/section_kehadiran"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
                                 android:gravity="center"
                                 android:orientation="vertical">
 
@@ -116,26 +138,32 @@
                                     android:textSize="10sp" />
 
                                 <TextView
+                                    android:id="@+id/tv_kehadiran_persen"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="92%"
+                                    android:text="Memuat"
                                     android:textColor="#2C3E50"
-                                    android:textSize="18sp"
+                                    android:textSize="17sp"
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_kehadiran_ringkas"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Sangat Baik"
+                                    android:text="Hari ini"
                                     android:textColor="#2E7D32"
                                     android:textSize="10sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/section_capaian"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
                                 android:gravity="center"
                                 android:orientation="vertical">
 
@@ -147,9 +175,10 @@
                                     android:textSize="10sp" />
 
                                 <TextView
+                                    android:id="@+id/tv_capaian_rata"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="78%"
+                                    android:text="0%"
                                     android:textColor="#2C3E50"
                                     android:textSize="18sp"
                                     android:textStyle="bold" />
@@ -164,9 +193,13 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/section_status"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:foreground="?attr/selectableItemBackground"
                                 android:gravity="center"
                                 android:orientation="vertical">
 
@@ -178,6 +211,7 @@
                                     android:textSize="10sp" />
 
                                 <TextView
+                                    android:id="@+id/tv_status_siswa"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Aktif"
@@ -194,6 +228,87 @@
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Section Kegiatan -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="Kegiatan"
+                    android:textColor="#2C3E50"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="24dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+
+                    <FrameLayout
+                        android:id="@+id/container_kegiatan_wali"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#2C3E50">
+
+                        <ImageView
+                            android:id="@+id/img_kegiatan_wali_banner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#66000000" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <TextView
+                                android:id="@+id/tv_kegiatan_wali_judul"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="Memuat kegiatan..."
+                                android:textColor="#FFFFFF"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_kegiatan_wali_meta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="-"
+                                android:textColor="#E0E6ED"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tv_kegiatan_wali_deskripsi"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="-"
+                                android:textColor="#F8F9FA"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </FrameLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!-- Section Perkembangan Per Aspek -->
@@ -411,105 +526,33 @@
                     android:textStyle="bold" />
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card_catatan_guru"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="12dp"
                     app:cardElevation="1dp">
 
                     <LinearLayout
+                        android:id="@+id/container_catatan_guru"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:background="#FFFFFF">
 
-                        <!-- Item Catatan 1 -->
-                        <LinearLayout
+                        <!-- Items will be added dynamically -->
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:text="Belum ada catatan"
+                            android:gravity="center"
+                            android:textColor="#BDC3C7"
+                            android:textSize="12sp" />
 
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="40dp"
-                                android:background="#2C3E50" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Berhasil menyusun puzzle mandiri"
-                                    android:textColor="#2C3E50"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Mampu menyelesaikan tanpa bantuan instruksi"
-                                    android:textColor="#7F8C8D"
-                                    android:textSize="11sp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:text="12 Nov 2024 • Oleh: Bu Kartini"
-                                    android:textColor="#BDC3C7"
-                                    android:textSize="9sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <!-- Item Catatan 2 -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <View
-                                android:layout_width="4dp"
-                                android:layout_height="40dp"
-                                android:background="#27ae60" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="12dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Peningkatan Interaksi Sosial"
-                                    android:textColor="#2C3E50"
-                                    android:textSize="12sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Mulai berinisiatif menyapa teman sekelas"
-                                    android:textColor="#7F8C8D"
-                                    android:textSize="11sp" />
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:text="8 Nov 2024 • Oleh: Bu Kartini"
-                                    android:textColor="#BDC3C7"
-                                    android:textSize="9sp" />
-                            </LinearLayout>
-                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -524,6 +567,7 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/container_notifikasi_wali"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -657,14 +701,12 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- Drawer Navigation -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view_wali"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF"
-        app:headerLayout="@layout/nav_header_main"
+        app:headerLayout="@layout/nav_header_wali"
         app:menu="@menu/drawer_menu_wali" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

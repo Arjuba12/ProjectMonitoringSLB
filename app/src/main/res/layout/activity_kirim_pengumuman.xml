@@ -18,7 +18,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="#FFFFFF"
             app:elevation="16dp"
@@ -54,7 +54,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Penerima"
+                    android:text="Kelas tujuan"
                     android:textSize="12sp"
                     android:textColor="#7F8C8D"
                     android:layout_marginTop="16dp"/>

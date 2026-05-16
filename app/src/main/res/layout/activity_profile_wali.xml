@@ -18,17 +18,13 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_wali"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="#FFFFFF"
-            app:elevation="16dp"
-            app:menu="@menu/bottom_nav_menu_wali"
-            app:labelVisibilityMode="labeled"
-            app:itemIconSize="22dp"
-            app:itemPaddingTop="12dp"
-            app:itemPaddingBottom="12dp"
+            app:elevation="8dp"
             app:itemIconTint="@color/bnv_selector"
-            app:itemTextColor="@color/bnv_selector" />
+            app:itemTextColor="@color/bnv_selector"
+            app:menu="@menu/bottom_nav_menu_wali" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -43,7 +39,7 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Profile Info Card -->
+                <!-- Wali Profile Card -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,16 +62,17 @@
                             android:layout_marginBottom="24dp">
 
                             <FrameLayout
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
+                                android:layout_width="76dp"
+                                android:layout_height="76dp"
                                 android:background="@drawable/bg_avatar_placeholder"
-                                android:backgroundTint="#94A3B8">
+                                android:backgroundTint="#2C3E50">
                                 <TextView
+                                    android:id="@+id/tv_profile_initials"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="AR"
+                                    android:text="-"
                                     android:textColor="#FFFFFF"
-                                    android:textSize="20sp"
+                                    android:textSize="24sp"
                                     android:textStyle="bold"
                                     android:layout_gravity="center"/>
                             </FrameLayout>
@@ -84,57 +81,66 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:layout_marginStart="16dp">
+                                android:layout_marginStart="18dp">
 
                                 <TextView
+                                    android:id="@+id/tv_profile_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Andi Rizky"
+                                    android:text="Memuat..."
                                     android:textColor="#1E293B"
                                     android:textSize="18sp"
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/tv_profile_role"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Kelas VII-A • Semester 1"
+                                    android:text="Orang Tua / Wali Murid"
                                     android:textColor="#64748B"
                                     android:textSize="13sp" />
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Tunagrahita Ringan"
-                                    android:textColor="#3498DB"
+                                    android:id="@+id/tv_profile_status"
+                                    android:layout_width="72dp"
+                                    android:layout_height="28dp"
+                                    android:text="Aktif"
+                                    android:textColor="#166534"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:layout_marginTop="2dp"/>
+                                    android:gravity="center"
+                                    android:layout_marginTop="6dp"
+                                    android:paddingStart="12dp"
+                                    android:paddingEnd="12dp"
+                                    android:paddingTop="4dp"
+                                    android:paddingBottom="4dp"
+                                    android:background="@drawable/bg_status_active" />
                             </LinearLayout>
                         </LinearLayout>
 
                         <!-- Detail Fields -->
-                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_nisn" />
+                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_nik" />
                         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginVertical="12dp"/>
 
-                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_tgl_lahir" />
+                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_phone" />
                         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginVertical="12dp"/>
 
-                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_guru" />
+                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_email" />
                         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginVertical="12dp"/>
 
-                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_tahun" />
+                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_address" />
                         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginVertical="12dp"/>
 
-                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_wali" />
+                        <include layout="@layout/item_profile_row_simple" android:id="@+id/row_child_name" />
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Program Individual (PPI) -->
+                <!-- Account Settings or Actions -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Program Individual (PPI)"
+                    android:text="Pengaturan Akun"
                     android:textColor="#1E293B"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -151,58 +157,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="20dp"
+                        android:padding="8dp"
                         android:background="#FFFFFF">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="• Target semester ini"
-                            android:textColor="#1E293B"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Mampu membaca 2 suku kata, menulis nama sendiri"
-                            android:textColor="#64748B"
-                            android:textSize="13sp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="12dp"/>
+                            android:padding="12dp"
+                            android:text="Ubah Kata Sandi"
+                            android:textColor="#2C3E50"
+                            android:textSize="14sp"
+                            android:drawablePadding="12dp"
+                            app:drawableStartCompat="@android:drawable/ic_menu_edit" />
+
+                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/btn_logout_profile"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="• Program motorik"
-                            android:textColor="#1E293B"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Latihan memegang pensil, menggunting pola sederhana"
-                            android:textColor="#64748B"
-                            android:textSize="13sp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="• Program sosial"
-                            android:textColor="#1E293B"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bermain peran, kegiatan kelompok 2x seminggu"
-                            android:textColor="#64748B"
-                            android:textSize="13sp"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="2dp"/>
+                            android:padding="12dp"
+                            android:text="Keluar Aplikasi"
+                            android:textColor="#E74C3C"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:drawablePadding="12dp"
+                            app:drawableStartCompat="@drawable/ic_logout" />
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -216,8 +196,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         app:menu="@menu/drawer_menu_wali"
-        app:headerLayout="@layout/nav_header_main" />
+        app:headerLayout="@layout/nav_header_wali" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

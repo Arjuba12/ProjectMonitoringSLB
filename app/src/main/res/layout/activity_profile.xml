@@ -18,7 +18,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="#FFFFFF"
             app:elevation="16dp"
@@ -59,15 +59,16 @@
                         android:padding="24dp"
                         android:background="#ECF0F1">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/iv_profile"
+                        <TextView
+                            android:id="@+id/tv_profile_initials"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_profile_placeholder"
-                            app:shapeAppearanceOverlay="@style/CircleImage"
-                            app:strokeColor="#2C3E50"
-                            app:strokeWidth="2dp" />
+                            android:background="@drawable/bg_avatar_initials"
+                            android:gravity="center"
+                            android:text="--"
+                            android:textColor="#FFFFFF"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_profile_name"
@@ -137,7 +138,7 @@
                         android:id="@+id/btn_edit_profile"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="Edit Profil"
+                        android:text="@string/profile_btn_edit"
                         android:textAllCaps="false"
                         android:backgroundTint="#2C3E50"
                         android:textColor="#FFFFFF"
@@ -148,9 +149,20 @@
                         android:id="@+id/btn_change_password"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="Ubah Kata Sandi"
+                        android:text="@string/profile_btn_change_password"
                         android:textAllCaps="false"
                         android:backgroundTint="#7F8C8D"
+                        android:textColor="#FFFFFF"
+                        app:cornerRadius="8dp"
+                        android:layout_marginBottom="12dp" />
+
+                    <Button
+                        android:id="@+id/btn_logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="@string/profile_btn_logout"
+                        android:textAllCaps="false"
+                        android:backgroundTint="#E74C3C"
                         android:textColor="#FFFFFF"
                         app:cornerRadius="8dp" />
                 </LinearLayout>

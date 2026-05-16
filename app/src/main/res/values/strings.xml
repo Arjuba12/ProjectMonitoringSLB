@@ -36,9 +36,38 @@
     <string name="class_report">Laporan Kelas</string>
     <string name="monthly_recap">Rekapitulasi Bulanan</string>
     <string name="export_pdf">Ekspor PDF</string>
+    <string name="rekap_keseluruhan">Rekap Keseluruhan</string>
+    <string name="statistik_performa">Statistik performa antar kelas</string>
+    <string name="btn_ekspor">Ekspor</string>
 
     <!-- Pengumuman -->
     <string name="announcement_title">Buat Pengumuman</string>
     <string name="announcement_subtitle">Kirim pesan massal ke wali murid</string>
     <string name="send_announcement">Kirim Pengumuman Sekarang</string>
+    <!-- Kepsek Dashboard Menus -->
+    <string name="menu_rekap_sekolah">Rekap Sekolah</string>
+    <string name="menu_manajemen_guru">Data Guru</string>
+    <string name="menu_monitoring_ppi">Pantau PPI</string>
+    <string name="menu_kalender_akademik">Kalender</string>
+    <string name="menu_pusat_pengumuman">Pengumuman</string>
+    <string name="menu_pusat_bantuan">Bantuan</string>
+
+    <!-- Profile -->
+    <string name="nip_format">NIP. %1$s</string>
+    <string name="profile_loading_name">Memuat nama...</string>
+    <string name="profile_nip_placeholder">NIP. -</string>
+    <string name="profile_section_personal">Data Pribadi</string>
+    <string name="profile_label_rank">Pangkat / Golongan</string>
+    <string name="profile_label_education">Pendidikan Terakhir</string>
+    <string name="profile_label_address">Alamat</string>
+    <string name="profile_btn_edit">Edit Profil</string>
+    <string name="profile_btn_logout">Keluar</string>
+    <string name="profile_btn_change_password">Ubah Kata Sandi</string>
+    <string name="profile_role_kepsek">Kepala Sekolah SLB Negeri</string>
+    <string name="profile_section_contact">Informasi Kontak</string>
+
+    <!-- Monitoring Actions -->
+    <string name="btn_tinjau">Tinjau</string>
+    <string name="btn_peringatan">Peringatan</string>
+    <string name="btn_konsultasi">Konsultasi</string>
 </resources>

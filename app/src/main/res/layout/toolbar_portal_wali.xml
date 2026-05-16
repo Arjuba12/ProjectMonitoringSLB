@@ -26,13 +26,14 @@
             app:tint="#2C3E50"
             android:contentDescription="Menu" />
 
-        <View
+        <ImageView
             android:id="@+id/viewLogo"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="@drawable/bg_circle_gray"
             android:layout_marginStart="12dp"
-            android:backgroundTint="#2C3E50"/>
+            android:contentDescription="Logo Sekolah"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/logo_sekolah_slb" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -84,23 +85,19 @@
             android:paddingBottom="4dp">
 
             <!-- Inisial Circle -->
-            <FrameLayout
+            <TextView
+                android:id="@+id/tv_toolbar_wali_initials"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:background="@drawable/bg_avatar_placeholder"
-                android:backgroundTint="#94A3B8">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BS"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"/>
-            </FrameLayout>
+                android:gravity="center"
+                android:text="BS"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtProfileName"
+                android:id="@+id/tv_nama_wali"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bu Sari"

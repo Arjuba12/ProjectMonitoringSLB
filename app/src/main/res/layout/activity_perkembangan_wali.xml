@@ -4,7 +4,8 @@
     android:id="@+id/drawer_layout_perkembangan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="#F8F9FA"
+    android:fitsSystemWindows="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -204,11 +205,11 @@
                                     android:orientation="horizontal"
                                     android:paddingHorizontal="4dp">
 
-                                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Agu" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
-                                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Sep" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
-                                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Okt" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
-                                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Nov" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
-                                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="Des" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
+                                    <TextView android:id="@+id/label_month_1" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="-" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
+                                    <TextView android:id="@+id/label_month_2" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="-" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
+                                    <TextView android:id="@+id/label_month_3" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="-" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
+                                    <TextView android:id="@+id/label_month_4" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="-" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
+                                    <TextView android:id="@+id/label_month_5" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:text="-" android:textColor="#95A5A6" android:textSize="10sp" android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -247,6 +248,7 @@
                             android:scrollbars="none">
 
                             <TableLayout
+                                android:id="@+id/table_detail_perkembangan"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:stretchColumns="0">
@@ -262,30 +264,35 @@
                                         android:textStyle="bold"
                                         android:paddingHorizontal="8dp" />
                                     <TextView
+                                        android:id="@+id/header_month_1"
                                         android:text="Agu"
                                         android:textColor="#95A5A6"
                                         android:textSize="10sp"
                                         android:gravity="center"
                                         android:paddingHorizontal="8dp" />
                                     <TextView
+                                        android:id="@+id/header_month_2"
                                         android:text="Sep"
                                         android:textColor="#95A5A6"
                                         android:textSize="10sp"
                                         android:gravity="center"
                                         android:paddingHorizontal="8dp" />
                                     <TextView
+                                        android:id="@+id/header_month_3"
                                         android:text="Okt"
                                         android:textColor="#95A5A6"
                                         android:textSize="10sp"
                                         android:gravity="center"
                                         android:paddingHorizontal="8dp" />
                                     <TextView
+                                        android:id="@+id/header_month_4"
                                         android:text="Nov"
                                         android:textColor="#95A5A6"
                                         android:textSize="10sp"
                                         android:gravity="center"
                                         android:paddingHorizontal="8dp" />
                                     <TextView
+                                        android:id="@+id/header_month_5"
                                         android:text="Des"
                                         android:textColor="#95A5A6"
                                         android:textSize="10sp"
@@ -567,8 +574,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF"
-        app:headerLayout="@layout/nav_header_main"
+        app:headerLayout="@layout/nav_header_wali"
         app:menu="@menu/drawer_menu_wali" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -2,16 +2,30 @@ package com.example.monitoringappslb.wali;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.monitoringappslb.R;
-import com.example.monitoringappslb.guru.ChatDetailActivity;
+import com.example.monitoringappslb.model.response.ApiModels.PesanItem;
+import com.example.monitoringappslb.model.response.ApiModels.PesanListResponse;
+import com.example.monitoringappslb.network.ApiClient;
+import com.example.monitoringappslb.util.AvatarUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import java.util.ArrayList;
+import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatWaliActivity extends BaseWaliActivity {
+    private TextView tvStatus;
+    private ChatContactAdapter adapter;
+    private final List<PesanItem> contacts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,53 +33,122 @@ public class ChatWaliActivity extends BaseWaliActivity {
         setContentView(R.layout.activity_chat_wali);
 
         setupNavigation();
-        setupChatListData();
+        tvStatus = findViewById(R.id.tv_chat_status);
+        RecyclerView rvContacts = findViewById(R.id.rv_chat_contacts);
+        adapter = new ChatContactAdapter(contacts, contact -> {
+            Intent intent = new Intent(this, ChatDetailWaliActivity.class);
+            intent.putExtra("USER_ID", contact.getId());
+            intent.putExtra("USER_NAME", safe(contact.getNama()));
+            intent.putExtra("STUDENT_NAME", safe(contact.getNamaSiswa()));
+            startActivity(intent);
+        });
+        rvContacts.setLayoutManager(new LinearLayoutManager(this));
+        rvContacts.setAdapter(adapter);
     }
 
-    private void setupChatListData() {
-        // Chat 1
-        View chat1 = findViewById(R.id.chat_1);
-        if (chat1 != null) {
-            String name = "Bu Hartini (Wali Kelas)";
-            ((TextView) chat1.findViewById(R.id.chat_name)).setText(name);
-            ((TextView) chat1.findViewById(R.id.chat_last_message)).setText("Andi hari ini tampak lebih ceria...");
-            ((TextView) chat1.findViewById(R.id.chat_time)).setText("10.30");
-            
-            chat1.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ChatDetailWaliActivity.class);
-                intent.putExtra("CHAT_NAME", name);
-                startActivity(intent);
-            });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadContacts();
+    }
+
+    private void loadContacts() {
+        showStatus("Memuat kontak...", true);
+        ApiClient.getService().getKontak().enqueue(new Callback<PesanListResponse>() {
+            @Override
+            public void onResponse(Call<PesanListResponse> call, Response<PesanListResponse> response) {
+                if (!response.isSuccessful() || response.body() == null || !response.body().isSuccess()) {
+                    showStatus("Kontak guru belum bisa dimuat", true);
+                    return;
+                }
+
+                contacts.clear();
+                if (response.body().getData() != null) {
+                    contacts.addAll(response.body().getData());
+                }
+                adapter.notifyDataSetChanged();
+                showStatus(contacts.isEmpty() ? "Belum ada guru yang bisa dihubungi" : "", contacts.isEmpty());
+            }
+
+            @Override
+            public void onFailure(Call<PesanListResponse> call, Throwable t) {
+                showStatus("Gagal memuat kontak: " + t.getMessage(), true);
+            }
+        });
+    }
+
+    private void showStatus(String text, boolean visible) {
+        if (tvStatus == null) return;
+        tvStatus.setText(text);
+        tvStatus.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    private static String safe(String value) {
+        return value == null || value.trim().isEmpty() ? "-" : value.trim();
+    }
+
+    private static String formatTime(String value) {
+        if (value == null || value.trim().isEmpty()) return "";
+        String clean = value.replace("T", " ");
+        if (clean.length() >= 16) return clean.substring(11, 16);
+        return clean;
+    }
+
+    private static class ChatContactAdapter extends RecyclerView.Adapter<ChatContactAdapter.ViewHolder> {
+        interface Listener {
+            void onClick(PesanItem contact);
         }
 
-        // Chat 2
-        View chat2 = findViewById(R.id.chat_2);
-        if (chat2 != null) {
-            String name = "Pak Bambang (Guru Olahraga)";
-            ((TextView) chat2.findViewById(R.id.chat_name)).setText(name);
-            ((TextView) chat2.findViewById(R.id.chat_last_message)).setText("Besok ada kegiatan renang ya Pak.");
-            ((TextView) chat2.findViewById(R.id.chat_time)).setText("Kemarin");
+        private final List<PesanItem> items;
+        private final Listener listener;
 
-            chat2.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ChatDetailWaliActivity.class);
-                intent.putExtra("CHAT_NAME", name);
-                startActivity(intent);
-            });
+        ChatContactAdapter(List<PesanItem> items, Listener listener) {
+            this.items = items;
+            this.listener = listener;
         }
 
-        // Chat 3
-        View chat3 = findViewById(R.id.chat_3);
-        if (chat3 != null) {
-            String name = "Ibu Sri (Guru Agama)";
-            ((TextView) chat3.findViewById(R.id.chat_name)).setText(name);
-            ((TextView) chat3.findViewById(R.id.chat_last_message)).setText("Tugas hafalan sudah selesai.");
-            ((TextView) chat3.findViewById(R.id.chat_time)).setText("Senin");
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat_contact, parent, false);
+            return new ViewHolder(view);
+        }
 
-            chat3.setOnClickListener(v -> {
-                Intent intent = new Intent(this, ChatDetailWaliActivity.class);
-                intent.putExtra("CHAT_NAME", name);
-                startActivity(intent);
-            });
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            PesanItem item = items.get(position);
+            AvatarUtils.applyInitialAvatar(holder.tvInitials, item.getNama(), item.getNama());
+            holder.tvName.setText(safe(item.getNama()));
+            holder.tvStudent.setText(item.getNamaSiswa() == null || item.getNamaSiswa().trim().isEmpty()
+                    ? "Guru"
+                    : "Guru kelas: " + item.getNamaSiswa());
+            holder.tvLastMessage.setText(item.getLastMessage() == null || item.getLastMessage().trim().isEmpty()
+                    ? "Belum ada percakapan"
+                    : item.getLastMessage());
+            holder.tvTime.setText(formatTime(item.getLastMessageAt()));
+
+            int unread = item.getUnread();
+            holder.tvUnread.setVisibility(unread > 0 ? View.VISIBLE : View.GONE);
+            holder.tvUnread.setText(unread > 99 ? "99+" : String.valueOf(unread));
+            holder.itemView.setOnClickListener(v -> listener.onClick(item));
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        static class ViewHolder extends RecyclerView.ViewHolder {
+            TextView tvInitials, tvName, tvStudent, tvLastMessage, tvTime, tvUnread;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                tvInitials = itemView.findViewById(R.id.tv_contact_initials);
+                tvName = itemView.findViewById(R.id.tv_contact_name);
+                tvStudent = itemView.findViewById(R.id.tv_contact_student);
+                tvLastMessage = itemView.findViewById(R.id.tv_contact_last_message);
+                tvTime = itemView.findViewById(R.id.tv_contact_time);
+                tvUnread = itemView.findViewById(R.id.tv_contact_unread);
+            }
         }
     }
 

@@ -16,22 +16,6 @@
         android:id="@+id/toolbar_include"
         layout="@layout/toolbar_portal" />
 
-    <!-- Bottom Navigation dengan ruang ekstra agar teks benar-benar aman dan tidak terpotong -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:background="#FFFFFF"
-        app:elevation="16dp"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled"
-        app:itemIconSize="22dp"
-        app:itemPaddingTop="12dp"
-        app:itemPaddingBottom="12dp"
-        app:itemIconTint="@color/bnv_selector"
-        app:itemTextColor="@color/bnv_selector" />
-
     <!-- Konten ScrollView dengan padding yang lebih pas -->
     <ScrollView
         android:layout_width="match_parent"
@@ -115,7 +99,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Perilaku"
+                            android:text="Bina Diri"
                             android:textStyle="bold"
                             android:textSize="12sp"
                             android:textColor="#2C3E50"/>
@@ -143,7 +127,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sosial"
+                            android:text="Komunikasi"
                             android:textStyle="bold"
                             android:textSize="12sp"
                             android:textColor="#2C3E50"/>
@@ -202,6 +186,7 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="2dp">
                 <TableLayout
+                    android:id="@+id/table_riwayat_ppi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:stretchColumns="0">
@@ -235,62 +220,6 @@
                             android:gravity="center"/>
                     </TableRow>
 
-                    <TableRow android:padding="2dp" android:background="#FFFFFF">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Nov - Mng 1"
-                            android:padding="14dp"
-                            android:textSize="11sp"
-                            android:textColor="#333333"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Kognitif"
-                            android:padding="14dp"
-                            android:textSize="11sp"
-                            android:gravity="center"
-                            android:textColor="#7F8C8D"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="45%"
-                            android:padding="14dp"
-                            android:textSize="11sp"
-                            android:gravity="center"
-                            android:textColor="#E67E22"
-                            android:textStyle="bold"/>
-                    </TableRow>
-                    <View android:layout_height="1dp" android:background="#F2F4F7" />
-
-                    <TableRow android:padding="2dp" android:background="#FFFFFF">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Nov - Mng 2"
-                            android:padding="14dp"
-                            android:textSize="11sp"
-                            android:textColor="#333333"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Motorik"
-                            android:padding="14dp"
-                            android:textSize="11sp"
-                            android:gravity="center"
-                            android:textColor="#7F8C8D"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="75%"
-                            android:padding="14dp"
-                            android:textSize="11sp"
-                            android:gravity="center"
-                            android:textColor="#2E7D32"
-                            android:textStyle="bold"/>
-                    </TableRow>
                 </TableLayout>
             </androidx.cardview.widget.CardView>
 
@@ -307,6 +236,23 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Bottom Navigation dengan ruang ekstra agar teks benar-benar aman dan tidak terpotong -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFFFFF"
+        app:elevation="16dp"
+        app:menu="@menu/bottom_nav_menu"
+        app:labelVisibilityMode="labeled"
+        app:itemIconSize="22dp"
+        app:itemPaddingTop="12dp"
+        app:itemPaddingBottom="12dp"
+        app:itemIconTint="@color/bnv_selector"
+        app:itemTextColor="@color/bnv_selector" />
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

@@ -18,12 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <View
+        <ImageView
             android:id="@+id/iv_logo"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:background="@drawable/bg_circle_gray"
-            android:backgroundTint="#2C3E50" />
+            android:src="@mipmap/logo_sekolah_slb"
+            android:scaleType="centerInside"
+            android:contentDescription="Logo sekolah" />
 
         <TextView
             android:id="@+id/tv_portal_title"
@@ -202,6 +203,14 @@
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 app:cornerRadius="12dp" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:visibility="gone" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

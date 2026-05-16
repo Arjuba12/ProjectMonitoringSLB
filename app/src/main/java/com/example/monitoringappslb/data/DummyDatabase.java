@@ -30,24 +30,24 @@ public class DummyDatabase {
     // 2. Data Program PPI
     public static List<Ppi> getPpiList() {
         List<Ppi> list = new ArrayList<>();
-        list.add(new Ppi("Andi Rizky", "VII/1", "Mandiri Toileting", 75, "Aktif", 
-                "Mengenal angka 1-10", "Mengurangi tantrum", "Bermain bergantian", "Memegang alat tulis"));
-        list.add(new Ppi("Budi Santoso", "VII/1", "Mengenal Huruf Vokal", 90, "Selesai", 
-                "Membaca suku kata", "Duduk tenang 10 menit", "Menjawab sapaan", "Mewarnai bidang"));
-        list.add(new Ppi("Citra Lestari", "VII/1", "Mengucap Salam", 60, "Aktif", 
-                "Menulis nama sendiri", "Mengikuti antrian", "Berbagi mainan", "Mengancing baju"));
-        list.add(new Ppi("Dedi Kurniawan", "VII/1", "Posisi Pensil", 30, "Aktif", 
-                "Mengenal warna", "Merespon instruksi", "Menatap lawan bicara", "Melempar bola"));
-        list.add(new Ppi("Gita Permata", "VII/1", "Kontak Mata 5 Detik", 45, "Aktif", 
-                "Meniru bunyi huruf", "Menunggu giliran", "Meminta izin", "Berjalan lurus"));
-        list.add(new Ppi("Eka Putri", "VII/1", "Mengenal Angka 1-10", 100, "Selesai", 
-                "Berhitung 1-20", "Sabar menunggu", "Bekerja kelompok", "Melompat satu kaki"));
+        list.add(new Ppi(1, "Andi Rizky", "VII/1", "Mandiri Toileting", 75, "Aktif",
+                "Mengenal angka 1-10", "Mengurangi tantrum", "Membaca Huruf Vokal", "Mengurangi Tantrum", "Bermain bergantian", "Memegang alat tulis"));
+        list.add(new Ppi(2, "Budi Santoso", "VII/1", "Mengenal Huruf Vokal", 90, "Selesai",
+                "Membaca suku kata", "Duduk tenang 10 menit", "Membaca Suku Kata", "Duduk Tenang 10 Menit", "Menjawab sapaan", "Mewarnai bidang"));
+        list.add(new Ppi(3, "Citra Lestari", "VII/1", "Mengucap Salam", 60, "Aktif",
+                "Menulis nama sendiri", "Mengikuti antrian", "Menulis Nama", "Mengikuti Antrian", "Berbagi mainan", "Mengancing baju"));
+        list.add(new Ppi(4, "Dedi Kurniawan", "VII/1", "Posisi Pensil", 30, "Aktif",
+                "Mengenal warna", "Merespon instruksi", "Mengenal Warna", "Merespon Instruksi", "Menatap lawan bicara", "Melempar bola"));
+        list.add(new Ppi(5, "Gita Permata", "VII/1", "Kontak Mata 5 Detik", 45, "Aktif",
+                "Meniru bunyi huruf", "Menunggu giliran", "Meniru Bunyi Huruf", "Menunggu Giliran", "Meminta izin", "Berjalan lurus"));
+        list.add(new Ppi(6, "Eka Putri", "VII/1", "Mengenal Angka 1-10", 100, "Selesai",
+                "Berhitung 1-20", "Sabar menunggu", "Berhitung 1-20", "Sabar Menunggu", "Bekerja kelompok", "Melompat satu kaki"));
         return list;
     }
 
     public static Ppi getPpiByStudentName(String name) {
         for (Ppi p : getPpiList()) {
-            if (p.getStudentName().equals(name)) return p;
+            if (p.getStudentName().equalsIgnoreCase(name)) return p;
         }
         return getPpiList().get(0);
     }

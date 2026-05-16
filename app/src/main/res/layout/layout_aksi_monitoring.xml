@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center">
+
+    <!-- Tombol Tinjau (Netral/Info) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_tinjau"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="4dp"
+        android:text="@string/btn_tinjau"
+        android:textSize="12sp"
+        android:textColor="@color/action_review"
+        app:strokeColor="@color/action_review"
+        app:cornerRadius="8dp" />
+
+    <!-- Tombol Peringatan (Danger/Alert) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_peringatan"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.2"
+        android:layout_marginEnd="4dp"
+        android:backgroundTint="@color/action_warning"
+        android:text="@string/btn_peringatan"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
+
+    <!-- Tombol Konsultasi (Success/Action) -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_konsultasi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:backgroundTint="@color/action_consult"
+        android:text="@string/btn_konsultasi"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
+
+</LinearLayout>

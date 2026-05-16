@@ -30,197 +30,49 @@
             app:itemTextColor="@color/bnv_selector" />
 
         <!-- Content -->
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar_include"
             android:layout_above="@id/bottom_navigation"
-            android:clipToPadding="false"
-            android:paddingBottom="80dp">
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pesan Wali"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#1E293B" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Komunikasi dengan wali murid kelas yang diampu"
+                android:textSize="13sp"
+                android:textColor="#64748B"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="18dp" />
+
+            <TextView
+                android:id="@+id/tv_chat_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="16dp"
+                android:text="Memuat kontak..."
+                android:textAlignment="center"
+                android:textColor="#64748B"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pesan Masuk"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#1E293B"
-                    android:letterSpacing="-0.02"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Komunikasi dengan wali murid"
-                    android:textSize="13sp"
-                    android:textColor="#64748B"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="24dp"/>
-
-                <!-- Chat Item 1 (New Message) -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/card_chat_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-
-                        <!-- Avatar -->
-                        <View
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="@drawable/bg_avatar_placeholder" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="16dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Ibu Sari"
-                                android:textStyle="bold"
-                                android:textColor="#1E293B"
-                                android:textSize="15sp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Andi hari ini tampak lebih ceria..."
-                                android:textSize="13sp"
-                                android:layout_marginTop="2dp"
-                                android:textColor="#64748B"
-                                android:maxLines="1"
-                                android:ellipsize="end"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="end">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="10:30"
-                                android:textSize="11sp"
-                                android:textColor="#94A3B8"/>
-
-                            <TextView
-                                android:layout_width="20dp"
-                                android:layout_height="20dp"
-                                android:text="1"
-                                android:textSize="10sp"
-                                android:textColor="#FFFFFF"
-                                android:textStyle="bold"
-                                android:gravity="center"
-                                android:layout_marginTop="6dp"
-                                android:background="@drawable/bg_badge_new"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Chat Item 2 -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#FFFFFF"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-
-                        <!-- Avatar -->
-                        <View
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="@drawable/bg_avatar_placeholder" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:layout_marginStart="16dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Pak Budi"
-                                android:textStyle="bold"
-                                android:textColor="#1E293B"
-                                android:textSize="15sp"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Mohon maaf besok Citra izin..."
-                                android:textSize="13sp"
-                                android:layout_marginTop="2dp"
-                                android:textColor="#64748B"
-                                android:maxLines="1"
-                                android:ellipsize="end"/>
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="08:15"
-                            android:textSize="11sp"
-                            android:textColor="#94A3B8"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <!-- Floating Action Button -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_margin="24dp"
-            android:layout_above="@id/bottom_navigation"
-            android:layout_alignParentEnd="true"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="#1E293B">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:src="@android:drawable/ic_input_add"
-                app:tint="#FFFFFF"/>
-        </androidx.cardview.widget.CardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_chat_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:paddingBottom="12dp" />
+        </LinearLayout>
 
     </RelativeLayout>
 

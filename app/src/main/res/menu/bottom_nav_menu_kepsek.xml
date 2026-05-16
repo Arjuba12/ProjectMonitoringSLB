@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Beranda" />
+    <item
+        android:id="@+id/nav_manajemen"
+        android:icon="@drawable/ic_siswa"
+        android:title="Manajemen" />
+    <item
+        android:id="@+id/nav_rekap"
+        android:icon="@drawable/ic_absensi"
+        android:title="Rekap" />
+    <item
+        android:id="@+id/nav_announcement"
+        android:icon="@android:drawable/ic_popup_reminder"
+        android:title="Pesan" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Profil" />
+</menu>

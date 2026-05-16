@@ -8,26 +8,33 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <TextView
+        android:id="@+id/tv_nav_initials"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:src="@drawable/ic_profile_placeholder"
-        android:contentDescription="Profile Picture" />
+        android:background="@drawable/bg_avatar_initials"
+        android:gravity="center"
+        android:text="--"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tv_nama_guru"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Ibu Guru Sari"
+        android:text="Guru"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/tv_nav_role"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Wali Kelas VII-A"
+        android:text="Guru"
         android:textColor="#BDC3C7"
         android:textSize="12sp" />
 

@@ -39,6 +39,7 @@ public class PpiAdapter extends RecyclerView.Adapter<PpiAdapter.ViewHolder> {
         holder.tvSmt.setText(ppi.getSemester());
         holder.tvTarget.setText(ppi.getMainTarget());
         holder.progressBar.setProgress(ppi.getProgress());
+        holder.tvProgress.setText(ppi.getProgress() + "%");
         holder.tvStatus.setText(ppi.getStatus());
         
         if (ppi.getProgress() > 70) {
@@ -62,7 +63,7 @@ public class PpiAdapter extends RecyclerView.Adapter<PpiAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNama, tvSmt, tvTarget, tvStatus;
+        TextView tvNama, tvSmt, tvTarget, tvStatus, tvProgress;
         ProgressBar progressBar;
 
         public ViewHolder(@NonNull View itemView) {
@@ -71,6 +72,7 @@ public class PpiAdapter extends RecyclerView.Adapter<PpiAdapter.ViewHolder> {
             tvSmt = itemView.findViewById(R.id.tv_ppi_smt);
             tvTarget = itemView.findViewById(R.id.tv_ppi_target);
             progressBar = itemView.findViewById(R.id.pb_ppi_progress);
+            tvProgress = itemView.findViewById(R.id.tv_ppi_progress_text);
             tvStatus = itemView.findViewById(R.id.tv_ppi_status);
         }
     }

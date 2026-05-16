@@ -2,6 +2,7 @@ package com.example.monitoringappslb.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.monitoringappslb.R;
 import com.example.monitoringappslb.guru.DetailSiswaActivity;
 import com.example.monitoringappslb.model.Siswa;
+import com.example.monitoringappslb.util.AvatarUtils;
 import java.util.List;
 
 public class DaftarSiswaAdapter extends RecyclerView.Adapter<DaftarSiswaAdapter.ViewHolder> {
 
     private List<Siswa> siswaList;
     private Context context;
+    private static final String TAG = "DaftarSiswaAdapter";
 
     public DaftarSiswaAdapter(List<Siswa> siswaList, Context context) {
         this.siswaList = siswaList;
         this.context = context;
+        Log.d(TAG, "Adapter initialized with " + (siswaList != null ? siswaList.size() : 0) + " items");
     }
 
     @NonNull
@@ -33,31 +37,60 @@ public class DaftarSiswaAdapter extends RecyclerView.Adapter<DaftarSiswaAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Siswa siswa = siswaList.get(position);
-        holder.tvNama.setText(siswa.getNama());
-        holder.tvDetail.setText("NISN: " + siswa.getNisn());
+        if (siswaList == null || position >= siswaList.size()) {
+            Log.w(TAG, "onBindViewHolder: data null or out of bounds at " + position);
+            return;
+        }
 
-        holder.btnDetail.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DetailSiswaActivity.class);
-            intent.putExtra("SISWA_ID", siswa.getId());
-            context.startActivity(intent);
-        });
+        Siswa siswa = siswaList.get(position);
+        if (siswa == null) {
+            Log.w(TAG, "onBindViewHolder: siswa at " + position + " is null");
+            return;
+        }
+
+        Log.d(TAG, "Binding siswa: " + siswa.getNama() + " at position " + position);
+
+        if (holder.tvNama != null) {
+            holder.tvNama.setText(siswa.getNama() != null ? siswa.getNama() : "-");
+        }
+
+        AvatarUtils.applyInitialAvatar(holder.tvInitials, siswa.getNama(), siswa.getNisn());
+
+        if (holder.tvDetail != null) {
+            holder.tvDetail.setText("NISN: " + (siswa.getNisn() != null ? siswa.getNisn() : "-"));
+        }
+
+        if (holder.btnDetail != null) {
+            holder.btnDetail.setOnClickListener(v -> {
+                if (siswa.getId() != null) {
+                    Intent intent = new Intent(context, DetailSiswaActivity.class);
+                    intent.putExtra("SISWA_ID", siswa.getId());
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return siswaList.size();
+        int count = (siswaList != null) ? siswaList.size() : 0;
+        return count;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNama, tvDetail;
+        TextView tvInitials, tvNama, tvDetail;
         Button btnDetail;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            tvInitials = itemView.findViewById(R.id.tv_siswa_initials);
             tvNama = itemView.findViewById(R.id.tv_nama_siswa);
-            tvDetail = itemView.findViewById(R.id.tv_detail_siswa);
+            tvDetail = itemView.findViewById(R.id.tv_nisn);
             btnDetail = itemView.findViewById(R.id.btn_detail_siswa);
+
+            if (tvDetail == null) {
+                Log.e(TAG, "ViewHolder: tvDetail (tv_nisn) not found in layout!");
+            }
         }
     }
 }

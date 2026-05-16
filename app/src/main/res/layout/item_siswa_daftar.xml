@@ -13,11 +13,16 @@
         android:padding="16dp"
         android:gravity="center_vertical"
         android:background="#FFFFFF">
-        <View
+        <TextView
+            android:id="@+id/tv_siswa_initials"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/bg_circle_gray"
-            android:backgroundTint="#ECF0F1"/>
+            android:background="@drawable/bg_avatar_initials"
+            android:gravity="center"
+            android:text="--"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:textStyle="bold" />
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -33,7 +38,7 @@
                 android:textColor="#2C3E50"
                 android:textSize="14sp"/>
             <TextView
-                android:id="@+id/tv_detail_siswa"
+                android:id="@+id/tv_nisn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Laki-laki • Autisme"

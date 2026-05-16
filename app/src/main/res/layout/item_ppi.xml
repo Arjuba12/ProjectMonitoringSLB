@@ -2,63 +2,103 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="10dp"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="12dp">
 
-        <TextView
-            android:id="@+id/tv_ppi_nama"
-            android:layout_width="0dp"
-            android:layout_weight="1.2"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Andi Rizky"
-            android:textColor="#2C3E50"
-            android:textSize="11sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tv_ppi_smt"
-            android:layout_width="0dp"
-            android:layout_weight="0.8"
-            android:layout_height="wrap_content"
-            android:text="VII/1"
-            android:gravity="center"
-            android:textSize="10sp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_ppi_nama"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Andi Rizky"
+                    android:textColor="#2C3E50"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_ppi_smt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Smt 1"
+                    android:textColor="#7F8C8D"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_ppi_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_badge"
+                android:backgroundTint="#E8F5E9"
+                android:gravity="center"
+                android:minWidth="64dp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:text="Aktif"
+                android:textColor="#2E7D32"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_ppi_target"
-            android:layout_width="0dp"
-            android:layout_weight="1.5"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="Mandiri di toilet"
-            android:textSize="10sp" />
+            android:textColor="#334155"
+            android:textSize="11sp" />
 
-        <ProgressBar
-            android:id="@+id/pb_ppi_progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:progress="75"
-            android:layout_marginHorizontal="4dp" />
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tv_ppi_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Aktif"
-            android:textSize="9sp"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="2dp"
-            android:background="@drawable/bg_badge"
-            android:backgroundTint="#E8F5E9"
-            android:textColor="#2E7D32"
-            android:gravity="center" />
-    </TableRow>
+            <ProgressBar
+                android:id="@+id/pb_ppi_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="75" />
+
+            <TextView
+                android:id="@+id/tv_ppi_progress_text"
+                android:layout_width="44dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="75%"
+                android:textColor="#64748B"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

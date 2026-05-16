@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- WAJIB: Izin internet untuk koneksi ke backend -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -10,105 +15,46 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MonitoringAppSLB">
-        <activity
-            android:name=".wali.KalenderWaliActivity"
-            android:exported="false" />
-        <activity
-            android:name=".wali.ChatWaliActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".wali.ChatDetailWaliActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".wali.ProfileWaliActivity"
-            android:exported="false" />
-        <activity
-            android:name=".wali.LaporanWaliActivity"
-            android:exported="false" />
-        <activity
-            android:name=".wali.DashboardWaliActivity"
-            android:exported="false" />
-        <activity
-            android:name=".wali.PerkembanganWaliActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.EditProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.BuatPpiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.KirimPengumumanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.ChatActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.ChatDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.AbsensiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.LaporanKelasActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.DetailPpiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.PpiActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.InputHarianListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.InputPerkembanganActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.DetailSiswaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.DaftarSiswaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".guru.DashboardGuruActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true">
+
+        <activity android:name=".wali.BiodataSiswaWaliActivity" android:exported="false" />
+        <activity android:name=".wali.DetailPpiWaliActivity" android:exported="false" />
+        <activity android:name=".wali.KalenderWaliActivity" android:exported="false" />
+        <activity android:name=".wali.ChatWaliActivity" android:exported="false" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".wali.ChatDetailWaliActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".wali.ProfileWaliActivity" android:exported="false" />
+        <activity android:name=".wali.LaporanWaliActivity" android:exported="false" />
+        <activity android:name=".wali.RekapAbsensiWaliActivity" android:exported="false" />
+        <activity android:name=".wali.DashboardWaliActivity" android:exported="false" />
+        <activity android:name=".wali.PerkembanganWaliActivity" android:exported="false" />
+        <activity android:name=".guru.EditProfileActivity" android:exported="false" />
+        <activity android:name=".guru.ProfileActivity" android:exported="false" />
+        <activity android:name=".guru.BuatPpiActivity" android:exported="false" />
+        <activity android:name=".guru.KirimPengumumanActivity" android:exported="false" />
+        <activity android:name=".guru.ChatActivity" android:exported="false" />
+        <activity android:name=".guru.ChatDetailActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".guru.AbsensiActivity" android:exported="false" />
+        <activity android:name=".guru.LaporanKelasActivity" android:exported="false" />
+        <activity android:name=".guru.DetailPpiActivity" android:exported="false" />
+        <activity android:name=".guru.PpiActivity" android:exported="false" />
+        <activity android:name=".guru.InputHarianListActivity" android:exported="false" />
+        <activity android:name=".guru.InputPerkembanganActivity" android:exported="false" />
+        <activity android:name=".guru.DetailSiswaActivity" android:exported="false" />
+        <activity android:name=".guru.DaftarSiswaActivity" android:exported="false" />
+        <activity android:name=".guru.DashboardGuruActivity" android:exported="false" />
+        <activity android:name=".kepsek.DashboardKepsekActivity" android:exported="false" />
+        <activity android:name=".kepsek.ManajemenKelasActivity" android:exported="false" />
+        <activity android:name=".kepsek.RekapSekolahActivity" android:exported="false" />
+        <activity android:name=".kepsek.KirimPengumumanKepsekActivity" android:exported="false" />
+        <activity android:name=".kepsek.ProfileKepsekActivity" android:exported="false" />
+        <activity android:name=".LoginActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PercakapanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProfilActivity"
-            android:exported="false" />
-        <activity
-            android:name=".LaporanActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PerkembanganActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Kalender"
-            android:exported="false" />
+        <activity android:name=".MainActivity" android:exported="false" />
     </application>
 
 </manifest>

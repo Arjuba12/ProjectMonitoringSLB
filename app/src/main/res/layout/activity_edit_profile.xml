@@ -105,11 +105,30 @@
                             android:inputType="textEmailAddress"
                             android:layout_marginBottom="16dp"/>
 
-                        <!-- Wali Kelas -->
+                        <!-- No HP -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Wali Kelas"
+                            android:text="No HP"
+                            android:textSize="12sp"
+                            android:textColor="#7F8C8D"
+                            android:layout_marginBottom="4dp"/>
+                        <EditText
+                            android:id="@+id/et_no_hp"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_rounded_white_border"
+                            android:paddingHorizontal="12dp"
+                            android:textSize="14sp"
+                            android:textColor="#2C3E50"
+                            android:inputType="phone"
+                            android:layout_marginBottom="16dp"/>
+
+                        <!-- Spesialisasi -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Spesialisasi"
                             android:textSize="12sp"
                             android:textColor="#7F8C8D"
                             android:layout_marginBottom="4dp"/>

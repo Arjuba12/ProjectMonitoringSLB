@@ -10,12 +10,10 @@
         android:layout_height="match_parent"
         android:background="#F8FAFC">
 
-        <!-- Header -->
         <include
             android:id="@+id/toolbar_include"
             layout="@layout/toolbar_portal_wali" />
 
-        <!-- Bottom Navigation -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_wali"
             android:layout_width="match_parent"
@@ -23,78 +21,53 @@
             android:layout_alignParentBottom="true"
             android:background="#FFFFFF"
             app:elevation="8dp"
-            app:menu="@menu/bottom_nav_menu_wali"
-            app:labelVisibilityMode="labeled"
-            app:itemIconSize="22dp"
             app:itemIconTint="@color/bnv_selector"
-            app:itemTextColor="@color/bnv_selector" />
+            app:itemTextColor="@color/bnv_selector"
+            app:menu="@menu/bottom_nav_menu_wali" />
 
-        <!-- Content -->
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar_include"
             android:layout_above="@id/bottom_navigation_wali"
-            android:fillViewport="true">
+            android:layout_below="@id/toolbar_include"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pesan Guru"
+                android:textColor="#1E293B"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="18dp"
+                android:text="Komunikasi dengan guru kelas anak"
+                android:textColor="#64748B"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_chat_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="16dp"
+                android:text="Memuat kontak..."
+                android:textAlignment="center"
+                android:textColor="#64748B"
+                android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Pesan Masuk"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#1E293B"
-                    android:letterSpacing="-0.02"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Komunikasi dengan Guru"
-                    android:textSize="13sp"
-                    android:textColor="#64748B"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="24dp"/>
-
-                <!-- Chat Item (Detailed like Wireframe) -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="#FFFFFF">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Percakapan"
-                            android:textColor="#94A3B8"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="16dp" />
-
-                        <!-- Chat List -->
-                        <include layout="@layout/item_chat_list_row" android:id="@+id/chat_1" />
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginVertical="12dp"/>
-                        <include layout="@layout/item_chat_list_row" android:id="@+id/chat_2" />
-                        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginVertical="12dp"/>
-                        <include layout="@layout/item_chat_list_row" android:id="@+id/chat_3" />
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_chat_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clipToPadding="false"
+                android:paddingBottom="12dp" />
+        </LinearLayout>
 
     </RelativeLayout>
 
@@ -104,7 +77,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_menu_wali"
-        app:headerLayout="@layout/nav_header_main" />
+        app:headerLayout="@layout/nav_header_wali"
+        app:menu="@menu/drawer_menu_wali" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

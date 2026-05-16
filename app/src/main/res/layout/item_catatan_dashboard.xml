@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/view_catatan_stripe"
+        android:layout_width="4dp"
+        android:layout_height="40dp"
+        android:background="#2C3E50" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_catatan_judul"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aspek"
+            android:textColor="#2C3E50"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_catatan_isi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Isi catatan"
+            android:textColor="#7F8C8D"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tv_catatan_meta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Tanggal • Oleh Guru"
+            android:textColor="#BDC3C7"
+            android:textSize="9sp" />
+    </LinearLayout>
+</LinearLayout>
