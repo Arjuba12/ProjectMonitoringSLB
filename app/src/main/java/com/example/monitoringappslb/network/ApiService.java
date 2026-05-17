@@ -8,6 +8,7 @@ import com.example.monitoringappslb.model.response.ApiModels.DashboardGuruRespon
 import com.example.monitoringappslb.model.response.ApiModels.DashboardKepsekResponse;
 import com.example.monitoringappslb.model.response.ApiModels.DashboardWaliResponse;
 import com.example.monitoringappslb.model.response.ApiModels.KelasListResponse;
+import com.example.monitoringappslb.model.response.ApiModels.KegiatanBannerUploadResponse;
 import com.example.monitoringappslb.model.response.ApiModels.KegiatanListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.LaporanKelasResponse;
 import com.example.monitoringappslb.model.response.ApiModels.LaporanListResponse;
@@ -33,6 +34,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -274,4 +276,10 @@ public interface ApiService {
 
     @POST("api/kegiatan")
     Call<MessageResponse> createKegiatan(@Body Map<String, Object> body);
+
+    @Multipart
+    @POST("api/upload/kegiatan-banner")
+    Call<KegiatanBannerUploadResponse> uploadKegiatanBanner(
+            @Part MultipartBody.Part banner
+    );
 }

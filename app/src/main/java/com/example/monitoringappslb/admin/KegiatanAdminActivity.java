@@ -2,12 +2,18 @@ package com.example.monitoringappslb.admin;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -15,10 +21,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.monitoringappslb.R;
+import com.example.monitoringappslb.model.response.ApiModels.KegiatanBannerUploadResponse;
 import com.example.monitoringappslb.model.response.ApiModels.KegiatanItem;
 import com.example.monitoringappslb.model.response.ApiModels.KegiatanListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.MessageResponse;
@@ -36,18 +45,32 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class KegiatanAdminActivity extends BaseAdminActivity {
+    private static final String TAG = "KegiatanAdmin";
     private ApiService apiService;
     private LinearLayout containerKegiatan;
     private TextView tvStatus;
+    private Uri selectedFotoUri;
+    private TextView selectedFotoLabel;
+    private ActivityResultLauncher<Intent> pickFotoLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        registerFotoPicker();
         setContentView(R.layout.activity_kegiatan_admin);
 
         apiService = ApiClient.getService();
@@ -63,9 +86,29 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
         loadKegiatan();
     }
 
+    private void registerFotoPicker() {
+        pickFotoLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() != RESULT_OK || result.getData() == null || result.getData().getData() == null) {
+                        return;
+                    }
+                    selectedFotoUri = result.getData().getData();
+                    if (selectedFotoLabel != null) {
+                        selectedFotoLabel.setText(getDisplayName(selectedFotoUri));
+                        selectedFotoLabel.setTextColor(Color.parseColor("#0F172A"));
+                    }
+                }
+        );
+    }
+
     private void loadKegiatan() {
         Calendar calendar = Calendar.getInstance();
-        apiService.getKegiatan(calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR))
+        loadKegiatan(calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
+    }
+
+    private void loadKegiatan(int bulan, int tahun) {
+        apiService.getKegiatan(bulan, tahun)
                 .enqueue(new Callback<KegiatanListResponse>() {
                     @Override
                     public void onResponse(Call<KegiatanListResponse> call, Response<KegiatanListResponse> response) {
@@ -168,6 +211,8 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
     }
 
     private void showTambahKegiatanDialog() {
+        selectedFotoUri = null;
+        selectedFotoLabel = null;
         LinearLayout form = buildKegiatanForm();
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -214,11 +259,10 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
         EditText etLokasi = createInput("Lokasi kegiatan", InputType.TYPE_CLASS_TEXT);
         etLokasi.setTag("lokasi");
 
-        Spinner spTipe = createSpinner(new String[]{"kegiatan", "jadwal", "pengumuman"}, 0);
+        Spinner spTipe = createSpinner(new String[]{"Lainnya", "Konsultasi", "Acara Sekolah", "Pembagian Rapor"}, 0);
         spTipe.setTag("tipe");
 
-        EditText etBanner = createInput("https://...", InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
-        etBanner.setTag("banner_url");
+        LinearLayout fotoPicker = createFotoPicker();
 
         Calendar now = Calendar.getInstance();
         etTanggal.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(now.getTime()));
@@ -238,7 +282,7 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
         addField(container, "Waktu Selesai", etSelesai, "Format backend: HH:mm");
         addField(container, "Lokasi", etLokasi, "Contoh: Aula sekolah");
         addField(container, "Tipe", spTipe, "Gunakan nilai yang dipakai backend.");
-        addField(container, "Banner URL", etBanner, "Opsional.");
+        addField(container, "Foto", fotoPicker, "Opsional. Pilih foto kegiatan dari galeri.");
 
         return container;
     }
@@ -250,7 +294,6 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
         String waktuMulai = getTaggedText(container, "waktu_mulai");
         String waktuSelesai = getTaggedText(container, "waktu_selesai");
         String lokasi = getTaggedText(container, "lokasi");
-        String bannerUrl = getTaggedText(container, "banner_url");
         String tipe = getSelectedText((Spinner) container.findViewWithTag("tipe"));
 
         if (judul.isEmpty() || tanggal.isEmpty()) {
@@ -260,17 +303,23 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
 
         Map<String, Object> body = new HashMap<>();
         body.put("judul", judul);
-        body.put("deskripsi", deskripsi.isEmpty() ? null : deskripsi);
+        body.put("deskripsi", deskripsi);
         body.put("tanggal", tanggal);
-        body.put("waktu_mulai", waktuMulai.isEmpty() ? null : waktuMulai);
-        body.put("waktu_selesai", waktuSelesai.isEmpty() ? null : waktuSelesai);
-        body.put("lokasi", lokasi.isEmpty() ? null : lokasi);
-        body.put("tipe", tipe.isEmpty() ? "kegiatan" : tipe.toLowerCase(Locale.US));
-        body.put("banner_url", bannerUrl.isEmpty() ? null : bannerUrl);
+        body.put("waktu_mulai", waktuMulai);
+        body.put("waktu_selesai", waktuSelesai);
+        body.put("lokasi", lokasi);
+        body.put("tipe", tipe.isEmpty() ? "Lainnya" : tipe);
+        body.put("banner_url", "");
         return body;
     }
 
     private void createKegiatan(Map<String, Object> body, AlertDialog dialog) {
+        if (selectedFotoUri != null) {
+            uploadBannerThenCreateKegiatan(body, dialog);
+            return;
+        }
+
+        Log.d(TAG, "Create kegiatan JSON body: " + body);
         apiService.createKegiatan(body).enqueue(new Callback<MessageResponse>() {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
@@ -278,9 +327,9 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     Toast.makeText(KegiatanAdminActivity.this, "Kegiatan berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                    loadKegiatan();
+                    loadKegiatanForCreatedDate(body);
                 } else {
-                    Toast.makeText(KegiatanAdminActivity.this, "Gagal menambah kegiatan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(KegiatanAdminActivity.this, readErrorMessage(response, "Gagal menambah kegiatan"), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -290,6 +339,206 @@ public class KegiatanAdminActivity extends BaseAdminActivity {
                 Toast.makeText(KegiatanAdminActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void uploadBannerThenCreateKegiatan(Map<String, Object> body, AlertDialog dialog) {
+        MultipartBody.Part bannerPart;
+        try {
+            bannerPart = createFotoPart(selectedFotoUri);
+        } catch (Exception e) {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+            Toast.makeText(this, "Gagal membaca foto kegiatan", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        apiService.uploadKegiatanBanner(bannerPart).enqueue(new Callback<KegiatanBannerUploadResponse>() {
+            @Override
+            public void onResponse(Call<KegiatanBannerUploadResponse> call, Response<KegiatanBannerUploadResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    String bannerUrl = response.body().getData() != null ? response.body().getData().getUrl() : "";
+                    body.put("banner_url", bannerUrl == null ? "" : bannerUrl);
+                    selectedFotoUri = null;
+                    createKegiatan(body, dialog);
+                } else {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                    Toast.makeText(KegiatanAdminActivity.this, readBannerErrorMessage(response, "Gagal upload foto kegiatan"), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<KegiatanBannerUploadResponse> call, Throwable t) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                Toast.makeText(KegiatanAdminActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private String readBannerErrorMessage(Response<KegiatanBannerUploadResponse> response, String fallback) {
+        if (response != null && response.body() != null && response.body().getMessage() != null
+                && !response.body().getMessage().trim().isEmpty()) {
+            return response.body().getMessage();
+        }
+        if (response == null || response.errorBody() == null) {
+            return fallback;
+        }
+
+        String rawError = readErrorBody(response.errorBody());
+        if (!rawError.isEmpty()) {
+            Log.w(TAG, "Banner upload error " + response.code() + ": " + rawError);
+            String parsedMessage = parseMessage(rawError);
+            if (!parsedMessage.isEmpty()) {
+                return parsedMessage;
+            }
+            return fallback + " (" + response.code() + "): " + rawError;
+        }
+        return fallback + " (" + response.code() + ")";
+    }
+
+    private void loadKegiatanForCreatedDate(Map<String, Object> body) {
+        Object tanggalValue = body.get("tanggal");
+        if (tanggalValue instanceof String) {
+            String tanggal = (String) tanggalValue;
+            try {
+                String[] parts = tanggal.split("-");
+                if (parts.length >= 2) {
+                    loadKegiatan(Integer.parseInt(parts[1]), Integer.parseInt(parts[0]));
+                    return;
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        loadKegiatan();
+    }
+
+    private String readErrorMessage(Response<MessageResponse> response, String fallback) {
+        if (response != null && response.body() != null && response.body().getMessage() != null
+                && !response.body().getMessage().trim().isEmpty()) {
+            return response.body().getMessage();
+        }
+        if (response == null || response.errorBody() == null) {
+            return fallback;
+        }
+
+        String rawError = readErrorBody(response.errorBody());
+        if (!rawError.isEmpty()) {
+            Log.w(TAG, "Kegiatan error " + response.code() + ": " + rawError);
+            String parsedMessage = parseMessage(rawError);
+            if (!parsedMessage.isEmpty()) {
+                return parsedMessage;
+            }
+            return fallback + " (" + response.code() + "): " + rawError;
+        }
+        return fallback + " (" + response.code() + ")";
+    }
+
+    private String readErrorBody(ResponseBody errorBody) {
+        try {
+            String value = errorBody.string();
+            return value == null ? "" : value.trim();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private String parseMessage(String rawError) {
+        try {
+            JSONObject json = new JSONObject(rawError);
+            String message = json.optString("message", "");
+            if (!message.trim().isEmpty()) return message.trim();
+            String error = json.optString("error", "");
+            if (!error.trim().isEmpty()) return error.trim();
+        } catch (Exception ignored) {
+        }
+        return "";
+    }
+
+    private Map<String, RequestBody> toRequestBodyMap(Map<String, Object> body) {
+        Map<String, RequestBody> fields = new HashMap<>();
+        for (Map.Entry<String, Object> entry : body.entrySet()) {
+            if (entry.getValue() == null) continue;
+            fields.put(entry.getKey(), createTextPart(String.valueOf(entry.getValue())));
+        }
+        return fields;
+    }
+
+    private RequestBody createTextPart(String value) {
+        return RequestBody.create(MediaType.parse("text/plain"), value);
+    }
+
+    private MultipartBody.Part createFotoPart(Uri uri) throws Exception {
+        String mimeType = getContentResolver().getType(uri);
+        if (mimeType == null || mimeType.trim().isEmpty()) {
+            mimeType = "image/*";
+        }
+
+        String fileName = sanitizeFileName(getDisplayName(uri));
+        File file = new File(getCacheDir(), "kegiatan_" + System.currentTimeMillis() + "_" + fileName);
+        try (InputStream input = getContentResolver().openInputStream(uri);
+             FileOutputStream output = new FileOutputStream(file)) {
+            if (input == null) throw new IllegalArgumentException("Foto tidak bisa dibuka");
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = input.read(buffer)) != -1) {
+                output.write(buffer, 0, read);
+            }
+        }
+
+        RequestBody requestFile = RequestBody.create(MediaType.parse(mimeType), file);
+        return MultipartBody.Part.createFormData("banner", file.getName(), requestFile);
+    }
+
+    private LinearLayout createFotoPicker() {
+        LinearLayout wrapper = new LinearLayout(this);
+        wrapper.setOrientation(LinearLayout.VERTICAL);
+
+        Button button = new Button(this);
+        button.setText("Pilih Foto");
+        button.setAllCaps(false);
+        button.setOnClickListener(v -> openFotoPicker());
+        wrapper.addView(button, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                dp(44)
+        ));
+
+        selectedFotoLabel = new TextView(this);
+        selectedFotoLabel.setText("Belum ada foto dipilih");
+        selectedFotoLabel.setTextColor(Color.parseColor("#94A3B8"));
+        selectedFotoLabel.setTextSize(12);
+        selectedFotoLabel.setPadding(0, dp(6), 0, 0);
+        wrapper.addView(selectedFotoLabel);
+
+        return wrapper;
+    }
+
+    private void openFotoPicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        pickFotoLauncher.launch(intent);
+    }
+
+    private String getDisplayName(Uri uri) {
+        String name = null;
+        try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (index >= 0) {
+                    name = cursor.getString(index);
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        if (name == null || name.trim().isEmpty()) {
+            name = "foto_kegiatan.jpg";
+        }
+        return name;
+    }
+
+    private String sanitizeFileName(String fileName) {
+        String clean = fileName == null ? "" : fileName.replaceAll("[^A-Za-z0-9._-]", "_");
+        if (clean.trim().isEmpty()) return "foto_kegiatan.jpg";
+        return clean;
     }
 
     private void showDatePicker(EditText target) {

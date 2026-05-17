@@ -559,6 +559,20 @@ public class ApiModels {
         public List<KegiatanItem> getData() { return data; }
     }
 
+    public static class KegiatanBannerUploadData {
+        @SerializedName("filename") private String filename;
+        @SerializedName("path") private String path;
+        @SerializedName("url") private String url;
+        public String getFilename() { return filename; }
+        public String getPath() { return path; }
+        public String getUrl() { return url; }
+    }
+
+    public static class KegiatanBannerUploadResponse extends BaseResponse {
+        @SerializedName("data") private KegiatanBannerUploadData data;
+        public KegiatanBannerUploadData getData() { return data; }
+    }
+
     public static class DashboardGuruData {
         @SerializedName("kelas")                 private List<KelasGuruItem> kelas;
         @SerializedName("siswa_perlu_perhatian") private List<SiswaItem> perluPerhatian;

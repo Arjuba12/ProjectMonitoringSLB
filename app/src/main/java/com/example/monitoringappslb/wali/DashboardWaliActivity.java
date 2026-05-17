@@ -156,8 +156,7 @@ public class DashboardWaliActivity extends BaseWaliActivity {
         if (containerCatatan == null || data == null || data.isEmpty()) return;
         containerCatatan.removeAllViews();
         
-        // Ambil maksimal 3 catatan terbaru
-        int limit = Math.min(data.size(), 3);
+        int limit = Math.min(data.size(), 5);
         for (int i = 0; i < limit; i++) {
             PerkembanganItem item = data.get(i);
             addCatatanItem(item);
@@ -187,7 +186,7 @@ public class DashboardWaliActivity extends BaseWaliActivity {
         if (containerCatatan == null || data == null || data.isEmpty()) return;
         containerCatatan.removeAllViews();
 
-        int limit = Math.min(data.size(), 3);
+        int limit = Math.min(data.size(), 5);
         for (int i = 0; i < limit; i++) {
             addCatatanDashboardItem(data.get(i));
         }

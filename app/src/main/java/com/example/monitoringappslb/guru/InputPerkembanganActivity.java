@@ -52,6 +52,7 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
     private List<SiswaItem> siswaList = new ArrayList<>();
     private List<AspekItem> aspekList = new ArrayList<>();
     private Map<Integer, EditText> capaianInputs = new HashMap<>();
+    private Map<Integer, EditText> catatanInputs = new HashMap<>();
     private List<PerkembanganItem> riwayatTerakhir = new ArrayList<>();
 
     @Override
@@ -144,12 +145,16 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
 
         containerAspekInput.removeAllViews();
         capaianInputs.clear();
+        catatanInputs.clear();
 
         for (AspekItem aspek : aspekList) {
+            LinearLayout group = new LinearLayout(this);
+            group.setOrientation(LinearLayout.VERTICAL);
+            group.setPadding(0, dpToPx(8), 0, dpToPx(10));
+
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setGravity(Gravity.CENTER_VERTICAL);
-            row.setPadding(0, dpToPx(6), 0, dpToPx(6));
 
             TextView label = new TextView(this);
             label.setText(aspek.getNama());
@@ -168,8 +173,28 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
             input.setPadding(dpToPx(8), 0, dpToPx(8), 0);
             row.addView(input, new LinearLayout.LayoutParams(dpToPx(96), dpToPx(44)));
 
-            containerAspekInput.addView(row);
+            EditText catatanInput = new EditText(this);
+            catatanInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            catatanInput.setHint("Catatan untuk " + aspek.getNama());
+            catatanInput.setTextSize(12);
+            catatanInput.setGravity(Gravity.TOP | Gravity.START);
+            catatanInput.setSingleLine(false);
+            catatanInput.setMinLines(2);
+            catatanInput.setBackgroundResource(R.drawable.bg_rounded_gray);
+            catatanInput.setPadding(dpToPx(12), dpToPx(8), dpToPx(12), dpToPx(8));
+
+            LinearLayout.LayoutParams catatanParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    dpToPx(76)
+            );
+            catatanParams.setMargins(0, dpToPx(6), 0, 0);
+
+            group.addView(row);
+            group.addView(catatanInput, catatanParams);
+
+            containerAspekInput.addView(group);
             capaianInputs.put(aspek.getId(), input);
+            catatanInputs.put(aspek.getId(), catatanInput);
         }
 
         populateTodayInputs(riwayatTerakhir);
@@ -282,11 +307,19 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
             if (input != null) {
                 input.setText(String.valueOf(item.getCapaian()));
             }
+
+            EditText catatanInput = catatanInputs.get(item.getAspekId());
+            if (catatanInput != null) {
+                catatanInput.setText(item.getCatatan() != null ? item.getCatatan() : "");
+            }
         }
     }
 
     private void clearCapaianInputs() {
         for (EditText input : capaianInputs.values()) {
+            input.setText("");
+        }
+        for (EditText input : catatanInputs.values()) {
             input.setText("");
         }
     }
@@ -315,11 +348,16 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
         }
 
         List<Map<String, Object>> aspekPayload = new ArrayList<>();
-        String catatan = etCatatan.getText().toString().trim();
+        String catatanUmum = etCatatan.getText().toString().trim();
 
         for (AspekItem aspek : aspekList) {
             EditText input = capaianInputs.get(aspek.getId());
+            EditText catatanInput = catatanInputs.get(aspek.getId());
             String capaianStr = input != null ? input.getText().toString().trim() : "";
+            String catatan = catatanInput != null ? catatanInput.getText().toString().trim() : "";
+            if (catatan.isEmpty()) {
+                catatan = catatanUmum;
+            }
 
             if (capaianStr.isEmpty()) {
                 Toast.makeText(this, "Lengkapi nilai semua aspek", Toast.LENGTH_SHORT).show();
@@ -372,6 +410,9 @@ public class InputPerkembanganActivity extends BaseGuruActivity {
                         "Perkembangan " + siswa.getNama() + " berhasil disimpan!",
                         Toast.LENGTH_LONG).show();
                     etCatatan.setText("");
+                    for (EditText input : catatanInputs.values()) {
+                        input.setText("");
+                    }
                     loadRiwayatSiswa(siswa.getId());
                 } else {
                     Toast.makeText(InputPerkembanganActivity.this,

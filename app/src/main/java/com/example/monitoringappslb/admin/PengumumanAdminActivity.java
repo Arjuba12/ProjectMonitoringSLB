@@ -1,28 +1,157 @@
 package com.example.monitoringappslb.admin;
 
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.monitoringappslb.R;
+import com.example.monitoringappslb.model.response.ApiModels.KelasItem;
+import com.example.monitoringappslb.model.response.ApiModels.KelasListResponse;
+import com.example.monitoringappslb.model.response.ApiModels.MessageResponse;
+import com.example.monitoringappslb.network.ApiClient;
+import com.example.monitoringappslb.network.ApiService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PengumumanAdminActivity extends BaseAdminActivity {
+    private EditText etJudul, etPengumuman;
+    private Spinner spinnerPenerima;
+    private Button btnKirim;
+    private ApiService apiService;
+    private final List<KelasItem> kelasList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pengumuman_admin);
         setupNavigation();
-        setPageText("Pengumuman", "Kirim pengumuman umum atau per kelas. Halaman ini dipisah dari pengumuman guru dan kepsek.");
+
+        apiService = ApiClient.getService();
+        etJudul = findViewById(R.id.etJudul);
+        etPengumuman = findViewById(R.id.etPengumuman);
+        spinnerPenerima = findViewById(R.id.spinnerPenerima);
+        btnKirim = findViewById(R.id.btnKirim);
+
+        loadKelasTujuan();
+
+        if (btnKirim != null) {
+            btnKirim.setOnClickListener(v -> kirimPengumuman());
+        }
     }
 
-    private void setPageText(String title, String description) {
-        TextView tvTitle = findViewById(R.id.tv_admin_page_title);
-        TextView tvDescription = findViewById(R.id.tv_admin_page_description);
-        if (tvTitle != null) tvTitle.setText(title);
-        if (tvDescription != null) tvDescription.setText(description);
+    private void loadKelasTujuan() {
+        if (btnKirim != null) btnKirim.setEnabled(false);
+
+        apiService.getKelas(null).enqueue(new Callback<KelasListResponse>() {
+            @Override
+            public void onResponse(Call<KelasListResponse> call, Response<KelasListResponse> response) {
+                if (!response.isSuccessful() || response.body() == null
+                        || response.body().getData() == null || response.body().getData().isEmpty()) {
+                    Toast.makeText(PengumumanAdminActivity.this,
+                            "Tidak ada kelas yang dapat dikirim pengumuman", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                kelasList.clear();
+                kelasList.addAll(response.body().getData());
+
+                List<String> labels = new ArrayList<>();
+                for (KelasItem kelas : kelasList) {
+                    labels.add("Wali murid " + kelas.getNamaKelas());
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        PengumumanAdminActivity.this,
+                        android.R.layout.simple_spinner_item,
+                        labels
+                );
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerPenerima.setAdapter(adapter);
+
+                if (btnKirim != null) btnKirim.setEnabled(true);
+            }
+
+            @Override
+            public void onFailure(Call<KelasListResponse> call, Throwable t) {
+                Toast.makeText(PengumumanAdminActivity.this,
+                        "Gagal memuat kelas tujuan", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void kirimPengumuman() {
+        if (etJudul == null || etPengumuman == null) return;
+
+        int selectedPosition = spinnerPenerima != null ? spinnerPenerima.getSelectedItemPosition() : -1;
+        String judul = etJudul.getText().toString().trim();
+        String pesan = etPengumuman.getText().toString().trim();
+
+        if (selectedPosition < 0 || selectedPosition >= kelasList.size()) {
+            Toast.makeText(this, "Pilih kelas tujuan terlebih dahulu", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (judul.isEmpty()) {
+            Toast.makeText(this, "Judul tidak boleh kosong!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (pesan.isEmpty()) {
+            Toast.makeText(this, "Isi pengumuman tidak boleh kosong!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        KelasItem kelas = kelasList.get(selectedPosition);
+        Map<String, Object> body = new HashMap<>();
+        body.put("judul", judul);
+        body.put("isi", pesan);
+        body.put("target_role", "wali");
+        body.put("kelas_id", kelas.getId());
+        body.put("status", "Terkirim");
+
+        btnKirim.setEnabled(false);
+        btnKirim.setText("Mengirim...");
+
+        apiService.kirimPengumuman(body).enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                btnKirim.setEnabled(true);
+                btnKirim.setText("Kirim Pengumuman");
+
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    Toast.makeText(PengumumanAdminActivity.this,
+                            "Pengumuman berhasil dikirim ke wali murid " + kelas.getNamaKelas(),
+                            Toast.LENGTH_LONG).show();
+                    etJudul.setText("");
+                    etPengumuman.setText("");
+                } else {
+                    Toast.makeText(PengumumanAdminActivity.this,
+                            "Gagal mengirim pengumuman", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                btnKirim.setEnabled(true);
+                btnKirim.setText("Kirim Pengumuman");
+                Toast.makeText(PengumumanAdminActivity.this,
+                        "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override protected DrawerLayout getDrawerLayout() { return findAdminDrawer(); }

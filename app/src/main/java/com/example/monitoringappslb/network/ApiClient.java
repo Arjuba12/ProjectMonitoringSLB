@@ -37,8 +37,7 @@ public class ApiClient {
                     // Interceptor untuk menghapus header 'Expect' jika ada
                     .addInterceptor(chain -> {
                         Request original = chain.request();
-                        Request.Builder builder = original.newBuilder()
-                                .addHeader("Content-Type", "application/json");
+                        Request.Builder builder = original.newBuilder();
 
                         // Ambil token dari SharedPreferences
                         if (appContext != null) {

@@ -2,6 +2,8 @@ package com.example.monitoringappslb.wali;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +26,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatWaliActivity extends BaseWaliActivity {
+    private static final long CONTACT_REFRESH_INTERVAL_MS = 5000L;
     private TextView tvStatus;
     private ChatContactAdapter adapter;
+    private Handler refreshHandler;
+    private Runnable refreshRunnable;
+    private Call<PesanListResponse> contactsCall;
+    private boolean isActive;
+    private boolean isLoadingContacts;
     private final List<PesanItem> contacts = new ArrayList<>();
 
     @Override
@@ -45,21 +53,49 @@ public class ChatWaliActivity extends BaseWaliActivity {
         });
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         rvContacts.setAdapter(adapter);
+
+        refreshHandler = new Handler(Looper.getMainLooper());
+        refreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                loadContacts(false);
+                if (isActive) {
+                    refreshHandler.postDelayed(this, CONTACT_REFRESH_INTERVAL_MS);
+                }
+            }
+        };
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadContacts();
+        isActive = true;
+        loadContacts(true);
+        refreshHandler.postDelayed(refreshRunnable, CONTACT_REFRESH_INTERVAL_MS);
     }
 
-    private void loadContacts() {
-        showStatus("Memuat kontak...", true);
-        ApiClient.getService().getKontak().enqueue(new Callback<PesanListResponse>() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isActive = false;
+        isLoadingContacts = false;
+        refreshHandler.removeCallbacks(refreshRunnable);
+        if (contactsCall != null) contactsCall.cancel();
+    }
+
+    private void loadContacts(boolean showLoading) {
+        if (isLoadingContacts) return;
+        isLoadingContacts = true;
+        if (showLoading && contacts.isEmpty()) showStatus("Memuat kontak...", true);
+        contactsCall = ApiClient.getService().getKontak();
+        contactsCall.enqueue(new Callback<PesanListResponse>() {
             @Override
             public void onResponse(Call<PesanListResponse> call, Response<PesanListResponse> response) {
+                isLoadingContacts = false;
+                contactsCall = null;
+                if (!isActive) return;
                 if (!response.isSuccessful() || response.body() == null || !response.body().isSuccess()) {
-                    showStatus("Kontak guru belum bisa dimuat", true);
+                    if (showLoading || contacts.isEmpty()) showStatus("Kontak guru belum bisa dimuat", true);
                     return;
                 }
 
@@ -73,7 +109,12 @@ public class ChatWaliActivity extends BaseWaliActivity {
 
             @Override
             public void onFailure(Call<PesanListResponse> call, Throwable t) {
-                showStatus("Gagal memuat kontak: " + t.getMessage(), true);
+                isLoadingContacts = false;
+                contactsCall = null;
+                if (call.isCanceled() || !isActive) return;
+                if (showLoading || contacts.isEmpty()) {
+                    showStatus("Gagal memuat kontak: " + t.getMessage(), true);
+                }
             }
         });
     }

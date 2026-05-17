@@ -1,6 +1,8 @@
 package com.example.monitoringappslb.wali;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChatDetailWaliActivity extends BaseWaliActivity {
+    private static final long MESSAGE_REFRESH_INTERVAL_MS = 3000L;
     private int userId;
     private String userName;
     private TextView tvTitle;
@@ -37,6 +40,11 @@ public class ChatDetailWaliActivity extends BaseWaliActivity {
     private ChatMessageAdapter adapter;
     private LinearLayoutManager layoutManager;
     private SessionManager session;
+    private Handler refreshHandler;
+    private Runnable refreshRunnable;
+    private Call<PesanListResponse> messagesCall;
+    private boolean isActive;
+    private boolean isLoadingMessages;
     private final List<PesanItem> messages = new ArrayList<>();
 
     @Override
@@ -77,35 +85,77 @@ public class ChatDetailWaliActivity extends BaseWaliActivity {
             btnSend.setOnClickListener(v -> sendMessage());
         }
 
+        refreshHandler = new Handler(Looper.getMainLooper());
+        refreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                loadMessages(false);
+                if (isActive) {
+                    refreshHandler.postDelayed(this, MESSAGE_REFRESH_INTERVAL_MS);
+                }
+            }
+        };
+
         if (userId <= 0) {
             Toast.makeText(this, "Kontak tidak valid", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
-        loadMessages();
     }
 
-    private void loadMessages() {
-        ApiClient.getService().getPercakapan(userId).enqueue(new Callback<PesanListResponse>() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isActive = true;
+        if (userId > 0) {
+            loadMessages(true);
+            refreshHandler.postDelayed(refreshRunnable, MESSAGE_REFRESH_INTERVAL_MS);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isActive = false;
+        isLoadingMessages = false;
+        refreshHandler.removeCallbacks(refreshRunnable);
+        if (messagesCall != null) messagesCall.cancel();
+    }
+
+    private void loadMessages(boolean showErrors) {
+        if (isLoadingMessages) return;
+        isLoadingMessages = true;
+        messagesCall = ApiClient.getService().getPercakapan(userId);
+        messagesCall.enqueue(new Callback<PesanListResponse>() {
             @Override
             public void onResponse(Call<PesanListResponse> call, Response<PesanListResponse> response) {
+                isLoadingMessages = false;
+                messagesCall = null;
+                if (!isActive) return;
                 if (!response.isSuccessful() || response.body() == null || !response.body().isSuccess()) {
-                    Toast.makeText(ChatDetailWaliActivity.this, "Percakapan belum bisa dimuat", Toast.LENGTH_SHORT).show();
+                    if (showErrors) {
+                        Toast.makeText(ChatDetailWaliActivity.this, "Percakapan belum bisa dimuat", Toast.LENGTH_SHORT).show();
+                    }
                     return;
                 }
 
+                boolean shouldScroll = isNearBottom();
                 messages.clear();
                 if (response.body().getData() != null) {
                     messages.addAll(response.body().getData());
                 }
                 adapter.notifyDataSetChanged();
-                scrollToBottom();
+                if (showErrors || shouldScroll) scrollToBottom();
             }
 
             @Override
             public void onFailure(Call<PesanListResponse> call, Throwable t) {
-                Toast.makeText(ChatDetailWaliActivity.this, "Gagal memuat chat: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                isLoadingMessages = false;
+                messagesCall = null;
+                if (call.isCanceled() || !isActive) return;
+                if (showErrors) {
+                    Toast.makeText(ChatDetailWaliActivity.this, "Gagal memuat chat: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -134,7 +184,7 @@ public class ChatDetailWaliActivity extends BaseWaliActivity {
                 }
 
                 etMessage.setText("");
-                loadMessages();
+                loadMessages(true);
             }
 
             @Override
@@ -154,6 +204,11 @@ public class ChatDetailWaliActivity extends BaseWaliActivity {
         if (layoutManager != null && !messages.isEmpty()) {
             layoutManager.scrollToPosition(messages.size() - 1);
         }
+    }
+
+    private boolean isNearBottom() {
+        if (layoutManager == null || messages.isEmpty()) return true;
+        return layoutManager.findLastVisibleItemPosition() >= messages.size() - 2;
     }
 
     private static String safe(String value) {
