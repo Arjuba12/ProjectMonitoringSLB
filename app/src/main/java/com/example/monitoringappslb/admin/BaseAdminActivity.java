@@ -56,6 +56,10 @@ public abstract class BaseAdminActivity extends AppCompatActivity {
                 logout();
                 return true;
             }
+            if (item.getItemId() == R.id.nav_admin_laporan) {
+                startActivity(new Intent(this, LaporanAdminActivity.class));
+                return true;
+            }
             return false;
         });
     }

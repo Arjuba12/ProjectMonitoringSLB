@@ -475,7 +475,11 @@ public class ApiModels {
         @SerializedName("periode") private String periode;
         @SerializedName("nama_kelas") private String namaKelas;
         @SerializedName("nama_pembuat") private String namaPembuat;
+        @SerializedName("role_pembuat") private String rolePembuat;
         @SerializedName("file_path") private String filePath;
+        @SerializedName("total_siswa") private Integer totalSiswa;
+        @SerializedName("total_kelas") private Integer totalKelas;
+        @SerializedName("status") private String status;
         @SerializedName("created_at") private String createdAt;
         public int getId() { return id; }
         public String getJudul() { return judul; }
@@ -483,7 +487,11 @@ public class ApiModels {
         public String getPeriode() { return periode; }
         public String getNamaKelas() { return namaKelas; }
         public String getNamaPembuat() { return namaPembuat; }
+        public String getRolePembuat() { return rolePembuat; }
         public String getFilePath() { return filePath; }
+        public Integer getTotalSiswa() { return totalSiswa; }
+        public Integer getTotalKelas() { return totalKelas; }
+        public String getStatus() { return status; }
         public String getCreatedAt() { return createdAt; }
     }
 
@@ -699,6 +707,9 @@ public class ApiModels {
         @SerializedName("penerima_id")   private int penerimaId;
         @SerializedName("isi")           private String isi;
         @SerializedName("subjek")        private String subjek;
+        @SerializedName("judul")         private String judul;
+        @SerializedName("target_role")   private String targetRole;
+        @SerializedName("status")        private String status;
         @SerializedName("is_dibaca")     private Integer isDibaca;
         @SerializedName("created_at")    private String createdAt;
         @SerializedName("nama_pengirim") private String namaPengirim;
@@ -715,6 +726,9 @@ public class ApiModels {
         public int getPenerimaId() { return penerimaId; }
         public String getIsi() { return isi; }
         public String getSubjek() { return subjek; }
+        public String getJudul() { return judul; }
+        public String getTargetRole() { return targetRole; }
+        public String getStatus() { return status; }
         public boolean isDibaca() { return isDibaca != null && isDibaca == 1; }
         public String getCreatedAt() { return createdAt; }
         public String getNamaPengirim() { return namaPengirim; }

@@ -33,6 +33,7 @@ import retrofit2.Call;
 import retrofit2.http.Multipart;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.DELETE;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.POST;
@@ -239,6 +240,9 @@ public interface ApiService {
 
     @POST("api/laporan/generate")
     Call<MessageResponse> generateLaporan(@Body Map<String, Object> body);
+
+    @DELETE("api/laporan/{id}")
+    Call<MessageResponse> deleteLaporan(@Path("id") int id);
 
     @Multipart
     @POST("api/laporan/upload")

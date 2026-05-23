@@ -1,8 +1,19 @@
 package com.example.monitoringappslb.kepsek;
 
+import android.content.Context;
+import android.os.CancellationSignal;
 import android.graphics.Color;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.print.PageRange;
+import android.print.PrintAttributes;
+import android.print.PrintDocumentAdapter;
+import android.print.PrintDocumentInfo;
+import android.print.PrintManager;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TableLayout;
@@ -20,20 +31,17 @@ import com.example.monitoringappslb.network.ApiService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +58,7 @@ public class RekapSekolahActivity extends BaseKepsekActivity {
     private TableLayout tableRekap;
     private TextView tvStatus, tvPeriode;
     private final List<KelasRekap> currentRekap = new ArrayList<>();
+    private final ExecutorService printExecutor = Executors.newSingleThreadExecutor();
     private int bulan;
     private int tahun;
 
@@ -64,7 +73,11 @@ public class RekapSekolahActivity extends BaseKepsekActivity {
         tvPeriode = findViewById(R.id.tv_rekap_periode);
 
         setupNavigation();
-        findViewById(R.id.btn_ekspor_excel).setOnClickListener(v -> exportToExcel());
+        TextView btnEkspor = findViewById(R.id.btn_ekspor_excel);
+        if (btnEkspor != null) {
+            btnEkspor.setText("Print PDF");
+            btnEkspor.setOnClickListener(v -> printRekapPdf());
+        }
         loadRekap();
     }
 
@@ -205,48 +218,164 @@ public class RekapSekolahActivity extends BaseKepsekActivity {
         return tv;
     }
 
-    private void exportToExcel() {
+    private void printRekapPdf() {
         if (currentRekap.isEmpty()) {
-            Toast.makeText(this, "Belum ada data untuk diekspor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Belum ada data untuk dicetak", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("Rekap Sekolah");
+        Toast.makeText(this, "Menyiapkan PDF...", Toast.LENGTH_SHORT).show();
+        printExecutor.execute(() -> {
+            try {
+                File pdf = createRekapPdf();
+                runOnUiThread(() -> printPdfFile(pdf));
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(
+                        RekapSekolahActivity.this,
+                        "Gagal menyiapkan PDF: " + e.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show());
+            }
+        });
+    }
 
-        Row headerRow = sheet.createRow(0);
-        for (int i = 0; i < HEADERS.length; i++) {
-            headerRow.createCell(i).setCellValue(HEADERS[i]);
-        }
+    private File createRekapPdf() throws IOException {
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(842, 595, 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+        Canvas canvas = page.getCanvas();
 
-        int rowNum = 1;
+        Paint title = new Paint(Paint.ANTI_ALIAS_FLAG);
+        title.setColor(Color.parseColor("#1E293B"));
+        title.setTextSize(20);
+        title.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+
+        Paint text = new Paint(Paint.ANTI_ALIAS_FLAG);
+        text.setColor(Color.parseColor("#334155"));
+        text.setTextSize(9);
+
+        Paint bold = new Paint(text);
+        bold.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+
+        Paint line = new Paint(Paint.ANTI_ALIAS_FLAG);
+        line.setColor(Color.parseColor("#CBD5E1"));
+        line.setStrokeWidth(1);
+
+        int y = 42;
+        canvas.drawText("Rekap Keseluruhan Sekolah", 36, y, title);
+        y += 22;
+        canvas.drawText("Periode: " + monthName(bulan) + " " + tahun, 36, y, text);
+        y += 14;
+        canvas.drawLine(36, y, 806, y, line);
+
+        y += 24;
+        drawPdfHeader(canvas, y, bold, line);
+        y += 22;
+
         for (KelasRekap rekap : currentRekap) {
-            Row row = sheet.createRow(rowNum++);
-            row.createCell(0).setCellValue(rekap.namaKelas);
-            row.createCell(1).setCellValue(rekap.jumlahSiswa);
-            row.createCell(2).setCellValue(formatPercent(rekap.avg(rekap.totalHadir, rekap.countHadir)));
-            row.createCell(3).setCellValue(formatPercent(rekap.avg(rekap.totalKognitif, rekap.countKognitif)));
-            row.createCell(4).setCellValue(formatPercent(rekap.avg(rekap.totalSosial, rekap.countSosial)));
-            row.createCell(5).setCellValue(formatPercent(rekap.avg(rekap.totalMotorik, rekap.countMotorik)));
-            row.createCell(6).setCellValue(formatPercent(rekap.avg(rekap.totalKomunikasi, rekap.countKomunikasi)));
-            row.createCell(7).setCellValue(formatPercent(rekap.avg(rekap.totalBinaDiri, rekap.countBinaDiri)));
-            row.createCell(8).setCellValue(rekap.status());
+            if (y > 545) break;
+            drawPdfRow(canvas, y, rekap, text, line);
+            y += 22;
         }
 
-        for (int i = 0; i < HEADERS.length; i++) {
-            sheet.setColumnWidth(i, 4200);
+        y = Math.max(y + 18, 555);
+        canvas.drawText("Dicetak dari aplikasi Monitoring SLB", 36, y, text);
+
+        document.finishPage(page);
+
+        File file = new File(getCacheDir(), "rekap_keseluruhan_sekolah.pdf");
+        try (FileOutputStream out = new FileOutputStream(file)) {
+            document.writeTo(out);
+        } finally {
+            document.close();
+        }
+        return file;
+    }
+
+    private void drawPdfHeader(Canvas canvas, int y, Paint paint, Paint line) {
+        canvas.drawLine(36, y - 14, 806, y - 14, line);
+        canvas.drawText("Kelas", 40, y, paint);
+        canvas.drawText("Jml", 145, y, paint);
+        canvas.drawText("Hadir", 190, y, paint);
+        canvas.drawText("Kognitif", 255, y, paint);
+        canvas.drawText("Sosial", 335, y, paint);
+        canvas.drawText("Motorik", 405, y, paint);
+        canvas.drawText("Komunikasi", 485, y, paint);
+        canvas.drawText("Bina Diri", 585, y, paint);
+        canvas.drawText("Status", 690, y, paint);
+        canvas.drawLine(36, y + 8, 806, y + 8, line);
+    }
+
+    private void drawPdfRow(Canvas canvas, int y, KelasRekap rekap, Paint text, Paint line) {
+        canvas.drawText(rekap.namaKelas, 40, y, text);
+        canvas.drawText(String.valueOf(rekap.jumlahSiswa), 150, y, text);
+        canvas.drawText(formatPercent(rekap.avg(rekap.totalHadir, rekap.countHadir)), 190, y, text);
+        canvas.drawText(formatPercent(rekap.avg(rekap.totalKognitif, rekap.countKognitif)), 255, y, text);
+        canvas.drawText(formatPercent(rekap.avg(rekap.totalSosial, rekap.countSosial)), 335, y, text);
+        canvas.drawText(formatPercent(rekap.avg(rekap.totalMotorik, rekap.countMotorik)), 405, y, text);
+        canvas.drawText(formatPercent(rekap.avg(rekap.totalKomunikasi, rekap.countKomunikasi)), 485, y, text);
+        canvas.drawText(formatPercent(rekap.avg(rekap.totalBinaDiri, rekap.countBinaDiri)), 585, y, text);
+        canvas.drawText(rekap.status(), 690, y, text);
+        canvas.drawLine(36, y + 8, 806, y + 8, line);
+    }
+
+    private void printPdfFile(File file) {
+        PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+        if (printManager == null) {
+            Toast.makeText(this, "Layanan print tidak tersedia", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        try {
-            File file = new File(getExternalFilesDir(null),
-                    "Rekap_Sekolah_" + tahun + "_" + String.format(Locale.US, "%02d", bulan) + ".xlsx");
-            FileOutputStream outputStream = new FileOutputStream(file);
-            workbook.write(outputStream);
-            workbook.close();
-            outputStream.close();
-            Toast.makeText(this, "Excel disimpan: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            Toast.makeText(this, "Gagal ekspor excel", Toast.LENGTH_SHORT).show();
+        String jobName = "Rekap_Keseluruhan_" + tahun + "_" + bulan;
+        printManager.print(jobName, new PdfFilePrintAdapter(file, jobName), new PrintAttributes.Builder()
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4.asLandscape())
+                .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
+                .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                .build());
+    }
+
+    private static class PdfFilePrintAdapter extends PrintDocumentAdapter {
+        private final File file;
+        private final String jobName;
+
+        PdfFilePrintAdapter(File file, String jobName) {
+            this.file = file;
+            this.jobName = jobName;
+        }
+
+        @Override
+        public void onLayout(PrintAttributes oldAttributes, PrintAttributes newAttributes,
+                             CancellationSignal cancellationSignal, LayoutResultCallback callback,
+                             Bundle extras) {
+            if (cancellationSignal.isCanceled()) {
+                callback.onLayoutCancelled();
+                return;
+            }
+            PrintDocumentInfo info = new PrintDocumentInfo.Builder(jobName + ".pdf")
+                    .setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
+                    .setPageCount(1)
+                    .build();
+            callback.onLayoutFinished(info, true);
+        }
+
+        @Override
+        public void onWrite(PageRange[] pages, ParcelFileDescriptor destination,
+                            CancellationSignal cancellationSignal, WriteResultCallback callback) {
+            try (FileInputStream in = new FileInputStream(file);
+                 FileOutputStream out = new FileOutputStream(destination.getFileDescriptor())) {
+                byte[] buffer = new byte[8192];
+                int len;
+                while ((len = in.read(buffer)) != -1) {
+                    if (cancellationSignal.isCanceled()) {
+                        callback.onWriteCancelled();
+                        return;
+                    }
+                    out.write(buffer, 0, len);
+                }
+                callback.onWriteFinished(new PageRange[]{PageRange.ALL_PAGES});
+            } catch (IOException e) {
+                callback.onWriteFailed(e.getMessage());
+            }
         }
     }
 
