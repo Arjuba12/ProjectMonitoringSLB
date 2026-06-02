@@ -158,9 +158,13 @@ public class ChatActivity extends BaseGuruActivity {
             PesanItem item = items.get(position);
             AvatarUtils.applyInitialAvatar(holder.tvInitials, item.getNama(), item.getNama());
             holder.tvName.setText(safe(item.getNama()));
-            holder.tvStudent.setText(item.getNamaSiswa() == null || item.getNamaSiswa().trim().isEmpty()
-                    ? "Wali murid"
-                    : "Wali: " + item.getNamaSiswa());
+            if ("wali".equalsIgnoreCase(item.getRole())) {
+                holder.tvStudent.setText(item.getNamaSiswa() == null || item.getNamaSiswa().trim().isEmpty()
+                        ? "Wali murid"
+                        : "Wali: " + item.getNamaSiswa());
+            } else {
+                holder.tvStudent.setText(roleLabel(item.getRole()));
+            }
             holder.tvLastMessage.setText(item.getLastMessage() == null || item.getLastMessage().trim().isEmpty()
                     ? "Belum ada percakapan"
                     : item.getLastMessage());
@@ -190,6 +194,13 @@ public class ChatActivity extends BaseGuruActivity {
                 tvUnread = itemView.findViewById(R.id.tv_contact_unread);
             }
         }
+    }
+
+    private static String roleLabel(String role) {
+        if ("kepsek".equalsIgnoreCase(role)) return "Kepala sekolah";
+        if ("admin".equalsIgnoreCase(role)) return "Admin";
+        if ("guru".equalsIgnoreCase(role)) return "Guru";
+        return "Kontak";
     }
 
     @Override

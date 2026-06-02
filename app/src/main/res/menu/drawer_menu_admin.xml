@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Data">
+        <menu>
+            <item
+                android:id="@+id/nav_admin_siswa"
+                android:icon="@drawable/ic_siswa"
+                android:title="Siswa" />
+            <item
+                android:id="@+id/nav_admin_kelas"
+                android:icon="@drawable/ic_kelas"
+                android:title="Kelas" />
+            <item
+                android:id="@+id/nav_admin_user"
+                android:icon="@drawable/ic_user"
+                android:title="User" />
+        </menu>
+    </item>
     <item android:title="Laporan">
         <menu>
             <item

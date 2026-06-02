@@ -56,6 +56,22 @@ public abstract class BaseAdminActivity extends AppCompatActivity {
                 logout();
                 return true;
             }
+            if (item.getItemId() == R.id.nav_admin_siswa) {
+                startActivity(new Intent(this, SiswaAdminActivity.class));
+                return true;
+            }
+            if (item.getItemId() == R.id.nav_admin_kelas) {
+                Intent intent = new Intent(this, MasterDataAdminActivity.class);
+                intent.putExtra(MasterDataAdminActivity.EXTRA_MODE, MasterDataAdminActivity.MODE_KELAS);
+                startActivity(intent);
+                return true;
+            }
+            if (item.getItemId() == R.id.nav_admin_user) {
+                Intent intent = new Intent(this, MasterDataAdminActivity.class);
+                intent.putExtra(MasterDataAdminActivity.EXTRA_MODE, MasterDataAdminActivity.MODE_USER);
+                startActivity(intent);
+                return true;
+            }
             if (item.getItemId() == R.id.nav_admin_laporan) {
                 startActivity(new Intent(this, LaporanAdminActivity.class));
                 return true;
@@ -68,16 +84,24 @@ public abstract class BaseAdminActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = getBottomNavigationView();
         if (bottomNav == null) return;
 
-        bottomNav.setSelectedItemId(getSelfBottomNavItemId());
+        int selfId = getSelfBottomNavItemId();
+        if (selfId != -1) {
+            bottomNav.setSelectedItemId(selfId);
+        } else {
+            int size = bottomNav.getMenu().size();
+            for (int i = 0; i < size; i++) {
+                bottomNav.getMenu().getItem(i).setCheckable(false);
+                bottomNav.getMenu().getItem(i).setChecked(false);
+                bottomNav.getMenu().getItem(i).setCheckable(true);
+            }
+        }
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == getSelfBottomNavItemId()) return true;
+            if (id == selfId) return true;
 
             Class<?> target = null;
             if (id == R.id.nav_admin_home) {
                 target = DashboardAdminActivity.class;
-            } else if (id == R.id.nav_admin_master) {
-                target = MasterDataAdminActivity.class;
             } else if (id == R.id.nav_admin_kegiatan) {
                 target = KegiatanAdminActivity.class;
             } else if (id == R.id.nav_admin_pengumuman) {

@@ -232,6 +232,31 @@ public class ApiModels {
         public List<AdminUserItem> getData() { return data; }
     }
 
+    public static class GuruKinerjaItem {
+        @SerializedName("user_id") private int userId;
+        @SerializedName("nama_guru") private String namaGuru;
+        @SerializedName("kelas") private String kelas;
+        @SerializedName("total_input") private int totalInput;
+        @SerializedName("total_siswa") private int totalSiswa;
+        @SerializedName("persen_tepat_waktu") private Integer persenTepatWaktu;
+        @SerializedName("input_terakhir") private String inputTerakhir;
+        @SerializedName("status") private String status;
+
+        public int getUserId() { return userId; }
+        public String getNamaGuru() { return namaGuru; }
+        public String getKelas() { return kelas; }
+        public int getTotalInput() { return totalInput; }
+        public int getTotalSiswa() { return totalSiswa; }
+        public Integer getPersenTepatWaktu() { return persenTepatWaktu; }
+        public String getInputTerakhir() { return inputTerakhir; }
+        public String getStatus() { return status; }
+    }
+
+    public static class GuruKinerjaListResponse extends BaseResponse {
+        @SerializedName("data") private List<GuruKinerjaItem> data;
+        public List<GuruKinerjaItem> getData() { return data; }
+    }
+
     public static class PerkembanganItem {
         @SerializedName("id")         private int id;
         @SerializedName("siswa_id")   private int siswaId;

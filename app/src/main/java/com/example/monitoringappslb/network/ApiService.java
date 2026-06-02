@@ -7,6 +7,7 @@ import com.example.monitoringappslb.model.response.ApiModels.AspekListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.DashboardGuruResponse;
 import com.example.monitoringappslb.model.response.ApiModels.DashboardKepsekResponse;
 import com.example.monitoringappslb.model.response.ApiModels.DashboardWaliResponse;
+import com.example.monitoringappslb.model.response.ApiModels.GuruKinerjaListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.KelasListResponse;
 import com.example.monitoringappslb.model.response.ApiModels.KegiatanBannerUploadResponse;
 import com.example.monitoringappslb.model.response.ApiModels.KegiatanListResponse;
@@ -74,6 +75,12 @@ public interface ApiService {
     @PUT("api/users/{id}/reset-password")
     Call<MessageResponse> resetUserPassword(@Path("id") int id, @Body Map<String, String> body);
 
+    @GET("api/users/guru/kinerja")
+    Call<GuruKinerjaListResponse> getKinerjaGuru(
+            @Query("bulan") Integer bulan,
+            @Query("tahun") Integer tahun
+    );
+
     // ─── DASHBOARD ────────────────────────────────────────────
 
     @GET("api/dashboard/guru")
@@ -98,6 +105,15 @@ public interface ApiService {
     // GET /api/siswa/:id → { success, data: { ... } }
     @GET("api/siswa/{id}")
     Call<SiswaDetailResponse> getSiswaById(@Path("id") int id);
+
+    @POST("api/siswa")
+    Call<MessageResponse> createSiswa(@Body Map<String, Object> body);
+
+    @PUT("api/siswa/{id}")
+    Call<MessageResponse> updateSiswa(@Path("id") int id, @Body Map<String, Object> body);
+
+    @DELETE("api/siswa/{id}")
+    Call<MessageResponse> deleteSiswa(@Path("id") int id);
 
     // GET /api/siswa/perlu-perhatian → { success, data: [ {...} ] }
     @GET("api/siswa/perlu-perhatian")

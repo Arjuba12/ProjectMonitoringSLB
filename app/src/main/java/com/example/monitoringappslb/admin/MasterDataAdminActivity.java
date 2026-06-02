@@ -42,10 +42,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MasterDataAdminActivity extends BaseAdminActivity {
+    public static final String EXTRA_MODE = "admin_master_mode";
+    public static final String MODE_KELAS = "kelas";
+    public static final String MODE_USER = "user";
+
     private ApiService apiService;
     private LinearLayout containerKelas, containerUsers;
     private TextView tvStatus, tvUserSummary;
     private List<TingkatItem> tingkatList = new ArrayList<>();
+    private String mode = MODE_KELAS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +62,11 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         containerUsers = findViewById(R.id.container_admin_users);
         tvStatus = findViewById(R.id.tv_admin_master_status);
         tvUserSummary = findViewById(R.id.tv_admin_user_summary);
+        mode = getIntent().getStringExtra(EXTRA_MODE);
+        if (!MODE_USER.equals(mode)) mode = MODE_KELAS;
 
         setupNavigation();
+        setupModeUi();
 
         View btnTambahKelas = findViewById(R.id.btn_tambah_kelas_admin);
         if (btnTambahKelas != null) {
@@ -69,9 +77,30 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
             btnTambahUser.setOnClickListener(v -> showTambahUserDialog());
         }
 
-        loadKelas();
-        loadUsers();
+        if (MODE_KELAS.equals(mode)) {
+            loadKelas();
+        } else {
+            loadUsers();
+        }
         loadTingkat();
+    }
+
+    private void setupModeUi() {
+        TextView title = findViewById(R.id.tv_admin_master_title);
+        View cardKelas = findViewById(R.id.card_admin_kelas);
+        View cardUsers = findViewById(R.id.card_admin_users);
+
+        if (MODE_USER.equals(mode)) {
+            if (title != null) title.setText("User");
+            if (cardKelas != null) cardKelas.setVisibility(View.GONE);
+            if (cardUsers != null) cardUsers.setVisibility(View.VISIBLE);
+            setStatus("Memuat data user...", true);
+        } else {
+            if (title != null) title.setText("Kelas");
+            if (cardKelas != null) cardKelas.setVisibility(View.VISIBLE);
+            if (cardUsers != null) cardUsers.setVisibility(View.GONE);
+            setStatus("Memuat data kelas...", true);
+        }
     }
 
     private void loadKelas() {
@@ -361,7 +390,7 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
                     Toast.makeText(MasterDataAdminActivity.this, "Kelas berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                     loadKelas();
-                    loadUsers();
+                    if (MODE_USER.equals(mode)) loadUsers();
                 } else {
                     Toast.makeText(MasterDataAdminActivity.this, "Gagal menambah kelas", Toast.LENGTH_SHORT).show();
                 }
@@ -931,5 +960,5 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
     @Override protected DrawerLayout getDrawerLayout() { return findAdminDrawer(); }
     @Override protected NavigationView getNavigationView() { return findViewById(R.id.nav_view); }
     @Override protected BottomNavigationView getBottomNavigationView() { return findViewById(R.id.bottom_navigation); }
-    @Override protected int getSelfBottomNavItemId() { return R.id.nav_admin_master; }
+    @Override protected int getSelfBottomNavItemId() { return -1; }
 }
