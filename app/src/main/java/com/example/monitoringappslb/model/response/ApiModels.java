@@ -150,6 +150,7 @@ public class ApiModels {
         @SerializedName("kapasitas")       private int kapasitas;
         @SerializedName("jml_siswa")       private int jmlSiswa;
         @SerializedName("nama_wali_kelas") private String namaWaliKelas;
+        @SerializedName("guru_id")         private Integer guruId;
         @SerializedName("is_aktif")        private Integer isAktif;
         @SerializedName("is_wali_kelas")   private Integer isWaliKelas;
         @SerializedName("input_hari_ini")  private int inputHariIni;
@@ -162,6 +163,7 @@ public class ApiModels {
         public int getKapasitas() { return kapasitas; }
         public int getJmlSiswa() { return jmlSiswa; }
         public String getNamaWaliKelas() { return namaWaliKelas; }
+        public Integer getGuruId() { return guruId; }
         public Integer isAktif() { return isAktif; }
         public Integer isWaliKelas() { return isWaliKelas; }
         public int getInputHariIni() { return inputHariIni; }
@@ -212,6 +214,7 @@ public class ApiModels {
         @SerializedName("role") private String role;
         @SerializedName("no_hp") private String noHp;
         @SerializedName("is_aktif") private Integer isAktif;
+        @SerializedName("guru_id") private Integer guruId;
         @SerializedName("nip") private String nip;
         @SerializedName("spesialisasi") private String spesialisasi;
         @SerializedName("kelas_mengajar") private String kelasMengajar;
@@ -222,6 +225,7 @@ public class ApiModels {
         public String getRole() { return role; }
         public String getNoHp() { return noHp; }
         public Integer isAktif() { return isAktif; }
+        public Integer getGuruId() { return guruId; }
         public String getNip() { return nip; }
         public String getSpesialisasi() { return spesialisasi; }
         public String getKelasMengajar() { return kelasMengajar; }

@@ -50,6 +50,7 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
     private LinearLayout containerKelas, containerUsers;
     private TextView tvStatus, tvUserSummary;
     private List<TingkatItem> tingkatList = new ArrayList<>();
+    private List<AdminUserItem> guruList = new ArrayList<>();
     private String mode = MODE_KELAS;
 
     @Override
@@ -83,6 +84,9 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
             loadUsers();
         }
         loadTingkat();
+        if (MODE_KELAS.equals(mode)) {
+            loadGuruOptions();
+        }
     }
 
     private void setupModeUi() {
@@ -156,6 +160,22 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
             @Override
             public void onFailure(Call<TingkatListResponse> call, Throwable t) {
                 tingkatList = new ArrayList<>();
+            }
+        });
+    }
+
+    private void loadGuruOptions() {
+        apiService.getUsers("guru", 1, null).enqueue(new Callback<AdminUserListResponse>() {
+            @Override
+            public void onResponse(Call<AdminUserListResponse> call, Response<AdminUserListResponse> response) {
+                guruList = response.isSuccessful() && response.body() != null && response.body().getData() != null
+                        ? response.body().getData()
+                        : new ArrayList<>();
+            }
+
+            @Override
+            public void onFailure(Call<AdminUserListResponse> call, Throwable t) {
+                guruList = new ArrayList<>();
             }
         });
     }
@@ -314,6 +334,8 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         spTingkat.setTag("tingkat_id");
         Spinner spStatus = createSpinner(new String[]{"Aktif", "Nonaktif"}, 0);
         spStatus.setTag("is_aktif");
+        Spinner spWaliKelas = createSpinner(getGuruLabels(), 0);
+        spWaliKelas.setTag("wali_kelas_guru_id");
 
         etTahun.setEnabled(createMode);
         spTingkat.setEnabled(createMode);
@@ -323,6 +345,7 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
             etTahun.setText(valueOrBlank(item.getTahunAjaran()));
             etKapasitas.setText(String.valueOf(item.getKapasitas()));
             selectTingkat(spTingkat, item.getTingkatId());
+            selectGuru(spWaliKelas, item.getGuruId());
             spStatus.setSelection(isInactive(item.isAktif()) ? 1 : 0);
         } else {
             etTahun.setText("2024/2025");
@@ -333,6 +356,7 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         addField(container, "Tingkat *", spTingkat, createMode ? "Sama seperti admin panel web." : "Tingkat tidak diubah dari aplikasi Android.");
         addField(container, "Tahun Ajaran", etTahun, "Format: 2024/2025");
         addField(container, "Kapasitas", etKapasitas, "Jumlah maksimal siswa.");
+        addField(container, "Wali Kelas", spWaliKelas, "Pilih guru aktif yang menjadi wali kelas.");
         if (!createMode) {
             addField(container, "Status", spStatus, null);
         }
@@ -358,6 +382,8 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         Map<String, Object> body = new HashMap<>();
         body.put("nama_kelas", nama);
         body.put("kapasitas", kapasitas);
+        body.put("wali_kelas_guru_id",
+                getSelectedGuruId((Spinner) container.findViewWithTag("wali_kelas_guru_id")));
         if (createMode) {
             body.put("tingkat_id", tingkatId);
             body.put("tahun_ajaran", tahun);
@@ -751,6 +777,34 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
             labels[i + 1] = valueOrDash(item.getNama()) + (keterangan.isEmpty() ? "" : " - " + keterangan);
         }
         return labels;
+    }
+
+    private String[] getGuruLabels() {
+        String[] labels = new String[guruList.size() + 1];
+        labels[0] = "-- Belum ditentukan --";
+        for (int i = 0; i < guruList.size(); i++) {
+            AdminUserItem guru = guruList.get(i);
+            String nip = valueOrBlank(guru.getNip());
+            labels[i + 1] = valueOrDash(guru.getNama()) + (nip.isEmpty() ? "" : " | " + nip);
+        }
+        return labels;
+    }
+
+    private Integer getSelectedGuruId(Spinner spinner) {
+        if (spinner == null || guruList.isEmpty()) return null;
+        int index = spinner.getSelectedItemPosition() - 1;
+        if (index < 0 || index >= guruList.size()) return null;
+        return guruList.get(index).getGuruId();
+    }
+
+    private void selectGuru(Spinner spinner, Integer guruId) {
+        if (spinner == null || guruId == null) return;
+        for (int i = 0; i < guruList.size(); i++) {
+            if (guruId.equals(guruList.get(i).getGuruId())) {
+                spinner.setSelection(i + 1);
+                return;
+            }
+        }
     }
 
     private int getSelectedTingkatId(Spinner spinner) {

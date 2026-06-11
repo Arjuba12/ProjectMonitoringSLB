@@ -3,8 +3,13 @@ package com.example.monitoringappslb.network;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
 import okhttp3.OkHttpClient;
+import okhttp3.HttpUrl;
 import okhttp3.Request;
+import okhttp3.dnsoverhttps.DnsOverHttps;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -33,8 +38,10 @@ public class ApiClient {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
+            DnsOverHttps dns = createDnsOverHttps();
+
             // Auth interceptor — otomatis attach token ke setiap request
-            OkHttpClient client = new OkHttpClient.Builder()
+            OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
                     // Interceptor untuk menghapus header 'Expect' jika ada
                     .addInterceptor(chain -> {
                         Request original = chain.request();
@@ -58,8 +65,13 @@ public class ApiClient {
                     .addInterceptor(logging)
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .build();
+                    .writeTimeout(30, TimeUnit.SECONDS);
+
+            if (dns != null) {
+                clientBuilder.dns(dns);
+            }
+
+            OkHttpClient client = clientBuilder.build();
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -68,6 +80,22 @@ public class ApiClient {
                     .build();
         }
         return retrofit;
+    }
+
+    private static DnsOverHttps createDnsOverHttps() {
+        try {
+            OkHttpClient bootstrapClient = new OkHttpClient.Builder().build();
+            return new DnsOverHttps.Builder()
+                    .client(bootstrapClient)
+                    .url(HttpUrl.get("https://cloudflare-dns.com/dns-query"))
+                    .bootstrapDnsHosts(Arrays.asList(
+                            InetAddress.getByName("1.1.1.1"),
+                            InetAddress.getByName("1.0.0.1")
+                    ))
+                    .build();
+        } catch (UnknownHostException e) {
+            return null;
+        }
     }
 
     /**
