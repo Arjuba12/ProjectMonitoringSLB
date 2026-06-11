@@ -16,8 +16,9 @@ public class ApiClient {
     // Emulator Android  → "http://10.0.2.2:3000/"
     // HP fisik (USB)    → "http://192.168.1.10:3000/" (IP komputer kamu di jaringan lokal)
     // Cek IP: buka CMD → ketik "ipconfig" → lihat IPv4 Address
+    // Hosting backend → https://slb-backend-production.up.railway.app/
 
-    public static final String BASE_URL = "http://10.0.2.2:3000/";
+    public static final String BASE_URL = "https://slb-backend-production.up.railway.app/";
     private static Retrofit retrofit = null;
     private static ApiService apiService = null;
     private static Context appContext;
