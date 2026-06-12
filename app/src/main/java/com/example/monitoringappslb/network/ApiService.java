@@ -72,6 +72,9 @@ public interface ApiService {
     @PUT("api/users/{id}")
     Call<MessageResponse> updateUser(@Path("id") int id, @Body Map<String, Object> body);
 
+    @DELETE("api/users/{id}")
+    Call<MessageResponse> deleteUser(@Path("id") int id);
+
     @PUT("api/users/{id}/reset-password")
     Call<MessageResponse> resetUserPassword(@Path("id") int id, @Body Map<String, String> body);
 
@@ -137,6 +140,9 @@ public interface ApiService {
 
     @PUT("api/kelas/{id}")
     Call<MessageResponse> updateKelas(@Path("id") int id, @Body Map<String, Object> body);
+
+    @DELETE("api/kelas/{id}")
+    Call<MessageResponse> deleteKelas(@Path("id") int id);
 
     // GET /api/kelas/guru/saya → { success, data: [ {...} ] }
     @GET("api/kelas/guru/saya")

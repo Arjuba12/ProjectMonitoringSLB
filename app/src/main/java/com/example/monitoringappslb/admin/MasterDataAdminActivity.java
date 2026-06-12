@@ -3,7 +3,9 @@ package com.example.monitoringappslb.admin;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,6 +44,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MasterDataAdminActivity extends BaseAdminActivity {
+    private static final String DELETE_CONFIRMATION = "Hapus Data Ini";
+
     public static final String EXTRA_MODE = "admin_master_mode";
     public static final String MODE_KELAS = "kelas";
     public static final String MODE_USER = "user";
@@ -206,11 +210,23 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         addText(row, subtitle, isInactive(item.isAktif()) ? "#EF4444" : "#64748B", 12, false);
 
         LinearLayout actions = new LinearLayout(this);
-        actions.setOrientation(LinearLayout.HORIZONTAL);
+        actions.setOrientation(LinearLayout.VERTICAL);
         actions.setPadding(0, dp(8), 0, 0);
-        actions.addView(createSmallButton("Edit", "#1E293B", v -> showEditKelasDialog(item)));
-        actions.addView(createSmallButton(isInactive(item.isAktif()) ? "Aktifkan" : "Nonaktif", "#EF4444",
+
+        LinearLayout primaryActions = new LinearLayout(this);
+        primaryActions.setOrientation(LinearLayout.HORIZONTAL);
+        primaryActions.addView(createSmallButton("Edit", "#1E293B", v -> showEditKelasDialog(item)));
+
+        LinearLayout destructiveActions = new LinearLayout(this);
+        destructiveActions.setOrientation(LinearLayout.HORIZONTAL);
+        destructiveActions.setPadding(0, dp(6), 0, 0);
+        destructiveActions.addView(createSmallButton(isInactive(item.isAktif()) ? "Aktifkan" : "Nonaktifkan", "#F59E0B",
                 v -> confirmToggleKelas(item)));
+        destructiveActions.addView(createSmallButton("Hapus", "#DC2626",
+                v -> confirmDeleteKelas(item)));
+
+        actions.addView(primaryActions);
+        actions.addView(destructiveActions);
         row.addView(actions);
 
         containerKelas.addView(row);
@@ -264,12 +280,24 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         addText(row, subtitle, isInactive(user.isAktif()) ? "#EF4444" : "#64748B", 12, false);
 
         LinearLayout actions = new LinearLayout(this);
-        actions.setOrientation(LinearLayout.HORIZONTAL);
+        actions.setOrientation(LinearLayout.VERTICAL);
         actions.setPadding(0, dp(8), 0, 0);
-        actions.addView(createSmallButton("Edit", "#1E293B", v -> showEditUserDialog(user)));
-        actions.addView(createSmallButton("Reset", "#64748B", v -> showResetPasswordDialog(user)));
-        actions.addView(createSmallButton(isInactive(user.isAktif()) ? "Aktifkan" : "Nonaktif", "#EF4444",
+
+        LinearLayout primaryActions = new LinearLayout(this);
+        primaryActions.setOrientation(LinearLayout.HORIZONTAL);
+        primaryActions.addView(createSmallButton("Edit", "#1E293B", v -> showEditUserDialog(user)));
+        primaryActions.addView(createSmallButton("Reset", "#64748B", v -> showResetPasswordDialog(user)));
+
+        LinearLayout destructiveActions = new LinearLayout(this);
+        destructiveActions.setOrientation(LinearLayout.HORIZONTAL);
+        destructiveActions.setPadding(0, dp(6), 0, 0);
+        destructiveActions.addView(createSmallButton(isInactive(user.isAktif()) ? "Aktifkan" : "Nonaktifkan", "#F59E0B",
                 v -> confirmToggleUser(user)));
+        destructiveActions.addView(createSmallButton("Hapus", "#DC2626",
+                v -> confirmDeleteUser(user)));
+
+        actions.addView(primaryActions);
+        actions.addView(destructiveActions);
         row.addView(actions);
 
         containerUsers.addView(row);
@@ -472,14 +500,42 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         });
     }
 
+    private void confirmDeleteKelas(KelasItem item) {
+        showPermanentDeleteDialog(
+                "Hapus kelas permanen?",
+                valueOrDash(item.getNamaKelas()) + " akan dihapus permanen. Siswa akan dilepas dari kelas dan data absensi kelas ikut terhapus.",
+                () -> deleteKelas(item.getId())
+        );
+    }
+
     private void confirmToggleKelas(KelasItem item) {
         boolean inactive = isInactive(item.isAktif());
         new AlertDialog.Builder(this)
                 .setTitle(inactive ? "Aktifkan kelas?" : "Nonaktifkan kelas?")
                 .setMessage(valueOrDash(item.getNamaKelas()))
                 .setNegativeButton("Batal", null)
-                .setPositiveButton(inactive ? "Aktifkan" : "Nonaktifkan", (dialog, which) -> toggleKelasActive(item))
+                .setPositiveButton(inactive ? "Aktifkan" : "Nonaktifkan",
+                        (dialog, which) -> toggleKelasActive(item))
                 .show();
+    }
+
+    private void deleteKelas(int id) {
+        apiService.deleteKelas(id).enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    Toast.makeText(MasterDataAdminActivity.this, "Kelas dihapus permanen", Toast.LENGTH_SHORT).show();
+                    loadKelas();
+                } else {
+                    Toast.makeText(MasterDataAdminActivity.this, "Gagal menghapus kelas", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                Toast.makeText(MasterDataAdminActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void toggleKelasActive(KelasItem item) {
@@ -900,14 +956,91 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
         dialog.show();
     }
 
+    private void confirmDeleteUser(AdminUserItem user) {
+        showPermanentDeleteDialog(
+                "Hapus user permanen?",
+                valueOrDash(user.getNama()) + " beserta pesan dan data yang dibuat user akan dihapus permanen.",
+                () -> deleteUser(user.getId())
+        );
+    }
+
     private void confirmToggleUser(AdminUserItem user) {
         boolean inactive = isInactive(user.isAktif());
         new AlertDialog.Builder(this)
                 .setTitle(inactive ? "Aktifkan user?" : "Nonaktifkan user?")
                 .setMessage(valueOrDash(user.getNama()))
                 .setNegativeButton("Batal", null)
-                .setPositiveButton(inactive ? "Aktifkan" : "Nonaktifkan", (dialog, which) -> toggleUserActive(user))
+                .setPositiveButton(inactive ? "Aktifkan" : "Nonaktifkan",
+                        (dialog, which) -> toggleUserActive(user))
                 .show();
+    }
+
+    private void showPermanentDeleteDialog(String title, String warning, Runnable onConfirmed) {
+        LinearLayout content = createFormContainer();
+        TextView warningView = new TextView(this);
+        warningView.setText(warning);
+        warningView.setTextColor(Color.parseColor("#B91C1C"));
+        warningView.setTextSize(13);
+        warningView.setPadding(0, 0, 0, dp(12));
+        content.addView(warningView);
+
+        TextView instruction = new TextView(this);
+        instruction.setText("Ketik \"" + DELETE_CONFIRMATION + "\" untuk melanjutkan.");
+        instruction.setTextColor(Color.parseColor("#334155"));
+        instruction.setTextSize(12);
+        instruction.setTypeface(null, Typeface.BOLD);
+        content.addView(instruction);
+
+        EditText confirmation = createInput(DELETE_CONFIRMATION, InputType.TYPE_CLASS_TEXT);
+        content.addView(confirmation);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setView(content)
+                .setNegativeButton("Batal", null)
+                .setPositiveButton("Hapus Permanen", null)
+                .create();
+
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DC2626"));
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+                if (!DELETE_CONFIRMATION.equals(confirmation.getText().toString())) return;
+                dialog.dismiss();
+                onConfirmed.run();
+            });
+        });
+        confirmation.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (dialog.isShowing()) {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(DELETE_CONFIRMATION.contentEquals(s));
+                }
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+        dialog.show();
+    }
+
+    private void deleteUser(int id) {
+        apiService.deleteUser(id).enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
+                    Toast.makeText(MasterDataAdminActivity.this, "User dihapus permanen", Toast.LENGTH_SHORT).show();
+                    loadUsers();
+                    loadGuruOptions();
+                } else {
+                    Toast.makeText(MasterDataAdminActivity.this, "Gagal menghapus user", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                Toast.makeText(MasterDataAdminActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void toggleUserActive(AdminUserItem user) {

@@ -3,7 +3,9 @@ package com.example.monitoringappslb.admin;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -45,6 +47,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SiswaAdminActivity extends BaseAdminActivity {
+    private static final String DELETE_CONFIRMATION = "Hapus Data Ini";
+
     private ApiService apiService;
     private TextView tvStatus;
     private LinearLayout containerSiswa;
@@ -188,11 +192,23 @@ public class SiswaAdminActivity extends BaseAdminActivity {
         card.setOnClickListener(v -> loadDetail(item.getId()));
 
         LinearLayout actions = new LinearLayout(this);
-        actions.setOrientation(LinearLayout.HORIZONTAL);
+        actions.setOrientation(LinearLayout.VERTICAL);
         actions.setPadding(0, dp(8), 0, 0);
-        actions.addView(smallButton("Detail", "#64748B", v -> loadDetail(item.getId())));
-        actions.addView(smallButton("Edit", "#1E293B", v -> showSiswaDialog(item)));
-        actions.addView(smallButton(isInactive(item.isAktif()) ? "Aktifkan" : "Hapus", "#EF4444", v -> confirmDelete(item)));
+
+        LinearLayout primaryActions = new LinearLayout(this);
+        primaryActions.setOrientation(LinearLayout.HORIZONTAL);
+        primaryActions.addView(smallButton("Detail", "#64748B", v -> loadDetail(item.getId())));
+        primaryActions.addView(smallButton("Edit", "#1E293B", v -> showSiswaDialog(item)));
+
+        LinearLayout destructiveActions = new LinearLayout(this);
+        destructiveActions.setOrientation(LinearLayout.HORIZONTAL);
+        destructiveActions.setPadding(0, dp(6), 0, 0);
+        destructiveActions.addView(smallButton(isInactive(item.isAktif()) ? "Aktifkan" : "Nonaktifkan", "#F59E0B",
+                v -> confirmToggleStatus(item)));
+        destructiveActions.addView(smallButton("Hapus", "#DC2626", v -> confirmDelete(item)));
+
+        actions.addView(primaryActions);
+        actions.addView(destructiveActions);
         card.addView(actions);
         return card;
     }
@@ -430,29 +446,75 @@ public class SiswaAdminActivity extends BaseAdminActivity {
     }
 
     private void confirmDelete(SiswaItem item) {
+        showPermanentDeleteDialog(
+                "Hapus siswa permanen?",
+                valueOrDash(item.getNama()) + " beserta data absensi, perkembangan, dan PPI akan dihapus permanen.",
+                () -> deleteSiswa(item.getId())
+        );
+    }
+
+    private void confirmToggleStatus(SiswaItem item) {
         boolean inactive = isInactive(item.isAktif());
         new AlertDialog.Builder(this)
-                .setTitle(inactive ? "Aktifkan siswa?" : "Hapus siswa?")
-                .setMessage(valueOrDash(item.getNama()) + (inactive ? " akan diaktifkan kembali." : " akan dinonaktifkan dari data aktif."))
+                .setTitle(inactive ? "Aktifkan siswa?" : "Nonaktifkan siswa?")
+                .setMessage(valueOrDash(item.getNama()))
                 .setNegativeButton("Batal", null)
-                .setPositiveButton(inactive ? "Aktifkan" : "Hapus", (dialog, which) -> {
-                    if (inactive) {
-                        Map<String, Object> body = new HashMap<>();
-                        body.put("nisn", item.getNisn());
-                        body.put("nama", item.getNama());
-                        body.put("tgl_lahir", normalizeDate(item.getTglLahir()));
-                        body.put("jenis_kelamin", item.getJenisKelamin());
-                        body.put("alamat", item.getAlamat());
-                        body.put("kebutuhan_khusus", item.getKebutuhanKhusus());
-                        body.put("kelas_id", item.getKelasId());
-                        body.put("tahun_masuk", item.getTahunMasuk());
-                        body.put("is_aktif", 1);
-                        updateSiswaWithoutDialog(item.getId(), body, "Siswa diaktifkan");
-                    } else {
-                        deleteSiswa(item.getId());
-                    }
-                })
+                .setPositiveButton(inactive ? "Aktifkan" : "Nonaktifkan",
+                        (dialog, which) -> updateSiswaStatus(item, inactive ? 1 : 0))
                 .show();
+    }
+
+    private void updateSiswaStatus(SiswaItem item, int status) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("nisn", item.getNisn());
+        body.put("nama", item.getNama());
+        body.put("tgl_lahir", normalizeDate(item.getTglLahir()));
+        body.put("jenis_kelamin", item.getJenisKelamin());
+        body.put("alamat", item.getAlamat());
+        body.put("kebutuhan_khusus", item.getKebutuhanKhusus());
+        body.put("kelas_id", item.getKelasId());
+        body.put("tahun_masuk", item.getTahunMasuk());
+        body.put("is_aktif", status);
+        updateSiswaWithoutDialog(item.getId(), body, status == 1 ? "Siswa diaktifkan" : "Siswa dinonaktifkan");
+    }
+
+    private void showPermanentDeleteDialog(String title, String warning, Runnable onConfirmed) {
+        LinearLayout content = new LinearLayout(this);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setPadding(dp(20), dp(8), dp(20), 0);
+        content.addView(text(warning, "#B91C1C", 13, false));
+        content.addView(text("Ketik \"" + DELETE_CONFIRMATION + "\" untuk melanjutkan.", "#334155", 12, true));
+
+        EditText confirmation = input(DELETE_CONFIRMATION, InputType.TYPE_CLASS_TEXT);
+        content.addView(confirmation);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setView(content)
+                .setNegativeButton("Batal", null)
+                .setPositiveButton("Hapus Permanen", null)
+                .create();
+
+        dialog.setOnShowListener(d -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#DC2626"));
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+                if (!DELETE_CONFIRMATION.equals(confirmation.getText().toString())) return;
+                dialog.dismiss();
+                onConfirmed.run();
+            });
+        });
+        confirmation.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (dialog.isShowing()) {
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setEnabled(DELETE_CONFIRMATION.contentEquals(s));
+                }
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+        dialog.show();
     }
 
     private void deleteSiswa(int id) {
@@ -460,7 +522,7 @@ public class SiswaAdminActivity extends BaseAdminActivity {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(SiswaAdminActivity.this, "Siswa dihapus dari data aktif", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SiswaAdminActivity.this, "Siswa dihapus permanen", Toast.LENGTH_SHORT).show();
                     loadSiswa();
                 } else {
                     Toast.makeText(SiswaAdminActivity.this, "Gagal menghapus siswa", Toast.LENGTH_SHORT).show();
