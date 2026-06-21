@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -32,9 +33,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PerkembanganWaliActivity extends BaseWaliActivity {
+    private static final String MODE_INPUTS = "5 input terakhir";
+    private static final String MODE_MONTHS = "5 bulan terakhir";
+    private static final String YEAR_ALL = "Semua tahun";
+
     private ApiService apiService;
     private SessionManager session;
     private TableLayout tableDetail;
+    private Spinner spinnerMode, spinnerYear;
+    private List<PerkembanganItem> allPerkembangan = new ArrayList<>();
     private final int[] barIds = {
             R.id.bar_aug, R.id.bar_sep, R.id.bar_okt, R.id.bar_nov, R.id.bar_des
     };
@@ -55,17 +62,37 @@ public class PerkembanganWaliActivity extends BaseWaliActivity {
         tableDetail = findViewById(R.id.table_detail_perkembangan);
 
         setupNavigation();
-        setupSemesterSpinner();
+        setupGraphFilters();
         resetChart();
         loadRingkasanPerkembangan();
     }
 
-    private void setupSemesterSpinner() {
-        Spinner spinner = findViewById(R.id.spinner_semester);
-        String[] items = new String[]{"5 input terakhir"};
+    private void setupGraphFilters() {
+        spinnerMode = findViewById(R.id.spinner_semester);
+        spinnerYear = findViewById(R.id.spinner_tahun);
+
+        String[] items = new String[]{MODE_INPUTS, MODE_MONTHS};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        if (spinnerMode != null) spinnerMode.setAdapter(adapter);
+
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new String[]{YEAR_ALL});
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        if (spinnerYear != null) spinnerYear.setAdapter(yearAdapter);
+
+        AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                renderSelectedGraph();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        };
+
+        if (spinnerMode != null) spinnerMode.setOnItemSelectedListener(listener);
+        if (spinnerYear != null) spinnerYear.setOnItemSelectedListener(listener);
     }
 
     private void loadRingkasanPerkembangan() {
@@ -83,7 +110,9 @@ public class PerkembanganWaliActivity extends BaseWaliActivity {
                     return;
                 }
 
-                renderInputTerakhir(response.body().getData());
+                allPerkembangan = response.body().getData();
+                setupYearOptions(allPerkembangan);
+                renderSelectedGraph();
             }
 
             @Override
@@ -92,6 +121,59 @@ public class PerkembanganWaliActivity extends BaseWaliActivity {
                 showTableMessage("Tidak bisa memuat perkembangan");
             }
         });
+    }
+
+    private void setupYearOptions(List<PerkembanganItem> data) {
+        if (spinnerYear == null) return;
+
+        List<String> years = new ArrayList<>();
+        years.add(YEAR_ALL);
+        if (data != null) {
+            for (PerkembanganItem item : data) {
+                String year = extractYear(item.getTanggal());
+                if (!year.isEmpty() && !years.contains(year)) years.add(year);
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, years);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerYear.setAdapter(adapter);
+    }
+
+    private void renderSelectedGraph() {
+        if (allPerkembangan == null || allPerkembangan.isEmpty()) {
+            resetChart();
+            showTableMessage("Belum ada data perkembangan");
+            return;
+        }
+
+        List<PerkembanganItem> filtered = filterByYear(allPerkembangan);
+        if (MODE_MONTHS.equals(selectedMode())) {
+            renderBulanTerakhir(filtered);
+        } else {
+            renderInputTerakhir(filtered);
+        }
+    }
+
+    private List<PerkembanganItem> filterByYear(List<PerkembanganItem> data) {
+        String year = selectedYear();
+        if (YEAR_ALL.equals(year)) return data;
+
+        List<PerkembanganItem> filtered = new ArrayList<>();
+        for (PerkembanganItem item : data) {
+            if (year.equals(extractYear(item.getTanggal()))) filtered.add(item);
+        }
+        return filtered;
+    }
+
+    private String selectedMode() {
+        if (spinnerMode == null || spinnerMode.getSelectedItem() == null) return MODE_INPUTS;
+        return spinnerMode.getSelectedItem().toString();
+    }
+
+    private String selectedYear() {
+        if (spinnerYear == null || spinnerYear.getSelectedItem() == null) return YEAR_ALL;
+        return spinnerYear.getSelectedItem().toString();
     }
 
     private void renderInputTerakhir(List<PerkembanganItem> data) {
@@ -118,6 +200,104 @@ public class PerkembanganWaliActivity extends BaseWaliActivity {
 
         renderChart(latest, inputLabels);
         renderTable(latest, inputKeys);
+    }
+
+    private void renderBulanTerakhir(List<PerkembanganItem> data) {
+        if (data == null || data.isEmpty()) {
+            resetChart();
+            showTableMessage("Belum ada data perkembangan");
+            return;
+        }
+
+        List<String> monthKeys = collectLatestMonthKeys(data);
+        Map<String, String> labels = new LinkedHashMap<>();
+        Map<String, double[]> totalByMonth = new LinkedHashMap<>();
+        Map<String, Map<String, double[]>> totalByAspect = new LinkedHashMap<>();
+        Map<String, String> aspectNames = new LinkedHashMap<>();
+
+        for (PerkembanganItem item : data) {
+            String monthKey = extractMonthKey(item.getTanggal());
+            if (!monthKeys.contains(monthKey)) continue;
+
+            labels.put(monthKey, formatMonthLabel(monthKey));
+            addAverageState(totalByMonth, monthKey, item.getCapaian());
+
+            String aspectKey = item.getAspekKode() != null ? item.getAspekKode() : String.valueOf(item.getAspekId());
+            aspectNames.put(aspectKey, valueOrDash(item.getAspekNama()));
+            Map<String, double[]> values = totalByAspect.get(aspectKey);
+            if (values == null) {
+                values = new LinkedHashMap<>();
+                totalByAspect.put(aspectKey, values);
+            }
+            addAverageState(values, monthKey, item.getCapaian());
+        }
+
+        renderMonthlyChart(monthKeys, labels, totalByMonth);
+        renderMonthlyTable(monthKeys, totalByAspect, aspectNames);
+    }
+
+    private List<String> collectLatestMonthKeys(List<PerkembanganItem> data) {
+        List<String> keys = new ArrayList<>();
+        for (PerkembanganItem item : data) {
+            String key = extractMonthKey(item.getTanggal());
+            if (!key.isEmpty() && !keys.contains(key)) keys.add(key);
+            if (keys.size() == 5) break;
+        }
+        Collections.reverse(keys);
+        return keys;
+    }
+
+    private void addAverageState(Map<String, double[]> target, String key, int value) {
+        double[] state = target.get(key);
+        if (state == null) {
+            state = new double[]{0, 0};
+            target.put(key, state);
+        }
+        state[0] += value;
+        state[1] += 1;
+    }
+
+    private void renderMonthlyChart(List<String> monthKeys, Map<String, String> labels, Map<String, double[]> totalByMonth) {
+        for (int i = 0; i < barIds.length; i++) {
+            int value = 0;
+            String label = "-";
+            if (i < monthKeys.size()) {
+                String key = monthKeys.get(i);
+                double[] state = totalByMonth.get(key);
+                if (state != null && state[1] > 0) value = (int) Math.round(state[0] / state[1]);
+                label = labels.containsKey(key) ? labels.get(key) : "-";
+            }
+            setBarHeight(findViewById(barIds[i]), value);
+            TextView tvLabel = findViewById(labelIds[i]);
+            if (tvLabel != null) tvLabel.setText(label);
+            TextView headerLabel = findViewById(headerLabelIds[i]);
+            if (headerLabel != null) headerLabel.setText(label);
+        }
+    }
+
+    private void renderMonthlyTable(List<String> monthKeys,
+                                    Map<String, Map<String, double[]>> totalByAspect,
+                                    Map<String, String> aspectNames) {
+        clearRows();
+
+        if (aspectNames.isEmpty()) {
+            showTableMessage("Belum ada data perkembangan");
+            return;
+        }
+
+        for (Map.Entry<String, String> aspect : aspectNames.entrySet()) {
+            Map<String, Integer> averages = new LinkedHashMap<>();
+            Map<String, double[]> values = totalByAspect.get(aspect.getKey());
+            if (values != null) {
+                for (String key : monthKeys) {
+                    double[] state = values.get(key);
+                    if (state != null && state[1] > 0) {
+                        averages.put(key, (int) Math.round(state[0] / state[1]));
+                    }
+                }
+            }
+            addAspectRow(aspect.getValue(), averages, monthKeys, getTrendText(averages, monthKeys));
+        }
     }
 
     private void renderChart(List<PerkembanganItem> inputs, Map<String, String> inputLabels) {
@@ -266,6 +446,36 @@ public class PerkembanganWaliActivity extends BaseWaliActivity {
             return "Input " + index;
         }
         return date;
+    }
+
+    private String extractYear(String value) {
+        String key = DateTimeUtils.dateKey(value);
+        return key.length() >= 4 ? key.substring(0, 4) : "";
+    }
+
+    private String extractMonthKey(String value) {
+        String key = DateTimeUtils.dateKey(value);
+        return key.length() >= 7 ? key.substring(0, 7) : "";
+    }
+
+    private String formatMonthLabel(String monthKey) {
+        if (monthKey == null || monthKey.length() < 7) return "-";
+        String month = monthKey.substring(5, 7);
+        switch (month) {
+            case "01": return "Jan";
+            case "02": return "Feb";
+            case "03": return "Mar";
+            case "04": return "Apr";
+            case "05": return "Mei";
+            case "06": return "Jun";
+            case "07": return "Jul";
+            case "08": return "Agu";
+            case "09": return "Sep";
+            case "10": return "Okt";
+            case "11": return "Nov";
+            case "12": return "Des";
+            default: return month;
+        }
     }
 
     private String trendColor(String trend) {
