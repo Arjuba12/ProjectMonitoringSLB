@@ -13,11 +13,11 @@
         <item
             android:id="@+id/nav_wali_ppi"
             android:icon="@drawable/ic_ppi"
-            android:title="Program PPI" />
+            android:title="Program Pembelajaran Individual" />
         <item
             android:id="@+id/nav_wali_rekap_absensi"
             android:icon="@drawable/ic_absensi"
-            android:title="Rekap Absensi" />
+            android:title="Rekap Presensi" />
         <item
             android:id="@+id/nav_wali_laporan"
             android:icon="@drawable/ic_laporan"

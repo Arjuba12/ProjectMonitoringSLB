@@ -255,13 +255,13 @@
                         android:orientation="vertical"
                         android:padding="16dp"
                         android:background="#FFFFFF">
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="• Input Absensi VII-A - 3 siswa belum diinput" android:textSize="12sp" android:textColor="#2C3E50"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="• Input Presensi VII-A - 3 siswa belum diinput" android:textSize="12sp" android:textColor="#2C3E50"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="  Deadline: 15 November 2024" android:textSize="10sp" android:textColor="#95A5A6" android:layout_marginBottom="8dp"/>
 
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="• Laporan Bulanan - Jatuh Tempo" android:textSize="12sp" android:textColor="#2C3E50"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="  Deadline: 20 November 2024" android:textSize="10sp" android:textColor="#95A5A6" android:layout_marginBottom="8dp"/>
 
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="• PPI Review - Gita M." android:textSize="12sp" android:textColor="#2C3E50"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="• Review Program Pembelajaran Individual - Gita M." android:textSize="12sp" android:textColor="#2C3E50"/>
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="  Jadwalkan Minggu Ini" android:textSize="10sp" android:textColor="#95A5A6"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

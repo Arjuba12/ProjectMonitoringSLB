@@ -101,7 +101,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Lihat PPI"
+                        android:text="Lihat Program Pembelajaran Individual"
                         android:textSize="12sp"
                         android:backgroundTint="#FFFFFF"
                         android:textColor="#2C3E50"

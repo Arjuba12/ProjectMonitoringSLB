@@ -52,7 +52,7 @@ public class RekapAbsensiWaliActivity extends BaseWaliActivity {
         int bulan = cal.get(Calendar.MONTH) + 1;
         int tahun = cal.get(Calendar.YEAR);
         if (tvPeriode != null) {
-            tvPeriode.setText("Rekap Absensi " + getMonthName(bulan) + " " + tahun);
+            tvPeriode.setText("Rekap Presensi " + getMonthName(bulan) + " " + tahun);
         }
         
         int siswaId = session.getSiswaId();
@@ -74,17 +74,17 @@ public class RekapAbsensiWaliActivity extends BaseWaliActivity {
                         bindRekap(rekap);
                     } else {
                         setCounts(0, 0, 0, 0);
-                        setSummary("Belum ada absensi pada bulan ini.");
+                        setSummary("Belum ada presensi pada bulan ini.");
                     }
                 } else {
                     setCounts(0, 0, 0, 0);
-                    setSummary("Gagal memuat rekap absensi.");
+                    setSummary("Gagal memuat rekap presensi.");
                 }
             }
 
             @Override
             public void onFailure(Call<AbsensiSiswaRekapResponse> call, Throwable t) {
-                Toast.makeText(RekapAbsensiWaliActivity.this, "Gagal memuat rekap absensi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RekapAbsensiWaliActivity.this, "Gagal memuat rekap presensi", Toast.LENGTH_SHORT).show();
                 setSummary("Tidak bisa terhubung ke server.");
             }
         });
@@ -102,7 +102,7 @@ public class RekapAbsensiWaliActivity extends BaseWaliActivity {
         if (total > 0) {
             setSummary(rekap.getHadir() + " dari " + total + " hari hadir (" + persenHadir + "%).");
         } else {
-            setSummary("Belum ada absensi pada bulan ini.");
+            setSummary("Belum ada presensi pada bulan ini.");
         }
     }
 

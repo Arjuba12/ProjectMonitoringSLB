@@ -58,7 +58,7 @@ public class DetailPpiActivity extends BaseGuruActivity {
         } else if (siswaId != -1) {
             loadLatestPpiBySiswa(siswaId);
         } else {
-            showEmptyState("Data PPI tidak ditemukan");
+            showEmptyState("Data Program Pembelajaran Individual tidak ditemukan");
         }
     }
 
@@ -117,7 +117,7 @@ public class DetailPpiActivity extends BaseGuruActivity {
             public void onResponse(Call<PpiDetailResponse> call, Response<PpiDetailResponse> response) {
                 if (!response.isSuccessful() || response.body() == null
                         || !response.body().isSuccess() || response.body().getData() == null) {
-                    showEmptyState("PPI tidak ditemukan");
+                    showEmptyState("Program Pembelajaran Individual tidak ditemukan");
                     return;
                 }
 
@@ -127,7 +127,7 @@ public class DetailPpiActivity extends BaseGuruActivity {
             @Override
             public void onFailure(Call<PpiDetailResponse> call, Throwable t) {
                 Toast.makeText(DetailPpiActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
-                showEmptyState("Gagal memuat PPI");
+                showEmptyState("Gagal memuat Program Pembelajaran Individual");
             }
         });
     }
@@ -137,13 +137,13 @@ public class DetailPpiActivity extends BaseGuruActivity {
             @Override
             public void onResponse(Call<PpiListResponse> call, Response<PpiListResponse> response) {
                 if (!response.isSuccessful() || response.body() == null || !response.body().isSuccess()) {
-                    showEmptyState("Gagal memuat PPI");
+                    showEmptyState("Gagal memuat Program Pembelajaran Individual");
                     return;
                 }
 
                 List<PpiItem> data = response.body().getData();
                 if (data == null || data.isEmpty()) {
-                    showEmptyState("Belum ada PPI untuk siswa ini");
+                    showEmptyState("Belum ada Program Pembelajaran Individual untuk siswa ini");
                     return;
                 }
 
@@ -153,7 +153,7 @@ public class DetailPpiActivity extends BaseGuruActivity {
             @Override
             public void onFailure(Call<PpiListResponse> call, Throwable t) {
                 Toast.makeText(DetailPpiActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
-                showEmptyState("Gagal memuat PPI");
+                showEmptyState("Gagal memuat Program Pembelajaran Individual");
             }
         });
     }
@@ -161,7 +161,7 @@ public class DetailPpiActivity extends BaseGuruActivity {
     private void bindPpi(PpiItem ppi) {
         currentSiswaId = ppi.getSiswaId() > 0 ? ppi.getSiswaId() : currentSiswaId;
         String name = ppi.getNamaSiswa() != null ? ppi.getNamaSiswa() : studentName;
-        tvName.setText("Detail PPI: " + valueOrDash(name));
+        tvName.setText("Detail Program Pembelajaran Individual: " + valueOrDash(name));
         tvTargetAkademik.setText(valueOrDash(ppi.getTargetAkademik()));
         tvTargetPerilaku.setText(valueOrDash(ppi.getTargetBinaDiri()));
         tvTargetSosial.setText(valueOrDash(ppi.getTargetKomunikasi()));

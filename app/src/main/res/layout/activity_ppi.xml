@@ -60,7 +60,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pembelajaran Individual (PPI)"
+                            android:text="Program Pembelajaran Individual"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:textColor="#2C3E50"/>
@@ -72,7 +72,7 @@
                         android:layout_height="36dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="+ Buat PPI Baru"
+                        android:text="+ Buat Program Baru"
                         android:textSize="10sp"
                         android:backgroundTint="#2C3E50"
                         android:textColor="#FFFFFF"
@@ -106,7 +106,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Daftar PPI"
+                                android:text="Daftar Program Pembelajaran Individual"
                                 android:textColor="#95A5A6"
                                 android:textSize="10sp"
                                 android:textStyle="bold" />
@@ -142,7 +142,7 @@
                     android:id="@+id/tv_detail_ppi_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Detail PPI"
+                    android:text="Detail Program Pembelajaran Individual"
                     android:textStyle="bold"
                     android:textColor="#2C3E50"
                     android:layout_marginTop="24dp"/>

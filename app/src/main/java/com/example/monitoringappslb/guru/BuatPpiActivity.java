@@ -110,11 +110,11 @@ public class BuatPpiActivity extends BaseGuruActivity {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Toast.makeText(BuatPpiActivity.this, "PPI Berhasil Disimpan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BuatPpiActivity.this, "Program Pembelajaran Individual berhasil disimpan", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(BuatPpiActivity.this, "Gagal menyimpan PPI", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BuatPpiActivity.this, "Gagal menyimpan Program Pembelajaran Individual", Toast.LENGTH_SHORT).show();
                 }
             }
 

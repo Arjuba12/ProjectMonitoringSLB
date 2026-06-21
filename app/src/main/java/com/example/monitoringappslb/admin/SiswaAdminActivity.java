@@ -277,7 +277,7 @@ public class SiswaAdminActivity extends BaseAdminActivity {
         }
 
         if (item.getAbsensiRekap() != null && !item.getAbsensiRekap().isEmpty()) {
-            content.addView(text("Absensi bulan ini", "#1E293B", 14, true));
+            content.addView(text("Presensi bulan ini", "#1E293B", 14, true));
             for (AbsensiRekap absensi : item.getAbsensiRekap()) {
                 addRow(content, valueOrDash(absensi.getStatus()), String.valueOf(absensi.getJumlah()));
             }
@@ -448,7 +448,7 @@ public class SiswaAdminActivity extends BaseAdminActivity {
     private void confirmDelete(SiswaItem item) {
         showPermanentDeleteDialog(
                 "Hapus siswa permanen?",
-                valueOrDash(item.getNama()) + " beserta data absensi, perkembangan, dan PPI akan dihapus permanen.",
+                valueOrDash(item.getNama()) + " beserta data presensi, perkembangan, dan Program Pembelajaran Individual akan dihapus permanen.",
                 () -> deleteSiswa(item.getId())
         );
     }

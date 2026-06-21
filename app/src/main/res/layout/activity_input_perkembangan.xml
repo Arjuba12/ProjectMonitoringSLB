@@ -116,7 +116,7 @@
 
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F2F4F7" android:layout_marginTop="20dp" android:layout_marginBottom="20dp"/>
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Aspek Perkembangan (PPI)" android:textSize="12sp" android:textStyle="bold" android:textColor="#2C3E50" android:layout_marginBottom="8dp"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Aspek Perkembangan Program Pembelajaran Individual" android:textSize="12sp" android:textStyle="bold" android:textColor="#2C3E50" android:layout_marginBottom="8dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"

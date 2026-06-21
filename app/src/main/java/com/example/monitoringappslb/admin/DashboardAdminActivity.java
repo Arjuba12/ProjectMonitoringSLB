@@ -45,14 +45,14 @@ public class DashboardAdminActivity extends BaseAdminActivity {
         setupStat(findViewById(R.id.stat_siswa), "Siswa", "--", "Master data siswa");
         setupStat(findViewById(R.id.stat_guru), "Guru/Wali", "--", "Akun pengguna");
         setupStat(findViewById(R.id.stat_kelas), "Kelas", "--", "Kelas aktif");
-        setupStat(findViewById(R.id.stat_aspek), "Aspek PPI", "--", "Aspek perkembangan");
+        setupStat(findViewById(R.id.stat_aspek), "Aspek Program Pembelajaran Individual", "--", "Aspek perkembangan");
     }
 
     private void setupInitialMonitoring() {
         if (containerActivityLog != null) {
             containerActivityLog.removeAllViews();
             addLog("Dashboard admin dibuka", "Menyiapkan data monitoring dan master data.", "#64748B");
-            addLog("Sinkronisasi dimulai", "Mengambil data siswa, guru, kelas, dan aspek PPI.", "#64748B");
+            addLog("Sinkronisasi dimulai", "Mengambil data siswa, guru, kelas, dan aspek Program Pembelajaran Individual.", "#64748B");
         }
         updateSystemStatus();
     }
@@ -106,15 +106,15 @@ public class DashboardAdminActivity extends BaseAdminActivity {
             public void onResponse(Call<AspekListResponse> call, Response<AspekListResponse> response) {
                 int count = response.body() != null && response.body().getData() != null ? response.body().getData().size() : 0;
                 aspekOk = response.isSuccessful() && response.body() != null;
-                setupStat(findViewById(R.id.stat_aspek), "Aspek PPI", String.valueOf(count), "Aspek perkembangan");
-                addLog("Aspek PPI tersinkron", count + " aspek perkembangan aktif.", aspekOk ? "#166534" : "#EF4444");
+                setupStat(findViewById(R.id.stat_aspek), "Aspek Program Pembelajaran Individual", String.valueOf(count), "Aspek perkembangan");
+                addLog("Aspek Program Pembelajaran Individual tersinkron", count + " aspek perkembangan aktif.", aspekOk ? "#166534" : "#EF4444");
                 updateSystemStatus();
             }
 
             @Override
             public void onFailure(Call<AspekListResponse> call, Throwable t) {
                 aspekOk = false;
-                addLog("Aspek PPI gagal dimuat", "Data aspek belum bisa diambil.", "#EF4444");
+                addLog("Aspek Program Pembelajaran Individual gagal dimuat", "Data aspek belum bisa diambil.", "#EF4444");
                 updateSystemStatus();
             }
         });
@@ -135,7 +135,7 @@ public class DashboardAdminActivity extends BaseAdminActivity {
         containerSystemStatus.removeAllViews();
         addStatus("API Dashboard", dashboardOk ? "Terhubung" : "Menunggu", dashboardOk ? "#166534" : "#E67E22");
         addStatus("Master Kelas", kelasOk ? "Terhubung" : "Menunggu", kelasOk ? "#166534" : "#E67E22");
-        addStatus("Aspek PPI", aspekOk ? "Terhubung" : "Menunggu", aspekOk ? "#166534" : "#E67E22");
+        addStatus("Aspek Program Pembelajaran Individual", aspekOk ? "Terhubung" : "Menunggu", aspekOk ? "#166534" : "#E67E22");
         addStatus("Mode Admin", "Monitoring + master data", "#1E293B");
     }
 

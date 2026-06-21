@@ -22,13 +22,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buat Program Baru (PPI)"
+                android:text="Buat Program Pembelajaran Individual Baru"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#2C3E50"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- Form PPI -->
+            <!-- Form Program Pembelajaran Individual -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
                             android:layout_width="0dp"
                             android:layout_height="52dp"
                             android:layout_weight="1.5"
-                            android:text="Simpan PPI"
+                            android:text="Simpan Program"
                             android:backgroundTint="#2C3E50"
                             android:textColor="#FFFFFF"
                             android:layout_marginEnd="8dp"

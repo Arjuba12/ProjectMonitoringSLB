@@ -110,8 +110,8 @@ public class PpiActivity extends BaseGuruActivity implements PpiAdapter.OnItemCl
             @Override
             public void onResponse(Call<PpiListResponse> call, Response<PpiListResponse> response) {
                 if (!response.isSuccessful() || response.body() == null || !response.body().isSuccess()) {
-                    Toast.makeText(PpiActivity.this, "Gagal memuat PPI", Toast.LENGTH_SHORT).show();
-                    showEmptyState("Gagal memuat PPI");
+                    Toast.makeText(PpiActivity.this, "Gagal memuat Program Pembelajaran Individual", Toast.LENGTH_SHORT).show();
+                    showEmptyState("Gagal memuat Program Pembelajaran Individual");
                     return;
                 }
 
@@ -121,7 +121,7 @@ public class PpiActivity extends BaseGuruActivity implements PpiAdapter.OnItemCl
             @Override
             public void onFailure(Call<PpiListResponse> call, Throwable t) {
                 Toast.makeText(PpiActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
-                showEmptyState("Tidak bisa memuat PPI");
+                showEmptyState("Tidak bisa memuat Program Pembelajaran Individual");
             }
         });
     }
@@ -155,7 +155,7 @@ public class PpiActivity extends BaseGuruActivity implements PpiAdapter.OnItemCl
         }
 
         if (ppiList.isEmpty()) {
-            showEmptyState("Belum ada PPI");
+            showEmptyState("Belum ada Program Pembelajaran Individual");
         } else {
             updateDetailPpi(ppiList.get(0));
             loadPpiDetail(ppiList.get(0).getId());
@@ -176,7 +176,7 @@ public class PpiActivity extends BaseGuruActivity implements PpiAdapter.OnItemCl
 
             @Override
             public void onFailure(Call<PpiDetailResponse> call, Throwable t) {
-                Toast.makeText(PpiActivity.this, "Gagal memuat detail PPI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PpiActivity.this, "Gagal memuat detail Program Pembelajaran Individual", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -204,7 +204,7 @@ public class PpiActivity extends BaseGuruActivity implements PpiAdapter.OnItemCl
 
     private void updateDetailPpi(Ppi ppi) {
         if (tvDetailTitle != null) {
-            tvDetailTitle.setText("Detail PPI - " + ppi.getStudentName());
+            tvDetailTitle.setText("Detail Program Pembelajaran Individual - " + ppi.getStudentName());
         }
         if (tvTargetAkademik != null) {
             tvTargetAkademik.setText(ppi.getTargetAkademik());
@@ -222,7 +222,7 @@ public class PpiActivity extends BaseGuruActivity implements PpiAdapter.OnItemCl
 
     private void updateDetailPpi(PpiItem ppi) {
         if (tvDetailTitle != null) {
-            tvDetailTitle.setText("Detail PPI - " + valueOrDash(ppi.getNamaSiswa()));
+            tvDetailTitle.setText("Detail Program Pembelajaran Individual - " + valueOrDash(ppi.getNamaSiswa()));
         }
         if (tvTargetAkademik != null) {
             tvTargetAkademik.setText(valueOrDash(ppi.getTargetAkademik()));

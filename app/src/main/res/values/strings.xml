@@ -12,16 +12,16 @@
     <string name="welcome_guru">Selamat Datang, Guru!</string>
     <string name="dashboard_subtitle">Portal Monitoring Siswa SLB</string>
     <string name="menu_siswa">Daftar Siswa</string>
-    <string name="menu_absensi">Absensi</string>
-    <string name="menu_ppi">Program PPI</string>
+    <string name="menu_absensi">Presensi</string>
+    <string name="menu_ppi">Program Pembelajaran Individual</string>
     <string name="menu_laporan">Laporan Kelas</string>
     <string name="menu_chat">Pesan Wali</string>
     <string name="menu_pengumuman">Pengumuman</string>
 
-    <!-- PPI -->
+    <!-- Program Pembelajaran Individual -->
     <string name="ppi_title">Program Pembelajaran Individual</string>
     <string name="ppi_subtitle">Detail Program &amp; Progres</string>
-    <string name="create_ppi">Buat PPI Baru</string>
+    <string name="create_ppi">Buat Program Baru</string>
     <string name="aspect_kognitif">Kognitif</string>
     <string name="aspect_motorik">Motorik</string>
     <string name="aspect_komunikasi">Komunikasi</string>
@@ -47,7 +47,7 @@
     <!-- Kepsek Dashboard Menus -->
     <string name="menu_rekap_sekolah">Rekap Sekolah</string>
     <string name="menu_manajemen_guru">Data Guru</string>
-    <string name="menu_monitoring_ppi">Pantau PPI</string>
+    <string name="menu_monitoring_ppi">Pantau Program Pembelajaran Individual</string>
     <string name="menu_kalender_akademik">Kalender</string>
     <string name="menu_pusat_pengumuman">Pengumuman</string>
     <string name="menu_pusat_bantuan">Bantuan</string>

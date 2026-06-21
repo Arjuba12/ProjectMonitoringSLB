@@ -4,11 +4,11 @@
         <item
             android:id="@+id/nav_absensi"
             android:icon="@drawable/ic_absensi"
-            android:title="Absensi Siswa" />
+            android:title="Presensi Siswa" />
         <item
             android:id="@+id/nav_ppi"
             android:icon="@drawable/ic_ppi"
-            android:title="Progress PPI" />
+            android:title="Progress Program Pembelajaran Individual" />
         <item
             android:id="@+id/nav_laporan"
             android:icon="@drawable/ic_laporan"

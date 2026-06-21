@@ -503,7 +503,7 @@ public class MasterDataAdminActivity extends BaseAdminActivity {
     private void confirmDeleteKelas(KelasItem item) {
         showPermanentDeleteDialog(
                 "Hapus kelas permanen?",
-                valueOrDash(item.getNamaKelas()) + " akan dihapus permanen. Siswa akan dilepas dari kelas dan data absensi kelas ikut terhapus.",
+                valueOrDash(item.getNamaKelas()) + " akan dihapus permanen. Siswa akan dilepas dari kelas dan data presensi kelas ikut terhapus.",
                 () -> deleteKelas(item.getId())
         );
     }

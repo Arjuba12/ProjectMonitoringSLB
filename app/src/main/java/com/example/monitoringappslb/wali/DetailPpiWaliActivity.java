@@ -89,13 +89,13 @@ public class DetailPpiWaliActivity extends BaseWaliActivity {
             @Override
             public void onResponse(Call<PpiListResponse> call, Response<PpiListResponse> response) {
                 if (!response.isSuccessful() || response.body() == null || !response.body().isSuccess()) {
-                    showEmptyState("Gagal memuat PPI");
+                    showEmptyState("Gagal memuat Program Pembelajaran Individual");
                     return;
                 }
 
                 List<PpiItem> data = response.body().getData();
                 if (data == null || data.isEmpty()) {
-                    showEmptyState("Belum ada PPI untuk siswa ini");
+                    showEmptyState("Belum ada Program Pembelajaran Individual untuk siswa ini");
                     return;
                 }
 
@@ -105,7 +105,7 @@ public class DetailPpiWaliActivity extends BaseWaliActivity {
             @Override
             public void onFailure(Call<PpiListResponse> call, Throwable t) {
                 Toast.makeText(DetailPpiWaliActivity.this, "Tidak bisa terhubung ke server", Toast.LENGTH_SHORT).show();
-                showEmptyState("Gagal memuat PPI");
+                showEmptyState("Gagal memuat Program Pembelajaran Individual");
             }
         });
     }
@@ -113,7 +113,7 @@ public class DetailPpiWaliActivity extends BaseWaliActivity {
     private void bindPpi(PpiItem ppi) {
         currentSiswaId = ppi.getSiswaId() > 0 ? ppi.getSiswaId() : currentSiswaId;
 
-        tvName.setText("Detail PPI: " + valueOrDash(ppi.getNamaSiswa()));
+        tvName.setText("Detail Program Pembelajaran Individual: " + valueOrDash(ppi.getNamaSiswa()));
         tvTargetAkademik.setText(valueOrDash(ppi.getTargetAkademik()));
         tvTargetPerilaku.setText(valueOrDash(ppi.getTargetBinaDiri()));
         tvTargetSosial.setText(valueOrDash(ppi.getTargetKomunikasi()));

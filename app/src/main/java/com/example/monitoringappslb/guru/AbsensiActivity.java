@@ -56,7 +56,7 @@ public class AbsensiActivity extends BaseGuruActivity {
         Button btnSimpan = findViewById(R.id.btn_simpan_absensi);
 
         progressDialog = new android.app.ProgressDialog(this);
-        progressDialog.setMessage("Menyimpan absensi...");
+        progressDialog.setMessage("Menyimpan presensi...");
         progressDialog.setCancelable(false);
 
         if (btnSimpan != null) {
@@ -146,7 +146,7 @@ public class AbsensiActivity extends BaseGuruActivity {
                 }
 
                 initRecyclerView();
-                Toast.makeText(AbsensiActivity.this, "Menampilkan absensi yang sudah tersimpan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AbsensiActivity.this, "Menampilkan presensi yang sudah tersimpan", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -228,10 +228,10 @@ public class AbsensiActivity extends BaseGuruActivity {
                 progressDialog.dismiss();
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     Toast.makeText(AbsensiActivity.this,
-                        "✅ Absensi hari ini berhasil disimpan!", Toast.LENGTH_LONG).show();
+                        "Presensi hari ini berhasil disimpan!", Toast.LENGTH_LONG).show();
                     finish();
                 } else {
-                    String errorMsg = "Gagal menyimpan absensi";
+                    String errorMsg = "Gagal menyimpan presensi";
                     if (response.errorBody() != null) {
                         try {
                             errorMsg += ": " + response.code();

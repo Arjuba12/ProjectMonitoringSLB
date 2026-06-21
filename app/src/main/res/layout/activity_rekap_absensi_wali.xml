@@ -31,7 +31,7 @@
                 android:id="@+id/tv_absensi_periode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rekap Absensi Bulanan"
+                android:text="Rekap Presensi Bulanan"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="6dp" />
@@ -40,7 +40,7 @@
                 android:id="@+id/tv_absensi_ringkasan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Memuat rekap absensi..."
+                android:text="Memuat rekap presensi..."
                 android:textColor="#64748B"
                 android:textSize="13sp"
                 android:layout_marginBottom="16dp" />
